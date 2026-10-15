@@ -41,4 +41,16 @@ assert.equal(r.events.at(-1).factor, 1, 'recovery is reported');
 
 const t = totalsUpTo(scene, r, 10);
 assert.equal(t.hens.Eggs, 10 * (11 - 3), '3 dry days produced nothing');
+// Death: hens survive 2 days without water. Pump off from day 3, tank dry from day 5.
+const mortal = { ...scene, survival: [{ entity: 'hens', resource: 'Water', days: 2, source: 'test' }] };
+r = simulate(mortal, { days: 10, changes: [{ day: 3, stock: 'tank', supply: false }, { day: 8, stock: 'tank', supply: true }] });
+assert.equal(r.days[5].dead.hens, undefined, 'one dry day: still alive');
+assert.equal(r.days[6].dead.hens, true, 'two dry days: dead');
+assert.ok(r.events.some((e) => e.dead && e.day === 6));
+assert.equal(r.days[9].factor.hens, 0, 'water returns, but the dead stay dead');
+assert.equal(r.days[9].stocks.tank, 50 * 2, 'the dead stop drinking, so the tank fills');
+// A short drought within the limit is survived, and the deficit pays back.
+r = simulate({ ...scene, survival: [{ entity: 'hens', resource: 'Water', days: 5, source: 'test' }] }, { days: 10, changes: [{ day: 3, stock: 'tank', supply: false }, { day: 8, stock: 'tank', supply: true }] });
+assert.equal(Object.keys(r.days[10].dead).length, 0);
+assert.equal(r.days[10].without.hens, 0);
 console.log('sim ok');

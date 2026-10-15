@@ -805,5 +805,163 @@
       "direction": "in",
       "stock": "heap"
     }
+  ],
+  "survival": [
+    {
+      "entity": "tomatoes",
+      "resource": "Water",
+      "days": 17.5,
+      "source": "Derived from FAO Irrigation and Drainage Paper 56, ch. 8: tomato total available water 72-136 mm (loamy sand to silt) used up at 6 mm/day, the paper's example peak crop water use. Hotter weather empties the soil faster.",
+      "range": [
+        12,
+        23
+      ],
+      "basis": "derived",
+      "links": [
+        {
+          "title": "https://www.fao.org/4/x0490e/x0490e0e.htm",
+          "url": "https://www.fao.org/4/x0490e/x0490e0e.htm"
+        }
+      ]
+    },
+    {
+      "entity": "vegetables",
+      "resource": "Water",
+      "days": 9,
+      "source": "Derived from FAO Irrigation and Drainage Paper 56, ch. 8: lettuce root zone 0.3-0.5 m holds 27-85 mm of available water, used up at 6 mm/day. Lettuce is the most sensitive of the three crops.",
+      "range": [
+        4.5,
+        14
+      ],
+      "basis": "derived",
+      "links": [
+        {
+          "title": "https://www.fao.org/4/x0490e/x0490e0e.htm",
+          "url": "https://www.fao.org/4/x0490e/x0490e0e.htm"
+        }
+      ]
+    },
+    {
+      "entity": "corn",
+      "resource": "Water",
+      "days": 26,
+      "source": "Derived from FAO Irrigation and Drainage Paper 56, ch. 8: maize total available water 108-204 mm (loamy sand to silt) used up at 6 mm/day. Seedlings and sandy soil die much sooner.",
+      "range": [
+        18,
+        34
+      ],
+      "basis": "derived",
+      "links": [
+        {
+          "title": "https://www.fao.org/4/x0490e/x0490e0e.htm",
+          "url": "https://www.fao.org/4/x0490e/x0490e0e.htm"
+        }
+      ]
+    },
+    {
+      "entity": "hens",
+      "resource": "Water",
+      "days": 3.75,
+      "source": "Merck Veterinary Manual: water deprivation over 36 hours causes a marked increase in mortality of mature poultry; Poultry Science review (PMC10203017): water-deprived White Leghorn hens survived 6 days on average at 29 C. Heat shortens this.",
+      "range": [
+        1.5,
+        6
+      ],
+      "basis": "lethal",
+      "links": [
+        {
+          "title": "https://www.merckvetmanual.com/poultry/nutrition-and-management-poultry/nutritional-requirements-of-poultry",
+          "url": "https://www.merckvetmanual.com/poultry/nutrition-and-management-poultry/nutritional-requirements-of-poultry"
+        },
+        {
+          "title": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10203017",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10203017"
+        }
+      ]
+    },
+    {
+      "entity": "hens",
+      "resource": "Feed",
+      "days": 21,
+      "source": "Poultry Science (PMID 11469648): hens came through 8-14 days of feed withdrawal; PMID 10735746: Hy-Line W-36 hens reached 35% body-weight loss around day 19-21 of withdrawal. These are welfare limits from forced-molting trials, not lethal limits.",
+      "range": [
+        8,
+        21
+      ],
+      "basis": "observed",
+      "links": [
+        {
+          "title": "https://europepmc.org/article/MED/11469648",
+          "url": "https://europepmc.org/article/MED/11469648"
+        },
+        {
+          "title": "https://europepmc.org/article/MED/10735746",
+          "url": "https://europepmc.org/article/MED/10735746"
+        }
+      ]
+    },
+    {
+      "entity": "cows",
+      "resource": "Water",
+      "days": 3,
+      "source": "Journal of Agricultural Science (2002): Friesian cattle went through 3 days of total water deprivation; lactating cows lost about 12% live weight and 30% milk after 48 hours (PMID 8946484). No published lethal limit found.",
+      "range": [
+        2,
+        3
+      ],
+      "basis": "observed",
+      "links": [
+        {
+          "title": "https://doi.org/10.1017/s0021859602002174",
+          "url": "https://doi.org/10.1017/s0021859602002174"
+        },
+        {
+          "title": "https://europepmc.org/article/MED/8946484",
+          "url": "https://europepmc.org/article/MED/8946484"
+        }
+      ]
+    },
+    {
+      "entity": "goats",
+      "resource": "Water",
+      "days": 4,
+      "source": "Bedouin goats went through 4 days of water deprivation, losing 23-32% body weight (PMID 6141035); Nubian goats survived 4 days without food and water (FAO AGRIS). Desert breeds; no published lethal limit found.",
+      "range": [
+        4,
+        4
+      ],
+      "basis": "observed",
+      "links": [
+        {
+          "title": "https://europepmc.org/article/MED/6141035",
+          "url": "https://europepmc.org/article/MED/6141035"
+        },
+        {
+          "title": "https://agris.fao.org/search/en/records/672364478aa2fad1ce470f70",
+          "url": "https://agris.fao.org/search/en/records/672364478aa2fad1ce470f70"
+        }
+      ]
+    },
+    {
+      "entity": "goats",
+      "resource": "Feed (dry matter)",
+      "days": 7,
+      "source": "Nubian goats survived 4 days without food (FAO AGRIS); adult dwarf goats were fasted 7 days in a study (PMID 2272603). No published lethal limit found.",
+      "range": [
+        4,
+        7
+      ],
+      "basis": "observed",
+      "links": [
+        {
+          "title": "https://agris.fao.org/search/en/records/672364478aa2fad1ce470f70",
+          "url": "https://agris.fao.org/search/en/records/672364478aa2fad1ce470f70"
+        },
+        {
+          "title": "https://europepmc.org/article/MED/2272603",
+          "url": "https://europepmc.org/article/MED/2272603"
+        }
+      ]
+    }
   ]
 }

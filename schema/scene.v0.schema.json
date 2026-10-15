@@ -387,6 +387,73 @@
           }
         }
       }
+    },
+    "survival": {
+      "type": "array",
+      "description": "How long a part survives without an input before it dies. Written by engine/build.py from data/survival.json; every limit needs a source.",
+      "items": {
+        "type": "object",
+        "required": [
+          "entity",
+          "resource",
+          "days",
+          "source"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "entity": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string",
+            "description": "Matches flow.resource.en of an input"
+          },
+          "days": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "range": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "title",
+                "url"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "pattern": "^https?://"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "basis": {
+            "enum": [
+              "lethal",
+              "observed",
+              "derived"
+            ],
+            "description": "lethal = published mortality figure; observed = longest survival seen in studies; derived = worked out from published data"
+          }
+        }
+      }
     }
   }
 }

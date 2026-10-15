@@ -29,6 +29,26 @@ def load_data():
     return animals, crops
 
 
+def survival_for(scene):
+    """How long each part survives without an input, from data/survival.json (sourced)."""
+    path = DATA / "survival.json"
+    if not path.exists():
+        return []
+    lim = json.loads(path.read_text(encoding="utf-8"))
+    out = []
+    for e in scene.get("entities", []):
+        key = (e.get("props") or {}).get("crop") or e.get("kind")
+        for l in lim.get(key, []):
+            item = {"entity": e["id"], "resource": l["resource"], "days": l["days"], "source": l["source"]}
+            for k in ("range", "basis"):
+                if k in l:
+                    item[k] = l[k]
+            if l.get("urls"):
+                item["links"] = [{"title": u, "url": u} for u in l["urls"]]
+            out.append(item)
+    return out
+
+
 @cache
 def _research():
     """Map (topic, citation number) -> {title, url} from the raw NotebookLM answers."""
@@ -99,9 +119,12 @@ def build(path, check_only=False):
     flows, covered, warns = compute(scene, *load_data())
     for w in warns:
         print(f"warn {path}: {w}")
-    stale = flows != scene.get("flows", [])
+    survival = survival_for(scene)
+    stale = flows != scene.get("flows", []) or survival != scene.get("survival", [])
     if stale and not check_only:
         scene["flows"] = flows
+        if survival:
+            scene["survival"] = survival
         p.write_text(json.dumps(scene, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     state = ("STALE" if check_only else "updated") if stale else "ok   "
     print(f"{state} {path} ({len(covered)} entities computed, {len(flows)} flows)")

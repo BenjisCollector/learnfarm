@@ -132,5 +132,49 @@
         }
       ]
     }
+  ],
+  "survival": [
+    {
+      "entity": "hen-1",
+      "resource": "Water",
+      "days": 3.75,
+      "source": "Merck Veterinary Manual: water deprivation over 36 hours causes a marked increase in mortality of mature poultry; Poultry Science review (PMC10203017): water-deprived White Leghorn hens survived 6 days on average at 29 C. Heat shortens this.",
+      "range": [
+        1.5,
+        6
+      ],
+      "basis": "lethal",
+      "links": [
+        {
+          "title": "https://www.merckvetmanual.com/poultry/nutrition-and-management-poultry/nutritional-requirements-of-poultry",
+          "url": "https://www.merckvetmanual.com/poultry/nutrition-and-management-poultry/nutritional-requirements-of-poultry"
+        },
+        {
+          "title": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10203017",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10203017"
+        }
+      ]
+    },
+    {
+      "entity": "hen-1",
+      "resource": "Feed",
+      "days": 21,
+      "source": "Poultry Science (PMID 11469648): hens came through 8-14 days of feed withdrawal; PMID 10735746: Hy-Line W-36 hens reached 35% body-weight loss around day 19-21 of withdrawal. These are welfare limits from forced-molting trials, not lethal limits.",
+      "range": [
+        8,
+        21
+      ],
+      "basis": "observed",
+      "links": [
+        {
+          "title": "https://europepmc.org/article/MED/11469648",
+          "url": "https://europepmc.org/article/MED/11469648"
+        },
+        {
+          "title": "https://europepmc.org/article/MED/10735746",
+          "url": "https://europepmc.org/article/MED/10735746"
+        }
+      ]
+    }
   ]
 }

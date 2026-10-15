@@ -63,6 +63,14 @@ def check(scene):
         if r.get("stock") not in stock_ids:
             errs.append(f"route {r.get('resource')}: stock {r.get('stock')!r} does not exist")
 
+    for sv in scene.get("survival", []):
+        if sv.get("entity") not in ids:
+            errs.append(f"survival: entity {sv.get('entity')!r} not in entities")
+        if not str(sv.get("source", "")).strip():
+            errs.append(f"survival {sv.get('entity')}/{sv.get('resource')}: missing source (rule #1)")
+        if not isinstance(sv.get("days"), (int, float)) or sv["days"] <= 0:
+            errs.append(f"survival {sv.get('entity')}: days must be > 0")
+
     w = scene.get("weather")
     if w is not None:
         if w.get("condition") not in WEATHER:

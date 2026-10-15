@@ -240,7 +240,12 @@
       },
       "unit": "L",
       "per_day": 3125.0,
-      "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm); x 600 m2 / 120 days"
+      "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm); x 600 m2 / 120 days",
+      "range": [
+        2500.0,
+        3750.0
+      ],
+      "trust": "ai_report"
     },
     {
       "entity": "tomatoes",
@@ -251,7 +256,12 @@
       },
       "unit": "kg",
       "per_day": 17.5,
-      "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg); x 600 m2 / 120 days"
+      "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg); x 600 m2 / 120 days",
+      "range": [
+        11.0,
+        24.0
+      ],
+      "trust": "ai_report"
     },
     {
       "entity": "hens",
@@ -262,7 +272,18 @@
       },
       "unit": "kg",
       "per_day": 2.844,
-      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 24 head"
+      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 24 head",
+      "range": [
+        2.76,
+        2.928
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "Hyline commercial (2) | PDF - Slideshare",
+          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+        }
+      ]
     },
     {
       "entity": "hens",
@@ -273,7 +294,12 @@
       },
       "unit": "L",
       "per_day": 5.04,
-      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 24 head"
+      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 24 head",
+      "range": [
+        4.32,
+        5.76
+      ],
+      "trust": "ai_report"
     },
     {
       "entity": "hens",
@@ -284,7 +310,18 @@
       },
       "unit": "eggs",
       "per_day": 19.584,
-      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; x 24 head"
+      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; range: 354/434 days (to 80 wk) to 315/378 days (to 72 wk); x 24 head",
+      "range": [
+        19.584,
+        19.992
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "Hyline commercial (2) | PDF - Slideshare",
+          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+        }
+      ]
     },
     {
       "entity": "hens",
@@ -295,7 +332,12 @@
       },
       "unit": "kg",
       "per_day": 2.88,
-      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 24 head"
+      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 24 head",
+      "range": [
+        2.64,
+        3.12
+      ],
+      "trust": "ai_report"
     },
     {
       "entity": "cows",
@@ -306,7 +348,18 @@
       },
       "unit": "kg",
       "per_day": 107.5,
-      "source": "docs/research A2 [2,4]: 18-25 kg DM/cow/day (midpoint 21.5 kg); x 5 head"
+      "source": "docs/research A2 [2,4]: 18-25 kg DM/cow/day (midpoint 21.5 kg); x 5 head",
+      "range": [
+        90.0,
+        125.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "cows",
@@ -317,7 +370,18 @@
       },
       "unit": "L",
       "per_day": 437.5,
-      "source": "docs/research A2 [2,4]: 75-100 L/day at 15-20 C (midpoint 87.5 L), 121+ L at 35 C; x 5 head"
+      "source": "docs/research A2 [2,4]: 75-100 L/day at 15-20 C (midpoint 87.5 L), 121+ L at 35 C; x 5 head",
+      "range": [
+        375.0,
+        500.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "cows",
@@ -328,7 +392,18 @@
       },
       "unit": "kg",
       "per_day": 175,
-      "source": "docs/research A2 [2,4]: 25-45 kg milk/cow/day (midpoint 35 kg); x 5 head"
+      "source": "docs/research A2 [2,4]: 25-45 kg milk/cow/day (midpoint 35 kg); x 5 head",
+      "range": [
+        125.0,
+        225.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "cows",
@@ -339,7 +414,22 @@
       },
       "unit": "kg",
       "per_day": 287.5,
-      "source": "docs/research A2 [2,4,45]: 50-65 kg wet manure/cow/day (midpoint 57.5 kg); x 5 head"
+      "source": "docs/research A2 [2,4,45]: 50-65 kg wet manure/cow/day (midpoint 57.5 kg); x 5 head",
+      "range": [
+        250.0,
+        325.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        },
+        {
+          "title": "ANIMAL HOUSING IN HOT CLIMATES: A multidisciplinary view - CIGR",
+          "url": "https://www.cigr.org/sites/default/files/documets/Animalhousinginhotclimates2006.pdf"
+        }
+      ]
     },
     {
       "entity": "goats",
@@ -350,7 +440,18 @@
       },
       "unit": "kg",
       "per_day": 8,
-      "source": "docs/research A2 [1,2]: dairy goats 1.5-2.5 kg DM/day (midpoint 2 kg); x 4 head"
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-2.5 kg DM/day (midpoint 2 kg); x 4 head",
+      "range": [
+        6.0,
+        10.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "goats",
@@ -361,7 +462,18 @@
       },
       "unit": "L",
       "per_day": 28,
-      "source": "docs/research A2 [1,2]: 4-10 L/day normal (midpoint 7 L), up to 15 L hot; x 4 head"
+      "source": "docs/research A2 [1,2]: 4-10 L/day normal (midpoint 7 L), up to 15 L hot; x 4 head",
+      "range": [
+        16.0,
+        40.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "goats",
@@ -372,7 +484,18 @@
       },
       "unit": "kg",
       "per_day": 11.0,
-      "source": "docs/research A2 [1,2]: dairy goats 1.5-4.0 kg milk/day (midpoint 2.75 kg); x 4 head"
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-4.0 kg milk/day (midpoint 2.75 kg); x 4 head",
+      "range": [
+        6.0,
+        16.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        }
+      ]
     },
     {
       "entity": "goats",
@@ -383,7 +506,22 @@
       },
       "unit": "kg",
       "per_day": 8,
-      "source": "docs/research A2 [1,2,45]: 1.5-2.5 kg wet manure/day (midpoint 2 kg); x 4 head"
+      "source": "docs/research A2 [1,2,45]: 1.5-2.5 kg wet manure/day (midpoint 2 kg); x 4 head",
+      "range": [
+        6.0,
+        10.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
+          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+        },
+        {
+          "title": "ANIMAL HOUSING IN HOT CLIMATES: A multidisciplinary view - CIGR",
+          "url": "https://www.cigr.org/sites/default/files/documets/Animalhousinginhotclimates2006.pdf"
+        }
+      ]
     }
   ]
 }

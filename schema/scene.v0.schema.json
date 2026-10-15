@@ -194,6 +194,43 @@
           "source": {
             "type": "string",
             "minLength": 1
+          },
+          "range": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "Low and high per_day from the cited range. per_day is the midpoint."
+          },
+          "trust": {
+            "enum": [
+              "web",
+              "ai_report"
+            ],
+            "description": "web = cited external page; ai_report = only NotebookLM's own summary, re-verify."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "title",
+                "url"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "pattern": "^https?://"
+                }
+              },
+              "additionalProperties": false
+            }
           }
         },
         "additionalProperties": false
@@ -244,6 +281,10 @@
         "source": {
           "type": "string",
           "minLength": 1
+        },
+        "live": {
+          "type": "boolean",
+          "description": "true only when values come from a live data feed. The viewer hides the Weather screen otherwise."
         }
       }
     }

@@ -90,28 +90,3 @@ export const SPR = {
   cowSide: ['.k.........', 'kkk.wwkwww.', 'kpkwwwkkwwt', '.kwwkwwwwwt', '..wwwwkwww.', '..k.k..k.k.', '..k.k..k.k.'],
   cowSidePal: { k: C.ink, w: C.white, p: C.pink, t: C.ink },
 };
-
-// UI icons, 9x9, 'x' = ink.
-export const ICON = {
-  sunny: ['....x....', '.x.....x.', '...xxx...', '..xxxxx..', 'x.xxxxx.x', '..xxxxx..', '...xxx...', '.x.....x.', '....x....'],
-  cloudy: ['.........', '.........', '...xxx...', '..xxxxx..', '.xxxxxxx.', 'xxxxxxxxx', 'xxxxxxxxx', '.xxxxxxx.', '.........'],
-  windy: ['.........', 'xxxxxx...', '......x..', 'xxxxxxx..', '.........', 'xxxxxxxx.', '........x', 'xxxxxxxx.', '.........'],
-  rain: ['...xxx...', '..xxxxx..', '.xxxxxxx.', 'xxxxxxxxx', '.........', '.x..x..x.', 'x..x..x..', '.........', '.x..x..x.'],
-  rainbow: ['.........', '..xxxxx..', '.x.....x.', 'x..xxx..x', 'x.x...x.x', 'xx.....xx', 'x.......x', '.........', '.........'],
-  farm: ['.........', '.xx...xx.', 'xxxx.xxxx', '.xxx.xxx.', '...xxx...', '....x....', '....x....', '..xxxxx..', '.........'],
-  flows: ['..x...x..', '.xxx..x..', 'x.x.x.x..', '..x...x..', '..x.x.x.x', '..x..xxx.', '..x...x..', '.........', '.........'],
-  pin: ['..xxx....', '.xx.xx...', '.x...x...', '.xx.xx...', '..xxx....', '...x.....', '.........', '.........', '.........'],
-  play: ['.........', '.xx......', '.xxxx....', '.xxxxxx..', '.xxxxxxx.', '.xxxxxx..', '.xxxx....', '.xx......', '.........'],
-  pause: ['.........', '.xx..xx..', '.xx..xx..', '.xx..xx..', '.xx..xx..', '.xx..xx..', '.xx..xx..', '.xx..xx..', '.........'],
-  hand: ['...x.....', '...x.....', '...xxxx..', '...xxxxx.', 'x..xxxxx.', 'xx.xxxxx.', '.xxxxxxx.', '..xxxxx..', '...xxx...'],
-};
-
-export function icon(rows, color, scale = 2) {
-  const cv = document.createElement('canvas');
-  cv.width = rows[0].length; cv.height = rows.length;
-  sprite(cv.getContext('2d'), rows, { x: color }, 0, 0);
-  cv.className = 'picon';
-  cv.style.width = cv.width * scale + 'px';
-  cv.style.height = cv.height * scale + 'px';
-  return cv;
-}

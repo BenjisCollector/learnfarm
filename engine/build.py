@@ -13,10 +13,14 @@ ponytail: flat rates at the midpoint of the cited range, no temperature or
 age curve. Heat-adjusted water and lay curves arrive with Phase 3 climate data.
 """
 import json
+import re
 import sys
+from functools import cache
 from pathlib import Path
 
-DATA = Path(__file__).resolve().parent.parent / "data"
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data"
+RAW = ROOT / "docs" / "research" / "raw"
 
 
 def load_data():
@@ -25,9 +29,44 @@ def load_data():
     return animals, crops
 
 
-def flow(entity, rate, per_day, how):
-    return {"entity": entity, "direction": rate["direction"], "resource": rate["resource"],
-            "unit": rate["unit"], "per_day": round(per_day, 3), "source": f"{rate['source']}; {how}"}
+@cache
+def _research():
+    """Map (topic, citation number) -> {title, url} from the raw NotebookLM answers."""
+    srcs = json.loads((RAW / "sources.json").read_text(encoding="utf-8"))["sources"]
+    by_id = {s["id"]: s for s in srcs}
+    out = {}
+    for f in RAW.glob("[A-Z][0-9].json"):
+        for r in json.loads(f.read_text(encoding="utf-8")).get("references") or []:
+            s = by_id.get(r["source_id"], {})
+            if (s.get("url") or "").startswith("http"):
+                out[(f.stem, r["citation_number"])] = {"title": s.get("title") or s["url"], "url": s["url"]}
+    return out
+
+
+def links(source):
+    """'docs/research A1 [3] ... [14]' -> list of {title, url} for every cited web page."""
+    m = re.search(r"docs/research ([A-Z][0-9])", source)
+    if not m:
+        return []
+    seen, out = set(), []
+    for group in re.findall(r"\[([\d,\s-]+)\]", source):
+        for n in re.findall(r"\d+", group):
+            hit = _research().get((m.group(1), int(n)))
+            if hit and hit["url"] not in seen:
+                seen.add(hit["url"]); out.append(hit)
+    return out
+
+
+def flow(entity, rate, per_day, how, scale):
+    f = {"entity": entity, "direction": rate["direction"], "resource": rate["resource"],
+         "unit": rate["unit"], "per_day": round(per_day, 3), "source": f"{rate['source']}; {how}"}
+    if "range" in rate:
+        f["range"] = [round(v * scale, 3) for v in rate["range"]]
+    if "trust" in rate:
+        f["trust"] = rate["trust"]
+    if ls := links(rate["source"]):
+        f["links"] = ls
+    return f
 
 
 def compute(scene, animals, crops):
@@ -38,7 +77,7 @@ def compute(scene, animals, crops):
         if e.get("kind") in animals:
             n = props.get("count", 1)
             covered.add(e["id"])
-            flows += [flow(e["id"], r, r["per_head_day"] * n, f"x {n} head") for r in animals[e["kind"]]]
+            flows += [flow(e["id"], r, r["per_head_day"] * n, f"x {n} head", n) for r in animals[e["kind"]]]
         elif props.get("crop") in crops:
             area = props.get("area_m2")
             if not area:
@@ -47,7 +86,7 @@ def compute(scene, animals, crops):
             c = crops[props["crop"]]
             covered.add(e["id"])
             days = c["season_days"]
-            flows += [flow(e["id"], r, r["per_m2_season"] * area / days, f"x {area} m2 / {days} days")
+            flows += [flow(e["id"], r, r["per_m2_season"] * area / days, f"x {area} m2 / {days} days", area / days)
                       for r in c["rates"]]
     kept = [f for f in scene.get("flows", []) if f.get("entity") not in covered]
     return flows + kept, covered, warns
@@ -88,6 +127,10 @@ def demo():
     assert any(f["source"] == "hand" for f in flows), "flows without engine data must be kept"
     tom = next(f for f in flows if f["entity"] == "toms" and f["direction"] == "in")
     assert tom["per_day"] == 3125.0, tom  # 625 mm x 600 m2 / 120 days
+    assert tom["range"] == [2500.0, 3750.0], tom["range"]  # 500-750 mm, same scaling
+    hen_feed = next(f for f in flows if f["entity"] == "hens" and f["resource"]["en"] == "Feed")
+    assert hen_feed["range"] == [4.6, 4.88] and hen_feed["trust"] == "web"
+    assert hen_feed["links"] and hen_feed["links"][0]["url"].startswith("http"), hen_feed
     print("demo ok")
 
 

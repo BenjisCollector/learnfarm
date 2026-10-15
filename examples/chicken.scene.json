@@ -49,7 +49,18 @@
       },
       "unit": "kg",
       "per_day": 0.118,
-      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 1 head"
+      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 1 head",
+      "range": [
+        0.115,
+        0.122
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "Hyline commercial (2) | PDF - Slideshare",
+          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+        }
+      ]
     },
     {
       "entity": "hen-1",
@@ -60,7 +71,12 @@
       },
       "unit": "L",
       "per_day": 0.21,
-      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 1 head"
+      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 1 head",
+      "range": [
+        0.18,
+        0.24
+      ],
+      "trust": "ai_report"
     },
     {
       "entity": "hen-1",
@@ -71,7 +87,18 @@
       },
       "unit": "eggs",
       "per_day": 0.816,
-      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; x 1 head"
+      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; range: 354/434 days (to 80 wk) to 315/378 days (to 72 wk); x 1 head",
+      "range": [
+        0.816,
+        0.833
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "Hyline commercial (2) | PDF - Slideshare",
+          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+        }
+      ]
     },
     {
       "entity": "hen-1",
@@ -82,7 +109,12 @@
       },
       "unit": "kg",
       "per_day": 0.12,
-      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 1 head"
+      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 1 head",
+      "range": [
+        0.11,
+        0.13
+      ],
+      "trust": "ai_report"
     }
   ]
 }

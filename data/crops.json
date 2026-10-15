@@ -2,7 +2,7 @@
   "_doc": "Per-m2 seasonal figures. engine/build.py spreads them over season_days and multiplies by props.area_m2. 1 mm of water on 1 m2 = 1 L. trust as in animals.json.",
   "tomato": {
     "season_days": 120,
-    "season_source": "docs/research C1 [1]: 90-120 days to harvest",
+    "season_source": "FAO Irrigation and Drainage Paper 66 (2012), tomato: life cycle 95-115 days (processing) to over 145 days (fresh market); 120 used",
     "rates": [
       {
         "direction": "in",
@@ -11,12 +11,15 @@
           "ar": "ماء"
         },
         "unit": "L",
-        "per_m2_season": 625,
-        "trust": "ai_report",
-        "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm)",
+        "per_m2_season": 600.0,
+        "trust": "web",
+        "source": "FAO Irrigation and Drainage Paper 66 (2012), tomato: 400-800 mm from transplanting to harvest, by climate and management",
         "range": [
-          500.0,
-          750.0
+          400,
+          800
+        ],
+        "urls": [
+          "https://fao.org/4/i2800e/i2800e.pdf"
         ]
       },
       {
@@ -26,19 +29,22 @@
           "ar": "طماطم"
         },
         "unit": "kg",
-        "per_m2_season": 3.5,
-        "trust": "ai_report",
-        "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg)",
+        "per_m2_season": 9.0,
+        "trust": "web",
+        "source": "FAO Irrigation and Drainage Paper 66 (2012), tomato: good commercial yield 60-120 t/ha (processing), over 150 t/ha fresh market",
         "range": [
-          2.2,
-          4.8
+          6.0,
+          12.0
+        ],
+        "urls": [
+          "https://fao.org/4/i2800e/i2800e.pdf"
         ]
       }
     ]
   },
   "lettuce": {
-    "season_days": 45,
-    "season_source": "docs/research C1 [1]: 30-60 days to harvest (midpoint 45)",
+    "season_days": 90,
+    "season_source": "UC Cooperative Extension Imperial County (2000): iceberg matures in under 90 to 120+ days; Arizona Extension AZ2144 (2025): season to 89 days after planting",
     "rates": [
       {
         "direction": "in",
@@ -47,12 +53,15 @@
           "ar": "ماء"
         },
         "unit": "L",
-        "per_m2_season": 200,
-        "trust": "ai_report",
-        "source": "docs/research C1 [1]: 150-250 mm/season (midpoint 200 mm)",
+        "per_m2_season": 355.6,
+        "trust": "web",
+        "source": "Arizona Extension AZ2144 (2025), Yuma: lettuce needs about 12-16 inches of water per acre (Sanchez et al. 2022)",
         "range": [
-          150.0,
-          250.0
+          304.8,
+          406.4
+        ],
+        "urls": [
+          "https://extension.arizona.edu/sites/default/files/2025-08/az2144-2025_Estimating-Crop-Evapotranspiration-Using-Lettuce-Crop-Coefficients-for-Irrigation-Scheduling-in-Yuma-Arizona.pdf"
         ]
       },
       {
@@ -62,12 +71,15 @@
           "ar": "خس"
         },
         "unit": "kg",
-        "per_m2_season": 2,
-        "trust": "ai_report",
-        "source": "docs/research C1 [1,2]: open field 1.5-2.5 kg/m2 (midpoint 2 kg)",
+        "per_m2_season": 3.0767,
+        "trust": "web",
+        "source": "UC Cooperative Extension Imperial County (2000): naked pack iceberg 453-645 cartons/acre of 50 lb, 1995-1999",
         "range": [
-          1.5,
-          2.5
+          2.5387,
+          3.6147
+        ],
+        "urls": [
+          "https://ccfruitandnuts.ucanr.edu/sites/default/files/2011-06/108156.pdf"
         ]
       }
     ]

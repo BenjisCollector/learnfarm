@@ -239,13 +239,19 @@
         "ar": "ماء"
       },
       "unit": "L",
-      "per_day": 3125.0,
-      "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm); x 600 m2 / 120 days",
+      "per_day": 3000.0,
+      "source": "FAO Irrigation and Drainage Paper 66 (2012), tomato: 400-800 mm from transplanting to harvest, by climate and management; x 600 m2 / 120 days",
       "range": [
-        2500.0,
-        3750.0
+        2000.0,
+        4000.0
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://fao.org/4/i2800e/i2800e.pdf",
+          "url": "https://fao.org/4/i2800e/i2800e.pdf"
+        }
+      ]
     },
     {
       "entity": "tomatoes",
@@ -255,13 +261,19 @@
         "ar": "طماطم"
       },
       "unit": "kg",
-      "per_day": 17.5,
-      "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg); x 600 m2 / 120 days",
+      "per_day": 45.0,
+      "source": "FAO Irrigation and Drainage Paper 66 (2012), tomato: good commercial yield 60-120 t/ha (processing), over 150 t/ha fresh market; x 600 m2 / 120 days",
       "range": [
-        11.0,
-        24.0
+        30.0,
+        60.0
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://fao.org/4/i2800e/i2800e.pdf",
+          "url": "https://fao.org/4/i2800e/i2800e.pdf"
+        }
+      ]
     },
     {
       "entity": "hens",
@@ -271,17 +283,17 @@
         "ar": "علف"
       },
       "unit": "kg",
-      "per_day": 2.844,
-      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 24 head",
+      "per_day": 2.712,
+      "source": "Hy-Line Brown Commercial Layers guide (Dec 2025): average daily feed 109.1-116.9 g/bird, 19-100 weeks; x 24 head",
       "range": [
-        2.76,
-        2.928
+        2.618,
+        2.806
       ],
       "trust": "web",
       "links": [
         {
-          "title": "Hyline commercial (2) | PDF - Slideshare",
-          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
         }
       ]
     },
@@ -293,13 +305,19 @@
         "ar": "ماء"
       },
       "unit": "L",
-      "per_day": 5.04,
-      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 24 head",
+      "per_day": 4.812,
+      "source": "Hy-Line Brown guide (Dec 2025) production table: water intake 165-236 ml/bird/day from week 38 on (rises in heat); x 24 head",
       "range": [
-        4.32,
-        5.76
+        3.96,
+        5.664
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
+        }
+      ]
     },
     {
       "entity": "hens",
@@ -309,17 +327,17 @@
         "ar": "بيض"
       },
       "unit": "eggs",
-      "per_day": 19.584,
-      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; range: 354/434 days (to 80 wk) to 315/378 days (to 72 wk); x 24 head",
+      "per_day": 20.16,
+      "source": "Hy-Line Brown guide (Dec 2025): 466.4-497.9 hen-housed eggs to 100 weeks, over 574 days from week 18 (first eggs); x 24 head",
       "range": [
-        19.584,
-        19.992
+        19.5,
+        20.818
       ],
       "trust": "web",
       "links": [
         {
-          "title": "Hyline commercial (2) | PDF - Slideshare",
-          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
         }
       ]
     },
@@ -331,13 +349,23 @@
         "ar": "سماد"
       },
       "unit": "kg",
-      "per_day": 2.88,
-      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 24 head",
+      "per_day": 2.124,
+      "source": "USDA NRCS Ag Waste Mgmt Field Handbook Table 4-11: layer 0.19 lb/day as excreted (3 lb bird); Utah State Extension: 0.20 lb/day (4 lb layer); x 24 head",
       "range": [
-        2.64,
-        3.12
+        2.069,
+        2.177
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf",
+          "url": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf"
+        },
+        {
+          "title": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf",
+          "url": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf"
+        }
+      ]
     },
     {
       "entity": "cows",
@@ -347,17 +375,17 @@
         "ar": "علف (مادة جافة)"
       },
       "unit": "kg",
-      "per_day": 107.5,
-      "source": "docs/research A2 [2,4]: 18-25 kg DM/cow/day (midpoint 21.5 kg); x 5 head",
+      "per_day": 115.666,
+      "source": "NMSU Guide D-107 Table 1: 1,500 lb lactating cow eats 42-60 lb DM/day (at 40-100 lb milk); x 5 head",
       "range": [
-        90.0,
-        125.0
+        95.254,
+        136.077
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://pubs.nmsu.edu/_d/D107/index.html",
+          "url": "https://pubs.nmsu.edu/_d/D107/index.html"
         }
       ]
     },
@@ -369,17 +397,17 @@
         "ar": "ماء"
       },
       "unit": "L",
-      "per_day": 437.5,
-      "source": "docs/research A2 [2,4]: 75-100 L/day at 15-20 C (midpoint 87.5 L), 121+ L at 35 C; x 5 head",
+      "per_day": 511.977,
+      "source": "NMSU Guide D-107 Table 1: 22.0-32.1 gal/day at 60 F mean minimum temperature (40-100 lb milk); 35.6 gal at 80 F; x 5 head",
       "range": [
-        375.0,
-        500.0
+        416.395,
+        607.558
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://pubs.nmsu.edu/_d/D107/index.html",
+          "url": "https://pubs.nmsu.edu/_d/D107/index.html"
         }
       ]
     },
@@ -391,17 +419,17 @@
         "ar": "حليب"
       },
       "unit": "kg",
-      "per_day": 175,
-      "source": "docs/research A2 [2,4]: 25-45 kg milk/cow/day (midpoint 35 kg); x 5 head",
+      "per_day": 158.757,
+      "source": "NMSU Guide D-107 Table 1: lactating cows producing 40-100 lb milk/day; x 5 head",
       "range": [
-        125.0,
-        225.0
+        90.718,
+        226.796
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://pubs.nmsu.edu/_d/D107/index.html",
+          "url": "https://pubs.nmsu.edu/_d/D107/index.html"
         }
       ]
     },
@@ -413,21 +441,17 @@
         "ar": "سماد"
       },
       "unit": "kg",
-      "per_day": 287.5,
-      "source": "docs/research A2 [2,4,45]: 50-65 kg wet manure/cow/day (midpoint 57.5 kg); x 5 head",
+      "per_day": 336.793,
+      "source": "USDA NRCS Ag Waste Mgmt Field Handbook Table 4-5: lactating cow 133-164 lb/day as excreted (50-100 lb milk); x 5 head",
       "range": [
-        250.0,
-        325.0
+        301.639,
+        371.945
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
-        },
-        {
-          "title": "ANIMAL HOUSING IN HOT CLIMATES: A multidisciplinary view - CIGR",
-          "url": "https://www.cigr.org/sites/default/files/documets/Animalhousinginhotclimates2006.pdf"
+          "title": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf",
+          "url": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf"
         }
       ]
     },
@@ -439,17 +463,17 @@
         "ar": "علف (مادة جافة)"
       },
       "unit": "kg",
-      "per_day": 8,
-      "source": "docs/research A2 [1,2]: dairy goats 1.5-2.5 kg DM/day (midpoint 2 kg); x 4 head",
+      "per_day": 10.886,
+      "source": "Alabama Extension ANR-2457: dairy goats eat 3-5% of body weight in DM/day; 150 lb dairy doe (its Table 4); x 4 head",
       "range": [
-        6.0,
-        10.0
+        8.165,
+        13.608
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://www.aces.edu/blog/topics/sheep-goats/dairy-goat-and-sheep-nutrition-and-forages/",
+          "url": "https://www.aces.edu/blog/topics/sheep-goats/dairy-goat-and-sheep-nutrition-and-forages/"
         }
       ]
     },
@@ -461,17 +485,17 @@
         "ar": "ماء"
       },
       "unit": "L",
-      "per_day": 28,
-      "source": "docs/research A2 [1,2]: 4-10 L/day normal (midpoint 7 L), up to 15 L hot; x 4 head",
+      "per_day": 32.659,
+      "source": "Alabama Extension ANR-2457: water up to 3x daily DM intake, applied to the 3-5% BW DM range of a 150 lb doe; x 4 head",
       "range": [
-        16.0,
-        40.0
+        24.494,
+        40.823
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://www.aces.edu/blog/topics/sheep-goats/dairy-goat-and-sheep-nutrition-and-forages/",
+          "url": "https://www.aces.edu/blog/topics/sheep-goats/dairy-goat-and-sheep-nutrition-and-forages/"
         }
       ]
     },
@@ -483,17 +507,17 @@
         "ar": "حليب"
       },
       "unit": "kg",
-      "per_day": 11.0,
-      "source": "docs/research A2 [1,2]: dairy goats 1.5-4.0 kg milk/day (midpoint 2.75 kg); x 4 head",
+      "per_day": 15.045,
+      "source": "Penn State Extension, Dairy Goat Production (2019 DHIR): breed averages 1,995 lb (Oberhasli) to 2,715 lb (Alpine) per 284-day lactation; x 4 head",
       "range": [
-        6.0,
-        16.0
+        12.745,
+        17.345
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
+          "title": "https://wpcdn.web.wsu.edu/wp-extension/uploads/sites/2056/2023/05/Dairy-Goat-Production.pdf",
+          "url": "https://wpcdn.web.wsu.edu/wp-extension/uploads/sites/2056/2023/05/Dairy-Goat-Production.pdf"
         }
       ]
     },
@@ -505,21 +529,17 @@
         "ar": "سماد"
       },
       "unit": "kg",
-      "per_day": 8,
-      "source": "docs/research A2 [1,2,45]: 1.5-2.5 kg wet manure/day (midpoint 2 kg); x 4 head",
+      "per_day": 11.43,
+      "source": "Utah State Extension Table 1: goats 4.2 lb/day (80 lb) to 8.4 lb/day (160 lb) as excreted; x 4 head",
       "range": [
-        6.0,
-        10.0
+        7.62,
+        15.241
       ],
       "trust": "web",
       "links": [
         {
-          "title": "'Can They Take the Heat?'—The Egyptian Climate and Its Effects on Livestock - MDPI",
-          "url": "https://www.mdpi.com/2076-2615/12/15/1937"
-        },
-        {
-          "title": "ANIMAL HOUSING IN HOT CLIMATES: A multidisciplinary view - CIGR",
-          "url": "https://www.cigr.org/sites/default/files/documets/Animalhousinginhotclimates2006.pdf"
+          "title": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf",
+          "url": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf"
         }
       ]
     }

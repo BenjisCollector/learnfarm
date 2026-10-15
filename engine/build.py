@@ -64,7 +64,8 @@ def flow(entity, rate, per_day, how, scale):
         f["range"] = [round(v * scale, 3) for v in rate["range"]]
     if "trust" in rate:
         f["trust"] = rate["trust"]
-    if ls := links(rate["source"]):
+    # rate["urls"] (primary sources, checked by hand) win over NotebookLM citations
+    if ls := [{"title": u, "url": u} for u in rate.get("urls", [])] or links(rate["source"]):
         f["links"] = ls
     return f
 
@@ -119,18 +120,19 @@ def demo():
                    "unit": "kg", "per_day": 999, "source": "stale"}]}
     flows, _, _ = compute(scene, animals, crops)
     feed = lambda fs: next(f["per_day"] for f in fs if f["entity"] == "hens" and f["resource"]["en"] == "Feed")
-    assert feed(flows) == round(0.1185 * 24, 3), flows
+    assert feed(flows) == round(0.113 * 24, 3), flows
     scene["entities"][0]["props"]["count"] = 40  # the bug: 24 -> 40 must rescale
     flows, _, _ = compute(scene, animals, crops)
-    assert feed(flows) == round(0.1185 * 40, 3) and "x 40 head" in flows[0]["source"]
+    assert feed(flows) == round(0.113 * 40, 3) and "x 40 head" in flows[0]["source"]
     assert not any(f["source"] == "stale" for f in flows)
     assert any(f["source"] == "hand" for f in flows), "flows without engine data must be kept"
     tom = next(f for f in flows if f["entity"] == "toms" and f["direction"] == "in")
-    assert tom["per_day"] == 3125.0, tom  # 625 mm x 600 m2 / 120 days
-    assert tom["range"] == [2500.0, 3750.0], tom["range"]  # 500-750 mm, same scaling
+    assert tom["per_day"] == 3000.0, tom  # 600 mm x 600 m2 / 120 days
+    assert tom["range"] == [2000.0, 4000.0], tom["range"]  # 400-800 mm, same scaling
     hen_feed = next(f for f in flows if f["entity"] == "hens" and f["resource"]["en"] == "Feed")
-    assert hen_feed["range"] == [4.6, 4.88] and hen_feed["trust"] == "web"
-    assert hen_feed["links"] and hen_feed["links"][0]["url"].startswith("http"), hen_feed
+    assert hen_feed["range"] == [4.364, 4.676] and hen_feed["trust"] == "web"
+    assert hen_feed["links"][0]["url"].startswith("https://www.hyline.com/"), hen_feed  # urls beat NotebookLM
+    assert links("docs/research A2 [1]")[0]["url"].startswith("http")  # fallback still resolves
     print("demo ok")
 
 

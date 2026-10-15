@@ -39,3 +39,22 @@ Source-grounded farming facts for the Open Farm engine. Generated 2026-10-15.
 - **Financing:** the Kuwait SME Fund finances up to 80% of capital cost with a 1–3 year grace period.
 - **Vertical farming:** a well-run farm uses 10–18 kWh/kg (the industry has averaged about 39). It builds out at $1,000–2,500 per grow m², and energy is 30–40% of operating cost. Viable crops are microgreens, herbs, mushrooms, and specialty strawberries. Lettuce is marginal, and staple crops are impossible.
 - **Failures:** Bowery closed in Nov 2024. Plenty went through Chapter 11 in 2025. AeroFarms emerged from Chapter 11 in 2023, then sources report a wind-down in Dec 2025–Jan 2026. 80 Acres filed for Chapter 7 in Aug 2026. Verify the last two directly, because they are recent and come from news sources.
+
+## Primary sources behind data/ (audit, 2026-10-15)
+
+Every rate in `data/animals.json` and `data/crops.json` now carries a `urls` list pointing at a primary source, and `engine/build.py` shows those links before any NotebookLM citation. Each range was read from the page itself.
+
+- **Hens:** [Hy-Line Brown Commercial Layers guide, Dec 2025](https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf) for feed, water and eggs. Manure from [USDA NRCS AWMFH ch. 4](https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf) and [Utah State Extension](https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf).
+- **Dairy cows:** [NMSU Guide D-107](https://pubs.nmsu.edu/_d/D107/index.html) for feed, water and milk. Manure from USDA NRCS Table 4-5.
+- **Dairy goats:** [Alabama Extension ANR-2457](https://www.aces.edu/blog/topics/sheep-goats/dairy-goat-and-sheep-nutrition-and-forages/) for feed and water, [Penn State Extension, Dairy Goat Production](https://wpcdn.web.wsu.edu/wp-extension/uploads/sites/2056/2023/05/Dairy-Goat-Production.pdf) for milk, Utah State Extension for manure.
+- **Sheep:** [Oregon State Extension](https://extension.oregonstate.edu/es/node/200226/printable/print) for feed, [SDSU Extension](https://extension.sdstate.edu/sheep-water-requirements-and-quality-testing) for water, Utah State Extension and USDA NRCS for manure.
+- **Tomato:** [FAO Irrigation and Drainage Paper 66](https://fao.org/4/i2800e/i2800e.pdf) for water, yield and season.
+- **Lettuce:** [Arizona Extension AZ2144](https://extension.arizona.edu/sites/default/files/2025-08/az2144-2025_Estimating-Crop-Evapotranspiration-Using-Lettuce-Crop-Coefficients-for-Irrigation-Scheduling-in-Yuma-Arizona.pdf) for water, [UC Cooperative Extension Imperial County](https://ccfruitandnuts.ucanr.edu/sites/default/files/2011-06/108156.pdf) for yield and season.
+
+**Lesson from the audit:** NotebookLM tagged the cow, goat and sheep numbers `[web]` and cited an MDPI paper, but the cited passages contain none of those numbers. A `[web]` tag only means the citation points at a web page. It does not mean the page holds the number. Check the passage before trusting it.
+
+The headlines above are NotebookLM's summary. Where they differ from `data/`, `data/` wins.
+
+## Still unverified
+
+None. All 19 rates in `data/` have a primary source.

@@ -48,17 +48,17 @@
         "ar": "علف"
       },
       "unit": "kg",
-      "per_day": 0.118,
-      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 1 head",
+      "per_day": 0.113,
+      "source": "Hy-Line Brown Commercial Layers guide (Dec 2025): average daily feed 109.1-116.9 g/bird, 19-100 weeks; x 1 head",
       "range": [
-        0.115,
-        0.122
+        0.109,
+        0.117
       ],
       "trust": "web",
       "links": [
         {
-          "title": "Hyline commercial (2) | PDF - Slideshare",
-          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
         }
       ]
     },
@@ -70,13 +70,19 @@
         "ar": "ماء"
       },
       "unit": "L",
-      "per_day": 0.21,
-      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 1 head",
+      "per_day": 0.201,
+      "source": "Hy-Line Brown guide (Dec 2025) production table: water intake 165-236 ml/bird/day from week 38 on (rises in heat); x 1 head",
       "range": [
-        0.18,
-        0.24
+        0.165,
+        0.236
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
+        }
+      ]
     },
     {
       "entity": "hen-1",
@@ -86,17 +92,17 @@
         "ar": "بيض"
       },
       "unit": "eggs",
-      "per_day": 0.816,
-      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; range: 354/434 days (to 80 wk) to 315/378 days (to 72 wk); x 1 head",
+      "per_day": 0.84,
+      "source": "Hy-Line Brown guide (Dec 2025): 466.4-497.9 hen-housed eggs to 100 weeks, over 574 days from week 18 (first eggs); x 1 head",
       "range": [
-        0.816,
-        0.833
+        0.812,
+        0.867
       ],
       "trust": "web",
       "links": [
         {
-          "title": "Hyline commercial (2) | PDF - Slideshare",
-          "url": "https://www.slideshare.net/slideshow/hyline-commercial-2/34372256"
+          "title": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf",
+          "url": "https://www.hyline.com/filesimages/Hy-Line-Products/Hy-Line-Product-PDFs/Brown/BRN%20STD%20ENG.pdf"
         }
       ]
     },
@@ -108,13 +114,23 @@
         "ar": "سماد"
       },
       "unit": "kg",
-      "per_day": 0.12,
-      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 1 head",
+      "per_day": 0.088,
+      "source": "USDA NRCS Ag Waste Mgmt Field Handbook Table 4-11: layer 0.19 lb/day as excreted (3 lb bird); Utah State Extension: 0.20 lb/day (4 lb layer); x 1 head",
       "range": [
-        0.11,
-        0.13
+        0.086,
+        0.091
       ],
-      "trust": "ai_report"
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf",
+          "url": "https://directives.nrcs.usda.gov/sites/default/files2/1712930943/17165.pdf"
+        },
+        {
+          "title": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf",
+          "url": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf"
+        }
+      ]
     }
   ]
 }

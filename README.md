@@ -4,6 +4,8 @@
 
 <p align="center"><img src="docs/media/open-farm.gif" width="320" alt="Open Farm: a pixel-art farm with wandering animals; tapping the Animals zone shows its sourced inputs and outputs"></p>
 
+<p align="center"><a href="https://yusufmufeed.uk/open-farm"><b>Website and live demo: yusufmufeed.uk/open-farm</b></a></p>
+
 **Learn farming by talking to your coding agent, and watch the farm come alive as you talk.**
 
 Open Farm is a free, open-source skill pack plus a live pixel-art simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.

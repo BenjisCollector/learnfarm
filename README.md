@@ -2,9 +2,11 @@
 
 **English** · [العربية](README.ar.md)
 
+<p align="center"><img src="docs/media/open-farm.gif" width="320" alt="Open Farm: a pixel-art farm with wandering animals; tapping the Animals zone shows its sourced inputs and outputs"></p>
+
 **Learn farming by talking to your coding agent, and watch the farm come alive as you talk.**
 
-Open Farm is a free, open-source skill pack plus a live 3D simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
+Open Farm is a free, open-source skill pack plus a live pixel-art simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
 
 When you're ready, tell it your city, budget, and space. It gives you three realistic ways to start your own farm, including vertical farming, with costs, output, payback, and risks.
 

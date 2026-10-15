@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/open-farm/open-farm/schema/scene.v0.schema.json",
+  "$id": "https://raw.githubusercontent.com/BenjisCollector/open-farm/main/schema/scene.v0.schema.json",
   "title": "Open Farm Scene v0",
   "description": "The contract between the agent (writes) and the viewer (renders). The agent edits scene state only; numbers in flows come from the engine and must cite a source.",
   "type": "object",

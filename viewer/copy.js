@@ -12,6 +12,14 @@ export const UI = {
     outside: 'from outside the farm', notModelled: 'Nothing modelled here yet.',
     working: 'Working normally: getting everything it needs.',
     shortOf: (stock, pct) => `Short of ${stock}: working at ${pct}%.`,
+    died: (day, stock) => `Died on day ${day} after going too long without ${stock}.`,
+    diedWhy: 'Nothing comes back to life when the supply returns. On a real farm, this is the cost of an empty tank.',
+    without: (n, stock) => `About ${n} days without ${stock} so far.`,
+    evDied: (day, part, stock) => `Day ${day}: ${part} died after going too long without ${stock}.`,
+    dead: 'Died',
+    lasts: 'How long it lasts without',
+    lastsLine: (res, n) => `${res}: about ${n} days`,
+    basis: { lethal: 'published death figure', observed: 'survived this long in studies; the real limit may be longer', derived: 'worked out from FAO soil-water data' },
     why: 'Why it matters', size: 'Size', sources: 'How we know these numbers', range: 'range',
     perDay: 'a day', day: 'Day', year: 'Year', play: 'Play', pause: 'Pause', speed: 'Speed', reset: 'Reset',
     timeHint: 'Press play to watch time pass. Stocks go down as they are used and up as they are refilled.',
@@ -22,7 +30,7 @@ export const UI = {
     evShort: (day, part, stock, pct) => `Day ${day}: ${part} ran short of ${stock} and works at ${pct}%.`,
     evOk: (day, part) => `Day ${day}: ${part} is back to normal.`,
     marketTitle: 'Sent to market so far', setting: 'your setting', fact: 'sourced',
-    tour: 'Tour', tourNext: 'Next', tourDone: 'Got it',
+    tour: 'Confused? Click here', tourNext: 'Next', tourDone: 'Got it',
     m2: 'm²', tennis: (n) => `about ${n} tennis courts`, head: 'animals',
     trustWeb: 'Cited source', trustAi: 'AI summary, re-verify',
   },
@@ -38,6 +46,14 @@ export const UI = {
     outside: 'من خارج المزرعة', notModelled: 'لا شيء محسوب هنا بعد.',
     working: 'تعمل بشكل طبيعي: تحصل على كل ما تحتاجه.',
     shortOf: (stock, pct) => `نقص في ${stock}: تعمل بنسبة ${pct}٪.`,
+    died: (day, stock, plant) => `${plant ? 'ذبلت' : 'نفقت'} في اليوم ${day} بعد أن بقيت وقتًا طويلًا دون ${stock}.`,
+    diedWhy: 'لا شيء يعود إلى الحياة عندما يعود الإمداد. في المزرعة الحقيقية، هذا ثمن الخزان الفارغ.',
+    without: (n, stock) => `عدد الأيام دون ${stock} حتى الآن: نحو ${n}.`,
+    evDied: (day, part, stock, plant) => `اليوم ${day}: ${plant ? 'ذبلت' : 'نفقت'} ${part} بعد أن بقيت وقتًا طويلًا دون ${stock}.`,
+    dead: 'نفقت',
+    lasts: 'كم تصمد دون',
+    lastsLine: (res, n) => `${res}: نحو ${n} يوم`,
+    basis: { lethal: 'رقم نفوق منشور', observed: 'صمدت هذه المدة في الدراسات؛ وقد يكون الحد الحقيقي أطول', derived: 'محسوب من بيانات الفاو لماء التربة' },
     why: 'لماذا يهم هذا', size: 'الحجم', sources: 'من أين هذه الأرقام', range: 'المدى',
     perDay: 'يوميًا', day: 'اليوم', year: 'السنة', play: 'تشغيل', pause: 'إيقاف', speed: 'السرعة', reset: 'إعادة',
     timeHint: 'اضغط تشغيل لترى الأيام تمضي. المخزون ينقص عند الاستهلاك ويزيد عند التعبئة.',
@@ -48,7 +64,7 @@ export const UI = {
     evShort: (day, part, stock, pct) => `اليوم ${day}: نقص ${stock} في ${part}، فأصبحت تعمل بنسبة ${pct}٪.`,
     evOk: (day, part) => `اليوم ${day}: عادت ${part} إلى العمل الطبيعي.`,
     marketTitle: 'ما أُرسل إلى السوق حتى الآن', setting: 'إعدادك', fact: 'من مصدر',
-    tour: 'جولة', tourNext: 'التالي', tourDone: 'فهمت',
+    tour: 'محتار؟ اضغط هنا', tourNext: 'التالي', tourDone: 'فهمت',
     m2: 'م²', tennis: (n) => `نحو ${n} ملعب تنس`, head: 'رأس',
     trustWeb: 'مصدر موثّق', trustAi: 'ملخص آلي، يحتاج تحقق',
   },
@@ -134,6 +150,7 @@ export const METHOD = {
     <div class="card"><h3>How the farm runs</h3>
       <ul><li><b>Every day</b>, each area asks for what it needs from the stores (water tank, feed store, compost heap).</li>
       <li><b>If a store is short</b>, it is shared fairly, and each area works at the pace of its scarcest input. This is called the law of the minimum: a plant with plenty of water but too little compost grows only as fast as the compost allows.</li>
+      <li><b>Going without has a limit.</b> Animals and crops can only last so long without water or feed. The limits come from published sources. Past the limit, the area dies and does not come back when the supply returns.</li>
       <li><b>Outputs</b> either go into a store (manure goes to the compost heap, where only part of its weight remains as compost) or leave the farm to be sold.</li>
       <li>The ${a('engine/sim.js', 'simulator')} and the ${a('engine/build.py', 'rate engine')} are open. Anyone can check them.</li></ul></div>
     <div class="card"><h3>What is simplified</h3>
@@ -151,6 +168,7 @@ export const METHOD = {
     <div class="card"><h3>كيف تعمل المزرعة</h3>
       <ul><li><b>كل يوم</b> تطلب كل منطقة ما تحتاجه من المخازن (خزان الماء، مخزن العلف، كومة الكمبوست).</li>
       <li><b>إذا نقص مخزن</b> يُوزَّع بعدل، وتعمل كل منطقة بسرعة أقل مدخلاتها توفرًا. وهذا يسمى قانون الحد الأدنى: نبتة لديها ماء كثير وكمبوست قليل تنمو بقدر ما يسمح به الكمبوست.</li>
+      <li><b>للحرمان حدّ.</b> لا تستطيع الحيوانات والمحاصيل البقاء إلا مدة محدودة دون ماء أو علف. وهذه الحدود من مصادر منشورة. وبعد تجاوزها تنفق المنطقة ولا تعود عندما يعود الإمداد.</li>
       <li><b>المخرجات</b> إما تذهب إلى مخزن (السماد يذهب إلى كومة الكمبوست، ويبقى جزء من وزنه فقط كمبوستًا) أو تخرج من المزرعة لتُباع.</li>
       <li>${a('engine/sim.js', 'المحاكي')} و${a('engine/build.py', 'محرك المعدلات')} مفتوحان، ويستطيع أي أحد مراجعتهما.</li></ul></div>
     <div class="card"><h3>ما الذي بسّطناه</h3>

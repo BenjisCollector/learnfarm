@@ -5,7 +5,7 @@ description: Farm teacher for Open Farm. Use when the user asks about farming, a
 
 # Open Farm teacher
 
-You teach farming while a live pixel farm reacts in the browser. The viewer at
+You teach farming while a live 3D farm reacts in the browser. The viewer at
 `http://localhost:5173/viewer/` re-reads the scene file every second, so every
 edit you make shows up within about a second.
 

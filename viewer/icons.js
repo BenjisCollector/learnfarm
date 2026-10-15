@@ -22,3 +22,9 @@ const P = {
 export function svg(name, size = 20) {
   return `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name]}</svg>`;
 }
+
+// Language flags: Kuwait for Arabic, UK for English (inline SVG, emoji flags don't render on Windows).
+export const FLAG = {
+  ar: '<svg class="flag" viewBox="0 0 24 12" width="22" height="11" aria-hidden="true"><path fill="#007a3d" d="M0 0h24v4H0z"/><path fill="#fff" d="M0 4h24v4H0z"/><path fill="#ce1126" d="M0 8h24v4H0z"/><path d="M0 0l6 4v4l-6 4z"/></svg>',
+  en: '<svg class="flag" viewBox="0 0 60 30" width="22" height="11" aria-hidden="true"><clipPath id="ukc"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath><path fill="#012169" d="M0 0v30h60V0z"/><path stroke="#fff" stroke-width="6" d="M0 0l60 30m0-30L0 30"/><path stroke="#c8102e" stroke-width="4" clip-path="url(#ukc)" d="M0 0l60 30m0-30L0 30"/><path stroke="#fff" stroke-width="10" d="M30 0v30M0 15h60"/><path stroke="#c8102e" stroke-width="6" d="M30 0v30M0 15h60"/></svg>',
+};

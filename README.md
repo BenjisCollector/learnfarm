@@ -2,17 +2,17 @@
 
 **English** · [العربية](README.ar.md)
 
-<p align="center"><img src="docs/media/open-farm.gif" width="720" alt="Open Farm: a pixel farm where dots carry water, feed and manure between areas. The Animals card shows what hens and cows need and give. Switching the well pump off empties the tank and the farm slows down."></p>
+<p align="center"><img src="docs/media/open-farm.gif" width="720" alt="Open Farm: a 3D farm diorama where coloured beads carry water, feed and manure between areas. Tapping the animal pen shows only its flows and what hens, cows and goats need and give. Switching the well pump off turns the farm red as the tank runs dry."></p>
 
 <p align="center"><a href="https://yusufmufeed.uk/open-farm"><b>Website and live demo: yusufmufeed.uk/open-farm</b></a></p>
 
 **Learn farming by talking to your coding agent, and watch the farm come alive as you talk.**
 
-Open Farm is a free, open-source skill pack plus a live pixel-art simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
+Open Farm is a free, open-source skill pack plus a live 3D farm simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
 
 When you're ready, tell it your city, budget, and space. It gives you three realistic ways to start your own farm, including vertical farming, with costs, output, payback, and risks.
 
-> **Status: Phase 1 (chicken MVP).** The pixel viewer, the flow engine, and the Claude Code skill run today. Follow along or open an issue.
+> **Status: Phase 1 (chicken MVP).** The 3D viewer, the flow engine, and the Claude Code skill run today. Follow along or open an issue.
 
 ## How it works
 
@@ -39,7 +39,7 @@ Every name and label in a scene has English and Arabic (`{"en": "...", "ar": "..
 |---|---|---|
 | 0–1 | Foundations, sourced rate engine, first pixel viewer, website | ✅ |
 | **A** | **System engine**: stocks, links between parts (manure → compost → fields), shortages, sizes | ✅ |
-| **B** | **3D diorama**: 3D pixel-art farm with visible flows between parts | ⏳ |
+| **B** | **3D diorama**: 3D farm with block-style icons and visible flows between parts | ✅ |
 | **C** | **Learning path**: concept map, saved progress, adaptive lessons | 📋 |
 | D | Farm Challenge: the decision game | 📋 |
 | E | Real world: live weather, crop models, heat effects | 📋 |
@@ -54,7 +54,7 @@ Details and "done when" for each phase: [ROADMAP.md](ROADMAP.md). Decisions are 
 python3 -m http.server 5173
 ```
 
-Open http://localhost:5173/viewer/ next to Claude Code, opened in this repo. The viewer re-reads `examples/farm.scene.json` every second. Say "add 16 more hens and make it rain": the `open-farm` skill ([skills/open-farm/SKILL.md](skills/open-farm/SKILL.md), linked into `.claude/skills/`) edits the scene, runs the engine, and the pixel farm updates within about a second. Load a different scene with `?scene=../examples/chicken.scene.json`.
+Open http://localhost:5173/viewer/ next to Claude Code, opened in this repo. The viewer re-reads `examples/farm.scene.json` every second. Say "add 16 more hens and make it rain": the `open-farm` skill ([skills/open-farm/SKILL.md](skills/open-farm/SKILL.md), linked into `.claude/skills/`) edits the scene, runs the engine, and the 3D farm updates within about a second. Load a different scene with `?scene=../examples/chicken.scene.json`.
 
 ## The engine
 

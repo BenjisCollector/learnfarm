@@ -1,6 +1,7 @@
 // Open Farm viewer. Polls a scene file, simulates it over time, and teaches the
 // farm as a system: every area needs inputs, gives outputs, and is linked to others.
-import { svg } from './icons.js';
+import { svg, FLAG } from './icons.js';
+import { sprite, zoneSprites } from './sprites.js';
 import { createMap } from './map.js';
 import { simulate, totalsUpTo, routeFor } from '../engine/sim.js';
 import { renderLoop } from './system.js';
@@ -13,7 +14,7 @@ const SPEEDS = [1, 7, 30];
 
 const $ = (id) => document.getElementById(id);
 const st = { scene: null, raw: '', lang: 'en', tab: 'explore', sel: null, day: 0, playing: false, speed: 7, changes: [], links: true, tour: null, sim: null };
-const map = createMap($('map'));
+const map = createMap($('map'), { onView: () => st.scene && updateMap() });
 
 const t = () => UI[st.lang];
 const tx = (o) => (o && (o[st.lang] || o.en)) || '';
@@ -30,6 +31,12 @@ const UNITS = { kg: ['kg', 'كغ'], L: ['L', 'لتر'], eggs: ['eggs', 'بيضة
 const unit = (u) => (UNITS[u] ? UNITS[u][st.lang === 'ar' ? 1 : 0] : u);
 // Per-animal amounts read better small: 0.113 kg -> 113 g.
 const perHead = (amt, u) => (amt < 1 && (u === 'kg' || u === 'L') ? [amt * 1000, u === 'kg' ? 'g' : 'mL'] : [amt, u]);
+// What a store holds, as a word for sentences: "short of water", "without feed".
+const stockWord = (stock) => {
+  const r = (st.scene.routes || []).find((x) => x.stock === stock && x.direction === 'in');
+  const w = r ? resName(r.resource) : tx(stockById(stock)?.name);
+  return st.lang === 'ar' ? w : w.toLowerCase();
+};
 const supplyOn = (id, day = st.day) => { let on = true; for (const c of st.changes) if (c.stock === id && c.day <= day) on = c.supply; return on; };
 
 function runSim() {
@@ -53,10 +60,16 @@ async function poll() {
 }
 
 // ---------- map: labels with sizes, links, shortage status ----------
+const isDead = (id) => !!rec()?.dead?.[id];
+function zoneDead(zid) {
+  const members = ents().filter((e) => zoneOf(e) === zid && rec()?.factor[e.id] != null);
+  return { any: members.some((e) => isDead(e.id)), all: members.length > 0 && members.every((e) => isDead(e.id)) };
+}
 function zoneFactor(zid) {
   const r = rec();
+  if (zoneDead(zid).all) return -1;
   let f = 1;
-  for (const e of ents()) if (zoneOf(e) === zid && r?.factor[e.id] != null) f = Math.min(f, r.factor[e.id]);
+  for (const e of ents()) if (zoneOf(e) === zid && r?.factor[e.id] != null && !isDead(e.id)) f = Math.min(f, r.factor[e.id]);
   for (const s of st.scene.stocks || []) if (s.zone === zid && r && r.stocks[s.id] <= 0.5) f = Math.min(f, 0);
   return f;
 }
@@ -71,8 +84,14 @@ function sizeText(z) {
   return '';
 }
 
+let mapDeadKey = '';
 function updateMap() {
   const r = rec(), links = [], seen = new Set();
+  const deadKey = Object.keys(r?.dead || {}).sort().join(',');
+  if (deadKey !== mapDeadKey) { // dead animal groups leave the map
+    mapDeadKey = deadKey;
+    map.setScene({ ...st.scene, entities: ents().filter((e) => !(r?.dead?.[e.id] && ANIMALS.has(e.kind))) });
+  }
   const add = (from, to, res, on) => { const k = from + '>' + to + '>' + res; if (!seen.has(k)) { seen.add(k); links.push({ from, to, color: resColor(res), on }); } };
   for (const s of st.scene.stocks || []) if (s.refill_per_day && s.zone) add('outside', s.zone, s.unit === 'L' ? 'Water' : 'Feed', supplyOn(s.id));
   for (const f of st.scene.flows || []) {
@@ -87,8 +106,11 @@ function updateMap() {
   const zones = ents().filter((e) => e.props?.rect);
   map.setStatus(Object.fromEntries(zones.map((z) => [z.id, zoneFactor(z.id)])));
   $('labels').innerHTML = map.labels().map((l) => {
-    const z = ent(l.id), warn = zoneFactor(l.id) < 0.999;
-    return `<span class="label ${st.sel === l.id ? 'on' : ''} ${warn ? 'warn' : ''}" style="left:${l.left}%;top:${l.top}%">${warn ? '! ' : ''}${esc(tx(l.name))}<small class="num">${esc(sizeText(z))}</small></span>`;
+    const z = ent(l.id), dz = zoneDead(l.id), warn = zoneFactor(l.id) < 0.999;
+    const mark = dz.all ? '✕ ' : warn || dz.any ? '! ' : '', on = st.sel === l.id;
+    // Small badge: pixel icon + name. Size and state words only on the selected or troubled zone.
+    const more = on ? esc(sizeText(z)) : dz.all ? t().dead : '';
+    return `<span class="label ${on ? 'on' : ''} ${dz.all ? 'dead' : warn || dz.any ? 'warn' : ''}" style="left:${l.left}%;top:${l.top}%">${zoneSprites(z, ents(), 18)}<span class="nm">${mark}${esc(tx(l.name))}${more ? `<small class="num">${more}</small>` : ''}</span></span>`;
   }).join('');
 }
 
@@ -98,7 +120,7 @@ function overview() {
   return `<div class="card soft"><h2>${t().startTitle}</h2>
     <div class="steps3"><div><b class="n">1</b><span>${t().start1}</span></div><div><b class="n">2</b><span>${t().start2}</span></div><div><b class="n">3</b><span>${t().start3}</span></div></div></div>
     <div class="card"><h3>${t().areas}</h3><p class="meta">${t().tapHint}</p><div class="arealist">
-    ${zones.map((z) => `<button class="area" data-zone="${z.id}"><span class="stat ${zoneFactor(z.id) < 0.999 ? 'warn' : ''}"></span><b>${esc(tx(z.name))}</b><span class="num">${esc(sizeText(z))}</span></button>`).join('')}
+    ${zones.map((z) => `<button class="area" data-zone="${z.id}"><span class="sprs">${zoneSprites(z, ents(), 22)}</span><span class="stat ${zoneDead(z.id).all ? 'dead' : zoneFactor(z.id) < 0.999 || zoneDead(z.id).any ? 'warn' : ''}"></span><b>${esc(tx(z.name))}</b><span class="num">${esc(sizeText(z))}</span></button>`).join('')}
     </div></div>`;
 }
 
@@ -116,7 +138,7 @@ function flowItem(f, pace) {
   const amt = f.per_day * pace, n = ent(f.entity)?.props?.count;
   const [ph, pu] = n > 1 ? perHead(amt / n, f.unit) : [];
   const one = n > 1 ? `<div class="w num">${st.lang === 'ar' ? 'لكل رأس' : 'each animal'}: ${fmt(ph)} ${unit(pu)}</div>` : '';
-  return `<div class="item"><div class="r"><i style="background:${resColor(f.resource.en)}"></i>${esc(tx(f.resource))}<span class="amt">${fmt(amt)} ${unit(f.unit)}</span></div>
+  return `<div class="item"><div class="r">${sprite(f.resource.en, 18) || `<i style="background:${resColor(f.resource.en)}"></i>`}${esc(tx(f.resource))}<span class="amt">${fmt(amt)} ${unit(f.unit)}</span></div>
     ${one}<div class="w">${whereText(f)}</div></div>`;
 }
 
@@ -160,18 +182,24 @@ function areaCard(zid) {
     allFlows.push(...flows);
     const ins = flows.filter((f) => f.direction === 'in'), outs = flows.filter((f) => f.direction === 'out');
     const limit = st.sim?.events.filter((ev) => ev.entity === e.id && ev.day <= st.day).at(-1);
-    const status = pace < 0.999
-      ? `<div class="status warn">${t().shortOf(tx(stockById(limit?.stock)?.name) || '?', fmt(pace * 100, 0))}</div>`
+    const deadEv = st.sim?.events.find((ev) => ev.entity === e.id && ev.dead && ev.day <= st.day);
+    const without = r?.without?.[e.id] || 0;
+    const status = deadEv
+      ? `<div class="status dead">${t().died(fmt(deadEv.day), stockWord(deadEv.stock), e.kind === 'plot')}</div><p class="meta">${t().diedWhy}</p>`
+      : pace < 0.999
+      ? `<div class="status warn">${t().shortOf(stockWord(limit?.stock), fmt(pace * 100, 0))}${without >= 0.5 ? `<br>${t().without(fmt(without, 0), stockWord(limit?.stock))}` : ''}</div>`
       : `<div class="status">${t().working}</div>`;
+    const lims = (st.scene.survival || []).filter((l) => l.entity === e.id);
+    const lasts = lims.length ? `<details class="lasts"><summary>${t().lasts}</summary>${lims.map((l) => `<div class="src"><b>${t().lastsLine(esc(resName(l.resource)), fmt(l.days))}</b> <span class="num">(${t().range} ${fmt(l.range?.[0] ?? l.days)}–${fmt(l.range?.[1] ?? l.days)})</span><br><span class="trust ${l.basis === 'lethal' ? 'web' : 'ai_report'}">${t().basis[l.basis] || ''}</span><br>${esc(l.source)}<br>${(l.links || []).map((k) => `<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(new URL(k.url).hostname.replace(/^www\./, ''))}${svg('external', 11)}</a>`).join('')}</div>`).join('')}</details>` : '';
     const title = members.length > 1 || ANIMALS.has(e.kind) ? `<h3>${esc(tx(e.name))}${e.props?.count ? ` <span class="meta num">· ${fmt(e.props.count)}</span>` : ''}</h3>` : '';
     return `<div class="group">${title}${status}<div class="proc">
       <div class="col"><h4>${t().needs}</h4>${ins.map((f) => flowItem(f, r && routeFor(st.scene, f) ? r.share[routeFor(st.scene, f)] ?? 1 : 1)).join('')}</div>
       <div class="machine"><span class="arrow">→</span><div>${esc(tx(e.name))}</div><span class="arrow">→</span></div>
-      <div class="col"><h4>${t().gives}</h4>${outs.map((f) => flowItem(f, pace)).join('')}</div></div></div>`;
+      <div class="col"><h4>${t().gives}</h4>${outs.map((f) => flowItem(f, pace)).join('')}</div></div>${lasts}</div>`;
   }).join('');
   const area = z.props?.area_m2;
   const size = area ? `${fmt(area)} ${t().m2} · ${t().tennis(fmt(area / TENNIS_M2, 1))} <span class="pill">${t().setting}</span>` : sizeText(z) ? `${esc(sizeText(z))} <span class="pill">${t().setting}</span>` : '';
-  return `<div class="card"><div class="zhead"><div class="t"><h2>${esc(tx(z.name))}</h2><div class="size num">${size}</div></div>
+  return `<div class="card"><div class="zhead"><div class="t"><h2>${zoneSprites(z, ents(), 26)} ${esc(tx(z.name))}</h2><div class="size num">${size}</div></div>
       <button class="xbtn" id="close" aria-label="Close">${svg('close', 16)}</button></div>
     <p class="lead"><b>${what}</b> ${why}</p>
     ${stocks.map(stockBlock).join('')}
@@ -185,13 +213,15 @@ function eventLines() {
   const groups = new Map();
   for (const ev of st.sim.events) {
     if (ev.day > st.day) break;
-    const k = ev.day + '|' + ev.stock + '|' + (ev.factor < 0.999 ? Math.round(ev.factor * 100) : 'ok');
+    const k = ev.day + '|' + ev.stock + '|' + (ev.dead ? 'dead' : ev.factor < 0.999 ? Math.round(ev.factor * 100) : 'ok');
     if (!groups.has(k)) groups.set(k, { ...ev, parts: [] });
     groups.get(k).parts.push(tx(ent(ev.entity)?.name));
   }
   const sep = st.lang === 'ar' ? '، ' : ', ';
-  const lines = [...groups.values()].slice(-8).reverse().map((g) => g.factor < 0.999
-    ? `<div class="ev bad">${t().evShort(fmt(g.day), g.parts.join(sep), tx(stockById(g.stock)?.name), fmt(g.factor * 100, 0))}</div>`
+  const lines = [...groups.values()].slice(-8).reverse().map((g) => g.dead
+    ? `<div class="ev dead">${t().evDied(fmt(g.day), g.parts.join(sep), stockWord(g.stock), ent(g.entity)?.kind === 'plot')}</div>`
+    : g.factor < 0.999
+    ? `<div class="ev bad">${t().evShort(fmt(g.day), g.parts.join(sep), stockWord(g.stock), fmt(g.factor * 100, 0))}</div>`
     : `<div class="ev good">${t().evOk(fmt(g.day), g.parts.join(sep))}</div>`);
   return lines.join('') || `<p class="meta">${t().noEvents}</p>`;
 }
@@ -227,7 +257,7 @@ function renderPanel() {
   if (st.tab === 'system') {
     p.innerHTML = systemPanel();
     renderLoop($('loop'), st.scene, rec(), st.lang, tx, {
-      market: st.lang === 'ar' ? 'السوق' : 'Market', off: t().supplyOff, aria: t().loopTitle,
+      market: st.lang === 'ar' ? 'السوق' : 'Market', off: t().supplyOff, aria: t().loopTitle, dead: t().dead,
       level: (v, s) => (s.capacity ? `${fmt(v / s.capacity * 100, 0)}%` : ''),
     }, (zid) => select(zid));
   }
@@ -240,11 +270,11 @@ function render() {
   document.documentElement.dir = st.lang === 'ar' ? 'rtl' : 'ltr';
   $('title').textContent = tx(st.scene.title) || 'Open Farm';
   $('sub').innerHTML = `${svg('pin', 15)}<span>${esc(tx(st.scene.location?.name))}</span>`;
-  $('lang').textContent = st.lang === 'en' ? 'عربي' : 'EN';
+  $('lang').innerHTML = st.lang === 'en' ? `<span>عربي</span>${FLAG.ar}` : `<span>English</span>${FLAG.en}`;
   $('tourbtn').innerHTML = `${svg('hand', 16)}${t().tour}`;
   $('linkslbl').textContent = t().connections;
   const used = [...new Set((st.scene.flows || []).map((f) => f.resource.en).filter((r) => r !== 'Feed (dry matter)'))];
-  $('legend').innerHTML = used.map((r) => `<span class="dot"><i style="background:${resColor(r)}"></i>${esc(resName(r))}</span>`).join('');
+  $('legend').innerHTML = used.map((r) => `<span class="dot">${sprite(r, 16) || `<i style="background:${resColor(r)}"></i>`}${esc(resName(r))}</span>`).join('');
   updateMap();
   renderTime();
   renderPanel();
@@ -301,12 +331,12 @@ $('play').onclick = () => { st.playing = !st.playing; if (st.playing && st.day >
 }
 try { if (localStorage.getItem('of-tour') !== 'done') st.tour = 0; } catch { st.tour = 0; }
 
-// 12 fps stepped animation keeps the pixel-art feel. Play advances `speed` days per second.
+// The diorama renders every frame; the clock ticks at 12 fps. Play advances `speed` days per second.
 let tick = 0, last = 0;
 function loop(now) {
+  map.frame();
   if (now - last >= 1000 / 12) {
     last = now; tick++;
-    map.frame(tick);
     if (st.playing && tick % Math.max(1, Math.round(12 / Math.min(st.speed, 12))) === 0) {
       st.day = Math.min(MAX_DAY, st.day + Math.max(1, Math.round(st.speed / 12)));
       if (st.day >= MAX_DAY) st.playing = false;

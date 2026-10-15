@@ -135,6 +135,7 @@ export function createMap(canvas, { onView } = {}) {
     });
     m.castShadow = m.receiveShadow = true;
     parent.add(m);
+    return m;
   }
   const rnd = (i, j = 0) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
 
@@ -224,7 +225,7 @@ export function createMap(canvas, { onView } = {}) {
       const rows = [];
       for (let y = 1.3; y < z.h - 0.8; y += 1) rows.push(y);
       inst(g, box(z.w - 1.6, 0.1, 0.42), COL.dirtD, rows.map((y) => [z.w / 2, 0.3, y]));
-      const crop = z.e.props.crop, plants = [];
+      const crop = z.e.props.crop, plants = [], first = g.children.length;
       const step = crop === 'corn' ? 0.5 : crop === 'tomato' ? 0.75 : 0.6;
       rows.forEach((y, r) => { for (let x = 1.2 + (r % 2) * step / 2; x < z.w - 1; x += step) plants.push([x, y]); });
       if (crop === 'tomato') {
@@ -243,6 +244,7 @@ export function createMap(canvas, { onView } = {}) {
         inst(g, new THREE.DodecahedronGeometry(0.24, 0), COL.lettuce, plants.map(([x, y], i) => [x, 0.42, y, rnd(i) * 3, 1, 0.65, 1]));
         inst(g, new THREE.DodecahedronGeometry(0.13, 0), COL.lettuceD, plants.map(([x, y], i) => [x, 0.55, y, rnd(i, 1) * 3]));
       }
+      z.crops = g.children.slice(first); // tinted brown when the plot dies
       return [];
     },
     pen(g, z) {
@@ -460,8 +462,9 @@ export function createMap(canvas, { onView } = {}) {
       const warn = new THREE.Group();
       const fill = new THREE.Mesh(box(z.w, 0.05, z.h), new THREE.MeshBasicMaterial({ color: COL.warn, transparent: true, opacity: 0.35, depthWrite: false }));
       fill.position.set(z.x + z.w / 2, 0.27, z.z + z.h / 2); fill.layers.set(1);
-      warn.add(fill, frameMesh(z, COL.warn, 0.3, 0.32));
-      z.warn = warn; z.fill = fill;
+      const edge = frameMesh(z, COL.warn, 0.3, 0.32);
+      warn.add(fill, edge);
+      z.warn = warn; z.fill = fill; z.edge = edge.children[0].material;
       z.sel = frameMesh(z, COL.sel, 0.34, 0.22);
       marks.add(warn, z.sel);
     }
@@ -544,7 +547,13 @@ export function createMap(canvas, { onView } = {}) {
       z.warn.visible = bad;
       if (bad) {
         z.fill.material.color.set(f < 0 ? '#1d1d1d' : COL.warn);
-        z.fill.material.opacity = f < 0 ? 0.5 : 0.22 + 0.25 * pulse;
+        z.edge.color.set(f < 0 ? '#1d1d1d' : COL.warn);
+        z.fill.material.opacity = f < 0 ? 0.35 : 0.22 + 0.25 * pulse; // dead: steady dark, short: red pulse
+      }
+      const dead = f < 0;
+      if (z.crops && z.dead !== dead) { // dead plots wither: every plant turns dry brown
+        z.dead = dead;
+        for (const m of z.crops) { m.userData.live ??= m.material; m.material = dead ? toon('#8a6f45') : m.userData.live; }
       }
       z.sel.visible = z.e.id === selected;
     }

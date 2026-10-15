@@ -48,7 +48,9 @@ async function poll() {
     st.online = r.ok;
     if (r.ok && raw !== st.raw) {
       st.raw = raw;
+      const prevCond = st.scene?.weather?.condition;
       st.scene = JSON.parse(raw);
+      if (st.scene.weather?.condition !== prevCond) st.wxMode = null; // the agent's weather beats a manual preview
       st.day = null; // a new scene from the agent resets the preview to its clock
       map.setScene(st.scene);
       render();

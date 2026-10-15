@@ -1,35 +1,389 @@
 {
   "version": "0",
-  "title": { "en": "My Farm", "ar": "مزرعتي" },
-  "location": { "lat": 29.98, "lon": 47.78, "name": { "en": "Al-Abdali, Kuwait", "ar": "العبدلي، الكويت" } },
-  "clock": { "day": 120, "speed": 10 },
+  "title": {
+    "en": "My Farm",
+    "ar": "مزرعتي"
+  },
+  "location": {
+    "lat": 29.98,
+    "lon": 47.78,
+    "name": {
+      "en": "Al-Abdali, Kuwait",
+      "ar": "العبدلي، الكويت"
+    }
+  },
+  "clock": {
+    "day": 120,
+    "speed": 10
+  },
   "weather": {
-    "condition": "sunny", "temp_c": 31, "feels_c": 34, "humidity": 38, "dew_c": 15, "wind_kmh": 14, "rain_chance": 5,
+    "condition": "sunny",
+    "temp_c": 31,
+    "feels_c": 34,
+    "humidity": 38,
+    "dew_c": 15,
+    "wind_kmh": 14,
+    "rain_chance": 5,
     "source": "Demo values, not live. Open-Meteo arrives in Phase 3"
   },
   "entities": [
-    { "id": "house", "kind": "house", "name": { "en": "House", "ar": "البيت" }, "pos": [5, 5, 0], "props": { "rect": [1, 1, 9, 9] } },
-    { "id": "tomatoes", "kind": "plot", "name": { "en": "Tomatoes", "ar": "طماطم" }, "pos": [17, 5, 0], "props": { "rect": [11, 1, 12, 9], "crop": "tomato" } },
-    { "id": "vegetables", "kind": "plot", "name": { "en": "Vegetables", "ar": "خضار" }, "pos": [5, 15, 0], "props": { "rect": [1, 11, 9, 9], "crop": "vegetables" } },
-    { "id": "corn", "kind": "plot", "name": { "en": "Corn", "ar": "ذرة" }, "pos": [17, 15, 0], "props": { "rect": [11, 11, 12, 9], "crop": "corn" } },
-    { "id": "animals", "kind": "pen", "name": { "en": "Animals", "ar": "الحيوانات" }, "pos": [7, 25, 0], "props": { "rect": [1, 21, 13, 9] } },
-    { "id": "water", "kind": "pond", "name": { "en": "Water", "ar": "الماء" }, "pos": [19, 23, 0], "props": { "rect": [15, 21, 8, 4] } },
-    { "id": "storage", "kind": "storage", "name": { "en": "Storage", "ar": "المخزن" }, "pos": [19, 28, 0], "props": { "rect": [15, 26, 8, 4] } },
-    { "id": "hens", "kind": "hen", "name": { "en": "Laying hens", "ar": "دجاج بيّاض" }, "pos": [4, 26, 0], "props": { "zone": "animals", "count": 24 } },
-    { "id": "cows", "kind": "cow", "name": { "en": "Dairy cows", "ar": "أبقار حلوب" }, "pos": [9, 25, 0], "props": { "zone": "animals", "count": 5 } },
-    { "id": "goats", "kind": "goat", "name": { "en": "Dairy goats", "ar": "ماعز حلوب" }, "pos": [11, 27, 0], "props": { "zone": "animals", "count": 4 } }
+    {
+      "id": "house",
+      "kind": "house",
+      "name": {
+        "en": "House",
+        "ar": "البيت"
+      },
+      "pos": [
+        5,
+        5,
+        0
+      ],
+      "props": {
+        "rect": [
+          1,
+          1,
+          9,
+          9
+        ]
+      }
+    },
+    {
+      "id": "tomatoes",
+      "kind": "plot",
+      "name": {
+        "en": "Tomatoes",
+        "ar": "طماطم"
+      },
+      "pos": [
+        17,
+        5,
+        0
+      ],
+      "props": {
+        "rect": [
+          11,
+          1,
+          12,
+          9
+        ],
+        "crop": "tomato",
+        "area_m2": 600
+      }
+    },
+    {
+      "id": "vegetables",
+      "kind": "plot",
+      "name": {
+        "en": "Vegetables",
+        "ar": "خضار"
+      },
+      "pos": [
+        5,
+        15,
+        0
+      ],
+      "props": {
+        "rect": [
+          1,
+          11,
+          9,
+          9
+        ],
+        "crop": "vegetables"
+      }
+    },
+    {
+      "id": "corn",
+      "kind": "plot",
+      "name": {
+        "en": "Corn",
+        "ar": "ذرة"
+      },
+      "pos": [
+        17,
+        15,
+        0
+      ],
+      "props": {
+        "rect": [
+          11,
+          11,
+          12,
+          9
+        ],
+        "crop": "corn"
+      }
+    },
+    {
+      "id": "animals",
+      "kind": "pen",
+      "name": {
+        "en": "Animals",
+        "ar": "الحيوانات"
+      },
+      "pos": [
+        7,
+        25,
+        0
+      ],
+      "props": {
+        "rect": [
+          1,
+          21,
+          13,
+          9
+        ]
+      }
+    },
+    {
+      "id": "water",
+      "kind": "pond",
+      "name": {
+        "en": "Water",
+        "ar": "الماء"
+      },
+      "pos": [
+        19,
+        23,
+        0
+      ],
+      "props": {
+        "rect": [
+          15,
+          21,
+          8,
+          4
+        ]
+      }
+    },
+    {
+      "id": "storage",
+      "kind": "storage",
+      "name": {
+        "en": "Storage",
+        "ar": "المخزن"
+      },
+      "pos": [
+        19,
+        28,
+        0
+      ],
+      "props": {
+        "rect": [
+          15,
+          26,
+          8,
+          4
+        ]
+      }
+    },
+    {
+      "id": "hens",
+      "kind": "hen",
+      "name": {
+        "en": "Laying hens",
+        "ar": "دجاج بيّاض"
+      },
+      "pos": [
+        4,
+        26,
+        0
+      ],
+      "props": {
+        "zone": "animals",
+        "count": 24
+      }
+    },
+    {
+      "id": "cows",
+      "kind": "cow",
+      "name": {
+        "en": "Dairy cows",
+        "ar": "أبقار حلوب"
+      },
+      "pos": [
+        9,
+        25,
+        0
+      ],
+      "props": {
+        "zone": "animals",
+        "count": 5
+      }
+    },
+    {
+      "id": "goats",
+      "kind": "goat",
+      "name": {
+        "en": "Dairy goats",
+        "ar": "ماعز حلوب"
+      },
+      "pos": [
+        11,
+        27,
+        0
+      ],
+      "props": {
+        "zone": "animals",
+        "count": 4
+      }
+    }
   ],
   "flows": [
-    { "entity": "hens", "direction": "in", "resource": { "en": "Feed", "ar": "علف" }, "unit": "kg", "per_day": 2.64, "source": "docs/research A1: layers eat 100-120 g/head/day (110 g x 24 hens)" },
-    { "entity": "hens", "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_day": 5.04, "source": "docs/research A1: 180-240 mL/head/day at 21 C, over 600 mL at 38 C (210 mL x 24)" },
-    { "entity": "hens", "direction": "out", "resource": { "en": "Eggs", "ar": "بيض" }, "unit": "eggs", "per_day": 19.7, "source": "docs/research A1: Hy-Line Brown 354 eggs to 80 weeks, about 0.82/day in lay (x 24)" },
-    { "entity": "cows", "direction": "in", "resource": { "en": "Feed (dry matter)", "ar": "علف (مادة جافة)" }, "unit": "kg", "per_day": 107.5, "source": "docs/research A2: 18-25 kg DM/cow/day (21.5 kg x 5)" },
-    { "entity": "cows", "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_day": 440, "source": "docs/research A2: 75-100 L/day at 15-20 C, 121+ L at 35 C (88 L x 5)" },
-    { "entity": "cows", "direction": "out", "resource": { "en": "Milk", "ar": "حليب" }, "unit": "kg", "per_day": 175, "source": "docs/research A2: 25-45 kg milk/cow/day (35 kg x 5)" },
-    { "entity": "goats", "direction": "in", "resource": { "en": "Feed (dry matter)", "ar": "علف (مادة جافة)" }, "unit": "kg", "per_day": 8, "source": "docs/research A2: 1.5-2.5 kg DM/day (2 kg x 4)" },
-    { "entity": "goats", "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_day": 28, "source": "docs/research A2: 4-10 L/day normal, up to 15 L hot (7 L x 4)" },
-    { "entity": "goats", "direction": "out", "resource": { "en": "Milk", "ar": "حليب" }, "unit": "kg", "per_day": 11, "source": "docs/research A2: 1.5-4.0 kg milk/day (2.75 kg x 4)" },
-    { "entity": "tomatoes", "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_day": 3125, "source": "docs/research C1: 500-750 mm/season open field (625 mm on 600 m2 over 120 days)" },
-    { "entity": "tomatoes", "direction": "out", "resource": { "en": "Tomatoes", "ar": "طماطم" }, "unit": "kg", "per_day": 17.5, "source": "docs/research C1: open field 2.2-4.8 kg/m2 (3.5 kg x 600 m2 over 120 days)" }
+    {
+      "entity": "tomatoes",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 3125.0,
+      "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm); x 600 m2 / 120 days"
+    },
+    {
+      "entity": "tomatoes",
+      "direction": "out",
+      "resource": {
+        "en": "Tomatoes",
+        "ar": "طماطم"
+      },
+      "unit": "kg",
+      "per_day": 17.5,
+      "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg); x 600 m2 / 120 days"
+    },
+    {
+      "entity": "hens",
+      "direction": "in",
+      "resource": {
+        "en": "Feed",
+        "ar": "علف"
+      },
+      "unit": "kg",
+      "per_day": 2.844,
+      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g); x 24 head"
+    },
+    {
+      "entity": "hens",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 5.04,
+      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C; x 24 head"
+    },
+    {
+      "entity": "hens",
+      "direction": "out",
+      "resource": {
+        "en": "Eggs",
+        "ar": "بيض"
+      },
+      "unit": "eggs",
+      "per_day": 19.584,
+      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days; x 24 head"
+    },
+    {
+      "entity": "hens",
+      "direction": "out",
+      "resource": {
+        "en": "Manure",
+        "ar": "سماد"
+      },
+      "unit": "kg",
+      "per_day": 2.88,
+      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g); x 24 head"
+    },
+    {
+      "entity": "cows",
+      "direction": "in",
+      "resource": {
+        "en": "Feed (dry matter)",
+        "ar": "علف (مادة جافة)"
+      },
+      "unit": "kg",
+      "per_day": 107.5,
+      "source": "docs/research A2 [2,4]: 18-25 kg DM/cow/day (midpoint 21.5 kg); x 5 head"
+    },
+    {
+      "entity": "cows",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 437.5,
+      "source": "docs/research A2 [2,4]: 75-100 L/day at 15-20 C (midpoint 87.5 L), 121+ L at 35 C; x 5 head"
+    },
+    {
+      "entity": "cows",
+      "direction": "out",
+      "resource": {
+        "en": "Milk",
+        "ar": "حليب"
+      },
+      "unit": "kg",
+      "per_day": 175,
+      "source": "docs/research A2 [2,4]: 25-45 kg milk/cow/day (midpoint 35 kg); x 5 head"
+    },
+    {
+      "entity": "cows",
+      "direction": "out",
+      "resource": {
+        "en": "Manure",
+        "ar": "سماد"
+      },
+      "unit": "kg",
+      "per_day": 287.5,
+      "source": "docs/research A2 [2,4,45]: 50-65 kg wet manure/cow/day (midpoint 57.5 kg); x 5 head"
+    },
+    {
+      "entity": "goats",
+      "direction": "in",
+      "resource": {
+        "en": "Feed (dry matter)",
+        "ar": "علف (مادة جافة)"
+      },
+      "unit": "kg",
+      "per_day": 8,
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-2.5 kg DM/day (midpoint 2 kg); x 4 head"
+    },
+    {
+      "entity": "goats",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 28,
+      "source": "docs/research A2 [1,2]: 4-10 L/day normal (midpoint 7 L), up to 15 L hot; x 4 head"
+    },
+    {
+      "entity": "goats",
+      "direction": "out",
+      "resource": {
+        "en": "Milk",
+        "ar": "حليب"
+      },
+      "unit": "kg",
+      "per_day": 11.0,
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-4.0 kg milk/day (midpoint 2.75 kg); x 4 head"
+    },
+    {
+      "entity": "goats",
+      "direction": "out",
+      "resource": {
+        "en": "Manure",
+        "ar": "سماد"
+      },
+      "unit": "kg",
+      "per_day": 8,
+      "source": "docs/research A2 [1,2,45]: 1.5-2.5 kg wet manure/day (midpoint 2 kg); x 4 head"
+    }
   ]
 }

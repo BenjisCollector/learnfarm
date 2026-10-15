@@ -1,0 +1,23 @@
+{
+  "_doc": "Per-m2 seasonal figures. engine/build.py spreads them over season_days and multiplies by props.area_m2. 1 mm of water on 1 m2 = 1 L. trust as in animals.json.",
+  "tomato": {
+    "season_days": 120,
+    "season_source": "docs/research C1 [1]: 90-120 days to harvest",
+    "rates": [
+      { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_m2_season": 625, "trust": "ai_report",
+        "source": "docs/research C1 [1]: open field 500-750 mm/season (midpoint 625 mm)" },
+      { "direction": "out", "resource": { "en": "Tomatoes", "ar": "طماطم" }, "unit": "kg", "per_m2_season": 3.5, "trust": "ai_report",
+        "source": "docs/research C1 [1,2]: open field 2.2-4.8 kg/m2 (midpoint 3.5 kg)" }
+    ]
+  },
+  "lettuce": {
+    "season_days": 45,
+    "season_source": "docs/research C1 [1]: 30-60 days to harvest (midpoint 45)",
+    "rates": [
+      { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_m2_season": 200, "trust": "ai_report",
+        "source": "docs/research C1 [1]: 150-250 mm/season (midpoint 200 mm)" },
+      { "direction": "out", "resource": { "en": "Lettuce", "ar": "خس" }, "unit": "kg", "per_m2_season": 2, "trust": "ai_report",
+        "source": "docs/research C1 [1,2]: open field 1.5-2.5 kg/m2 (midpoint 2 kg)" }
+    ]
+  }
+}

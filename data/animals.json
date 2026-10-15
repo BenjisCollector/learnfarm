@@ -1,0 +1,41 @@
+{
+  "_doc": "Per-head daily rates. engine/build.py multiplies them by props.count. Every rate cites docs/research. trust: web = external page, ai_report = NotebookLM summary (re-verify before Phase 4 planner).",
+  "hen": [
+    { "direction": "in", "resource": { "en": "Feed", "ar": "علف" }, "unit": "kg", "per_head_day": 0.1185, "trust": "web",
+      "source": "docs/research A1 [3]: Hy-Line barn layers eat 115-122 g/head/day (midpoint 118.5 g)" },
+    { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_head_day": 0.21, "trust": "ai_report",
+      "source": "docs/research A1 [1,2]: 180-240 mL/head/day at 21 C (midpoint 210 mL), over 600 mL at 38 C" },
+    { "direction": "out", "resource": { "en": "Eggs", "ar": "بيض" }, "unit": "eggs", "per_head_day": 0.816, "trust": "web",
+      "source": "docs/research A1 [3]: Hy-Line Brown lays 354 eggs to 80 weeks; first egg at 18 weeks [14], so 354 / 434 laying days" },
+    { "direction": "out", "resource": { "en": "Manure", "ar": "سماد" }, "unit": "kg", "per_head_day": 0.12, "trust": "ai_report",
+      "source": "docs/research A1 [2,31]: 110-130 g wet manure/bird/day (midpoint 120 g)" }
+  ],
+  "cow": [
+    { "direction": "in", "resource": { "en": "Feed (dry matter)", "ar": "علف (مادة جافة)" }, "unit": "kg", "per_head_day": 21.5, "trust": "web",
+      "source": "docs/research A2 [2,4]: 18-25 kg DM/cow/day (midpoint 21.5 kg)" },
+    { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_head_day": 87.5, "trust": "web",
+      "source": "docs/research A2 [2,4]: 75-100 L/day at 15-20 C (midpoint 87.5 L), 121+ L at 35 C" },
+    { "direction": "out", "resource": { "en": "Milk", "ar": "حليب" }, "unit": "kg", "per_head_day": 35, "trust": "web",
+      "source": "docs/research A2 [2,4]: 25-45 kg milk/cow/day (midpoint 35 kg)" },
+    { "direction": "out", "resource": { "en": "Manure", "ar": "سماد" }, "unit": "kg", "per_head_day": 57.5, "trust": "web",
+      "source": "docs/research A2 [2,4,45]: 50-65 kg wet manure/cow/day (midpoint 57.5 kg)" }
+  ],
+  "goat": [
+    { "direction": "in", "resource": { "en": "Feed (dry matter)", "ar": "علف (مادة جافة)" }, "unit": "kg", "per_head_day": 2, "trust": "web",
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-2.5 kg DM/day (midpoint 2 kg)" },
+    { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_head_day": 7, "trust": "web",
+      "source": "docs/research A2 [1,2]: 4-10 L/day normal (midpoint 7 L), up to 15 L hot" },
+    { "direction": "out", "resource": { "en": "Milk", "ar": "حليب" }, "unit": "kg", "per_head_day": 2.75, "trust": "web",
+      "source": "docs/research A2 [1,2]: dairy goats 1.5-4.0 kg milk/day (midpoint 2.75 kg)" },
+    { "direction": "out", "resource": { "en": "Manure", "ar": "سماد" }, "unit": "kg", "per_head_day": 2, "trust": "web",
+      "source": "docs/research A2 [1,2,45]: 1.5-2.5 kg wet manure/day (midpoint 2 kg)" }
+  ],
+  "sheep": [
+    { "direction": "in", "resource": { "en": "Feed (dry matter)", "ar": "علف (مادة جافة)" }, "unit": "kg", "per_head_day": 1.6, "trust": "web",
+      "source": "docs/research A2 [1,2]: 1.2-2.0 kg DM/day (midpoint 1.6 kg)" },
+    { "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_head_day": 8.5, "trust": "web",
+      "source": "docs/research A2 [1,2]: 5-12 L/day normal (midpoint 8.5 L)" },
+    { "direction": "out", "resource": { "en": "Manure", "ar": "سماد" }, "unit": "kg", "per_head_day": 2.3, "trust": "web",
+      "source": "docs/research A2 [1,2,45]: 1.8-2.8 kg wet manure/day (midpoint 2.3 kg)" }
+  ]
+}

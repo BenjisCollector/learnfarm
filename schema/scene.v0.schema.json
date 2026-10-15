@@ -127,7 +127,7 @@
           },
           "props": {
             "type": "object",
-            "description": "Optional. rect: [x, y, w, h] in map tiles makes the entity a map zone. zone: id of the zone an animal group lives in. count: number of animals. crop: tomato | corn | vegetables | lettuce for plots.",
+            "description": "Optional. rect: [x, y, w, h] in map tiles makes the entity a map zone. zone: id of the zone an animal group lives in. count: number of animals. crop: tomato | corn | vegetables | lettuce for plots. area_m2: plot area, which engine/build.py needs to compute crop flows.",
             "properties": {
               "rect": {
                 "type": "array",
@@ -147,6 +147,10 @@
               },
               "crop": {
                 "type": "string"
+              },
+              "area_m2": {
+                "type": "number",
+                "exclusiveMinimum": 0
               }
             }
           }

@@ -13,7 +13,7 @@ Status: ✅ done · 🔨 in progress · ⏳ next · 📋 planned
 | **C. Learning path** | Concept map (sunlight, water balance, feed conversion, nutrient loop, energy, money), saved progress the agent reads and updates, adaptive lessons and checks played on the diorama | Two learners who start differently get different next lessons | 📋 |
 | **D. Farm Challenge** | Decision game: situations with multiple-choice answers, the farm plays out each choice, scored recap with sources | A 15-minute run teaches at least 3 things | 📋 |
 | **E. Real world** | Live weather (Open-Meteo), crop models (AquaCrop, WOFOST), heat effects on animals, refreshed Kuwait data | The same farm behaves differently in Kuwait and the Netherlands | 📋 |
-| **F. Planner** | Your city, budget and space give three options (backyard, greenhouse, vertical farm) with costs, output, payback and risks | 10 real people find their plan believable | 📋 |
+| **F. Planner** | Your city, budget and space give three options (backyard, greenhouse, vertical farm) with costs, output, payback and risks. **Your own plot:** draw its outline on a satellite map (the area is measured for you) or describe it to the AI ("20 by 30 m, sandy, a well on the north side"), and the farm is laid out on your real land | 10 real people find their plan believable | 📋 |
 | **G. Launch** | In-chat UI (MCP Apps) for Claude and ChatGPT, Arabic polish, Gulf region packs, community scenarios | v1.0 public | 📋 |
 
 ## Principles that don't change

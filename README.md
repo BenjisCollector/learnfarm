@@ -2,7 +2,7 @@
 
 **English** · [العربية](README.ar.md)
 
-<p align="center"><img src="docs/media/open-farm.gif" width="320" alt="Open Farm: a pixel-art farm with wandering animals; tapping the Animals zone shows its sourced inputs and outputs"></p>
+<p align="center"><img src="docs/media/open-farm.gif" width="720" alt="Open Farm: a pixel farm where dots carry water, feed and manure between areas. The Animals card shows what hens and cows need and give. Switching the well pump off empties the tank and the farm slows down."></p>
 
 <p align="center"><a href="https://yusufmufeed.uk/open-farm"><b>Website and live demo: yusufmufeed.uk/open-farm</b></a></p>
 

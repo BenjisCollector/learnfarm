@@ -294,7 +294,11 @@ $('tourbtn').onclick = () => { st.tour = 0; renderTour(); };
 $('day').oninput = (e) => { st.day = +e.target.value; st.playing = false; render(); };
 $('play').onclick = () => { st.playing = !st.playing; if (st.playing && st.day >= MAX_DAY) st.day = 0; renderTime(); };
 
-try { if (localStorage.getItem('of-lang') === 'ar' || new URLSearchParams(location.search).get('lang') === 'ar') st.lang = 'ar'; } catch {}
+{ // ?lang= wins (the website passes its language), then the saved choice
+  const q = new URLSearchParams(location.search).get('lang');
+  let saved = null; try { saved = localStorage.getItem('of-lang'); } catch {}
+  st.lang = (q || saved) === 'ar' ? 'ar' : 'en';
+}
 try { if (localStorage.getItem('of-tour') !== 'done') st.tour = 0; } catch { st.tour = 0; }
 
 // 12 fps stepped animation keeps the pixel-art feel. Play advances `speed` days per second.

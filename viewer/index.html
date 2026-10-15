@@ -35,9 +35,9 @@
   @media (min-width: 1000px) { .layout { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: start; } .side { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; } }
 
   .mapcard { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 10px; }
-  .mapwrap { position: relative; border-radius: 12px; overflow: hidden; background: #ecdcae; width: fit-content; max-width: 100%; margin: 0 auto; }
+  .mapwrap { position: relative; border-radius: 12px; overflow: hidden; background: #ecdcae; margin: 0 auto; }
   .mapwrap canvas { width: 100%; height: auto; cursor: pointer; }
-  @media (min-width: 1000px) { .mapwrap canvas { width: auto; height: min(68vh, 760px); max-width: 100%; } }
+  @media (min-width: 1000px) { .mapwrap { width: fit-content; max-width: 100%; } .mapwrap canvas { width: auto; height: min(68vh, 760px); max-width: 100%; } }
   .label { position: absolute; transform: translate(-50%, 0); margin-top: 4px; background: rgba(255,255,255,.96); border-radius: 7px; padding: 1px 7px; font-size: 11px; font-weight: 600; white-space: nowrap; pointer-events: none; box-shadow: 0 1px 2px rgba(0,0,0,.18); line-height: 1.45; text-align: center; }
   .label small { display: block; font-weight: 500; color: var(--muted); font-size: 10px; }
   .label.on { background: var(--green); color: #fff; } .label.on small { color: #d8ead2; }

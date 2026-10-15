@@ -4,7 +4,7 @@
 
 [English](README.md) · **العربية**
 
-<p align="center"><img src="docs/media/open-farm.gif" width="320" alt="أوبن فارم: مزرعة بأسلوب البكسل تتحرك فيها الحيوانات"></p>
+<p align="center"><img src="docs/media/open-farm.gif" width="720" alt="أوبن فارم: مزرعة بكسل تنتقل فيها النقاط بين المناطق، وبطاقة الحيوانات تُظهر ما تحتاجه وما تعطيه، وإيقاف المضخة يُفرغ الخزان"></p>
 
 <p align="center"><a href="https://yusufmufeed.uk/open-farm?lang=ar"><b>الموقع والعرض الحي: yusufmufeed.uk/open-farm</b></a></p>
 

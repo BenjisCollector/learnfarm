@@ -147,6 +147,7 @@ You ⇄ coding agent (Claude Code / Codex / Cursor / Gemini CLI)
 - Intake interview: location, budget, space (m² or "a balcony"), water access, hours per week, goal (feed my family / side income / business).
 - Output: **three options** (for example, backyard hens + raised beds / a greenhouse / a container vertical farm), each with capex, monthly opex, expected output, payback period, and the top 3 risks.
 - Vertical module: lighting kWh/kg, local electricity price, a crop shortlist (leafy greens, herbs, microgreens, strawberries).
+- **Gulf vertical farming map:** who already grows indoors in Kuwait and Riyadh, what they sell and to whom, so the planner can show a newcomer where the room is (microgreens and herbs for restaurants) and where it is not (supermarket lettuce). Starting list: [docs/research/vertical-farming-gulf.md](research/vertical-farming-gulf.md).
 - Includes a **"why vertical farms failed" section**: Bowery shut down in 2024, AeroFarms went bankrupt and then recovered, and Plenty fell from a $1.9B valuation to under $15M. Energy cost and commodity pricing caused most of it.
 - Export: a PDF plan, and a farmOS-compatible JSON.
 - Exit: 10 real people run the planner and say the plan is believable.

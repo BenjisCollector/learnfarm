@@ -39,7 +39,7 @@ Every name and label in a scene has English and Arabic (`{"en": "...", "ar": "..
 | 2.5 | **Farm Challenge**: a decision game. Multiple-choice situations, and the farm plays out the consequences |
 | 3 | Real models: Open-Meteo / NASA POWER climate, AquaCrop + WOFOST yields |
 | 3.5 | **3D pixel-art renderer**: Three.js at low resolution with cel shading. Same scene, premium look |
-| 4 | Planner + vertical farming module (capex, opex, payback, risks) |
+| 4 | Planner + vertical farming module (capex, opex, payback, risks), with a map of who already farms indoors in Kuwait and Riyadh |
 | 5 | Every agent + MCP Apps (in-chat UI) → v1.0 |
 | 6 | Region packs (GCC first) + community |
 

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4efe3; --card: #fbf8f1; --ink: #2e3b2f; --ink-soft: #6f7a6c; --line: #2e3b2f;
+    --green: #2f5d3a; --green-soft: #dff0d3; --sun: #ffd54a; --red: #d9483b; --blue: #4aa3df;
+    --font: 'Pixelify Sans', 'Noto Kufi Arabic', ui-monospace, monospace;
+    --head: 'Silkscreen', 'Pixelify Sans', 'Noto Kufi Arabic', monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #1d2a1f; color: var(--ink); font-family: var(--font); }
+  canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  /* Pixel border: four flat shadows leave the corners notched. */
+  .px { box-shadow: 0 -3px 0 0 var(--line), 0 3px 0 0 var(--line), -3px 0 0 0 var(--line), 3px 0 0 0 var(--line); }
+  .px-soft { box-shadow: 0 -2px 0 0 #cfc7b2, 0 2px 0 0 #cfc7b2, -2px 0 0 0 #cfc7b2, 2px 0 0 0 #cfc7b2; }
+
+  .phone { max-width: 430px; min-height: 100vh; margin: 0 auto; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+  header { padding: 18px 18px 8px; display: flex; align-items: flex-start; gap: 12px; }
+  header .t { flex: 1; min-width: 0; }
+  h1 { font-size: 30px; font-weight: 700; margin: 0; }
+  .sub .picon { margin-top: -2px; }
+  .sub { margin: 4px 0 0; color: var(--ink-soft); font-size: 15px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .chip-day { background: var(--sun); padding: 1px 6px; color: var(--ink); font-weight: 600; }
+  .iconbtn { width: 40px; height: 40px; background: var(--card); border: 0; display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; }
+  .live { width: 8px; height: 8px; background: #43a047; display: inline-block; }
+  .live.off { background: var(--red); }
+
+  main { flex: 1; padding: 0 18px 96px; }
+  section[hidden], header[hidden] { display: none; }
+
+  .tabs { display: flex; gap: 10px; overflow-x: auto; padding: 6px 4px 10px; scrollbar-width: none; }
+  .tabs button { flex: none; background: var(--card); border: 0; padding: 7px 12px; font-size: 15px; font-weight: 500; }
+  .tabs button.on { background: var(--green); color: #fff; }
+
+  .mapwrap { position: relative; margin: 8px 3px; background: var(--card); }
+  .mapwrap canvas { width: 100%; height: auto; cursor: pointer; }
+  .label { position: absolute; transform: translate(-50%, 0); background: #fffdf6; padding: 0 5px; font-size: 12px; font-weight: 600; white-space: nowrap; pointer-events: none;
+    box-shadow: 0 -2px 0 0 var(--line), 0 2px 0 0 var(--line), -2px 0 0 0 var(--line), 2px 0 0 0 var(--line); margin-top: 4px; }
+  .label.on { background: var(--sun); }
+
+  .card { background: var(--green-soft); margin: 18px 3px 0; padding: 14px 16px; }
+  .card .row { display: flex; gap: 12px; align-items: center; }
+  .card h3 { margin: 0; font-size: 18px; font-weight: 600; }
+  .card p { margin: 3px 0 0; color: var(--ink-soft); font-size: 14px; }
+  .flow { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 8px 0; border-top: 2px dashed #b9cfae; font-size: 15px; }
+  .flow:first-of-type { border-top: 0; }
+  .flow b { font-size: 18px; font-variant-numeric: tabular-nums; }
+  .tag { font-size: 11px; padding: 0 4px; color: #fff; margin-inline-end: 6px; }
+  .tag.in { background: var(--blue); } .tag.out { background: var(--green); }
+  .src { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .close { background: var(--card); border: 0; padding: 4px 10px; margin-inline-start: auto; }
+
+  /* Weather */
+  .wx { position: relative; margin: 0 -18px; }
+  .wx canvas { width: 100%; height: auto; }
+  .wx .top { position: absolute; top: 14px; left: 14px; right: 14px; display: flex; justify-content: center; }
+  .pill { background: #fffdf6; padding: 6px 12px; font-weight: 600; display: inline-flex; gap: 6px; align-items: center; }
+  .temp { position: absolute; top: 58px; inset-inline-start: 18px; text-shadow: 2px 2px 0 #ffffff99; }
+  .temp b { font-family: var(--head); font-size: 54px; line-height: 1; }
+  .temp sup { font-size: 20px; font-family: var(--head); }
+  .temp div { font-size: 20px; font-weight: 600; }
+  .modes { position: absolute; top: 158px; inset-inline-start: 18px; display: flex; gap: 4px; background: #fffdf6cc; padding: 5px; }
+  .modes button { width: 34px; height: 34px; border: 0; background: transparent; display: grid; place-items: center; }
+  .modes button.on { background: var(--green); }
+  .sheet { background: var(--card); margin: -16px -18px 0; padding: 22px 18px 18px; position: relative; }
+  .sheet::before { content: ''; position: absolute; top: 8px; left: 50%; width: 36px; height: 4px; margin-left: -18px; background: #d6cfbd; }
+  .sheet h2 { margin: 0; font-size: 21px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .badge { font-size: 12px; background: var(--green-soft); color: var(--green); padding: 2px 8px; display: inline-flex; gap: 5px; align-items: center; }
+  .sheet > p { margin: 4px 0 14px; color: var(--ink-soft); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tile { background: #fff; padding: 12px; min-height: 120px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; }
+  .tile .ic { position: absolute; top: 12px; inset-inline-start: 12px; width: 30px; height: 30px; display: grid; place-items: center; }
+  .tile canvas.spark { position: absolute; top: 14px; inset-inline-end: 12px; width: 64px; height: 24px; }
+  .tile small { color: var(--ink-soft); font-size: 13px; }
+  .tile b { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tile span { color: var(--ink-soft); font-size: 13px; }
+
+  /* Flows */
+  .ctrl { display: flex; gap: 10px; align-items: center; margin: 8px 3px 14px; background: var(--card); padding: 10px; }
+  .ctrl input { flex: 1; accent-color: var(--green); }
+  .ctrl b { font-family: var(--head); font-size: 14px; min-width: 76px; }
+  .group { background: var(--card); margin: 0 3px 18px; padding: 10px 14px; }
+  .group h3 { margin: 0 0 4px; font-size: 17px; }
+
+  nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #fffdf6; display: flex; justify-content: space-around; padding: 10px 0 16px; border-top: 3px solid var(--line); }
+  nav button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; color: var(--ink-soft); }
+  nav button.on { color: var(--ink); font-weight: 700; }
+  [dir=rtl] .flow { flex-direction: row-reverse; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <header id="hdr">
+    <div class="t">
+      <h1 id="title">Open Farm</h1>
+      <p class="sub" id="sub"></p>
+    </div>
+    <button class="iconbtn px" id="lang" aria-label="Switch language">ع</button>
+  </header>
+  <main>
+    <section id="s-farm">
+      <div class="tabs" id="tabs"></div>
+      <div class="mapwrap px" dir="ltr"><canvas id="map"></canvas><div id="labels"></div></div>
+      <div class="card px-soft" id="info"></div>
+    </section>
+    <section id="s-weather" hidden>
+      <div class="wx" dir="ltr">
+        <canvas id="wx"></canvas>
+        <div class="top"><span class="pill px" id="wxloc"></span></div>
+        <div class="temp"><b id="wxtemp"></b><sup>°C</sup><div id="wxcond"></div></div>
+        <div class="modes px" id="modes"></div>
+      </div>
+      <div class="sheet">
+        <h2><span id="wxh"></span><span class="badge"><span class="live"></span><span id="wxlive"></span></span></h2>
+        <p id="wxdate"></p>
+        <div class="grid" id="wxgrid"></div>
+        <p class="src" id="wxsrc" style="margin-top:14px"></p>
+      </div>
+    </section>
+    <section id="s-flows" hidden>
+      <div class="ctrl px-soft">
+        <button class="iconbtn" id="play" aria-label="Play"></button>
+        <input type="range" id="day" min="0" max="730" step="1">
+        <b id="daylbl"></b>
+      </div>
+      <div id="groups"></div>
+    </section>
+  </main>
+  <nav id="nav"></nav>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

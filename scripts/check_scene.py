@@ -9,7 +9,8 @@ valid refs). Swap for a full JSON Schema validator once a JS/TS toolchain exists
 import json
 import sys
 
-KINDS = {"hen", "coop", "plot", "crop", "rack", "tank", "panel"}
+KINDS = {"house", "plot", "pen", "pond", "storage", "coop", "rack", "tank", "panel", "crop", "hen", "cow", "goat", "sheep"}
+WEATHER = {"sunny", "cloudy", "windy", "rain", "rainbow"}
 
 
 def text_ok(t):
@@ -39,6 +40,24 @@ def check(scene):
         pos = e.get("pos")
         if not (isinstance(pos, list) and len(pos) == 3):
             errs.append(f"{eid}: pos must be [x, y, z]")
+        rect = (e.get("props") or {}).get("rect")
+        if rect is not None and not (isinstance(rect, list) and len(rect) == 4 and all(isinstance(v, int) and v >= 0 for v in rect)):
+            errs.append(f"{eid}: props.rect must be [x, y, w, h] tiles")
+
+    zones = {e.get("id") for e in scene.get("entities", []) if (e.get("props") or {}).get("rect")}
+    for e in scene.get("entities", []):
+        z = (e.get("props") or {}).get("zone")
+        if z is not None and z not in zones:
+            errs.append(f"{e.get('id')}: props.zone {z!r} is not a zone (needs props.rect)")
+
+    w = scene.get("weather")
+    if w is not None:
+        if w.get("condition") not in WEATHER:
+            errs.append(f"weather.condition must be one of {sorted(WEATHER)}")
+        if not isinstance(w.get("temp_c"), (int, float)):
+            errs.append("weather.temp_c must be a number")
+        if not str(w.get("source", "")).strip():
+            errs.append("weather: missing source (rule #1: no invented numbers)")
 
     for i, f in enumerate(scene.get("flows", [])):
         tag = f"flows[{i}]"
@@ -66,6 +85,11 @@ def demo():
     bad["entities"][0]["name"] = {"en": "Hen"}
     errs = check(bad)
     assert any("missing source" in e for e in errs) and any("name must" in e for e in errs), errs
+    bad2 = json.loads(json.dumps(good))
+    bad2["entities"][0]["props"] = {"zone": "nowhere"}
+    bad2["weather"] = {"condition": "sunny", "temp_c": 28}
+    errs = check(bad2)
+    assert any("is not a zone" in e for e in errs) and any("weather: missing source" in e for e in errs), errs
     print("demo ok")
 
 

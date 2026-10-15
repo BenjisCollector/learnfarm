@@ -36,12 +36,23 @@ Every name and label in a scene has English and Arabic (`{"en": "...", "ar": "..
 | 0 | Name, licenses, Scene JSON v0 ← **you are here** |
 | 1 | **Chicken MVP**: one hen, live input/output counters, in Claude Code |
 | 2 | Learning track: 8 lessons (soil, water, light, crops, animals, pests, vertical, money) |
+| 2.5 | **Farm Challenge**: a decision game. Multiple-choice situations, and the farm plays out the consequences |
 | 3 | Real models: Open-Meteo / NASA POWER climate, AquaCrop + WOFOST yields |
 | 4 | Planner + vertical farming module (capex, opex, payback, risks) |
 | 5 | Every agent + MCP Apps (in-chat UI) → v1.0 |
 | 6 | Region packs (GCC first) + community |
 
 The full research and plan are in [docs/OPEN-FARM-PLAN.md](docs/OPEN-FARM-PLAN.md). Decisions are logged in [DECISIONS.md](DECISIONS.md).
+
+## See it run
+
+```bash
+python3 -m http.server 5173
+```
+
+Open http://localhost:5173/viewer/ next to your agent. The viewer re-reads `examples/farm.scene.json` every second. Ask your agent to edit that file ("add 10 goats to the animal pen", "make it rain") and the pixel farm updates live. Load a different scene with `?scene=../examples/chicken.scene.json`.
+
+Three screens: **Farm** (a top-down map you can tap), **Weather** (an animated sky with 5 modes), and **Flows** (inputs and outputs with a play button that runs the days forward). English and Arabic come with RTL.
 
 ## The scene contract
 

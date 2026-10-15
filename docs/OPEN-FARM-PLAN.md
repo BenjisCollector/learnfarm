@@ -122,6 +122,15 @@ You ⇄ coding agent (Claude Code / Codex / Cursor / Gemini CLI)
 - Levels like caveman: `kid`, `hobby`, `pro`.
 - Exit: someone with no farming background finishes the track in about 2 hours.
 
+**Phase 2.5: Farm Challenge, the decision game (month 4)**
+- A test-your-knowledge simulator in the spirit of fast-food management games: you run the farm, and every few in-game days the sim presents a situation with multiple-choice answers. Example: "It's 41 °C and your hens are panting. Do you (a) add shade, (b) add fans and pad cooling, (c) cut feed, or (d) do nothing?"
+- Each choice changes the scene state (water use, eggs, deaths, money), and the consequences play out on the map over the following days. Good decisions compound and bad ones snowball.
+- At the end there's a score, a recap of each decision showing what happened and why (with the source), and the right answer explained.
+- Scenarios are plain JSON files: situation, choices, effects on flows, and the source for each effect. This lets the community add scenarios the same way they add region packs.
+- Scenarios cover each lesson topic: heat stress, water shortage, disease outbreak, price drop, crop choice, and vertical farm energy bill.
+- The agent can run it in chat ("quiz me"), and the viewer shows the farm reacting.
+- Exit: 10 scenarios, and a first-time player finishes a run in under 15 minutes and learns at least 3 things.
+
 **Phase 3: Real models (months 4–5)**
 - Location → Open-Meteo / NASA POWER climate.
 - AquaCrop-OSPy for water-limited crops, PCSE/WOFOST for field crops.

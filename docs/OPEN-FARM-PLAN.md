@@ -137,6 +137,12 @@ You ⇄ coding agent (Claude Code / Codex / Cursor / Gemini CLI)
 - SoilGrids through WCS.
 - Exit: the same tomato plot gives clearly different yields in Kuwait City and the Netherlands, with sources shown.
 
+**Phase 3.5: 3D pixel-art renderer (month 5)**
+- Swap the 2D canvas for a real 3D scene rendered as pixel art: Three.js drawing into a low-resolution target, upscaled with nearest-neighbour, with cel shading, pixel outlines and a fixed isometric camera that you can rotate in 90° steps. The reference style is the "3D pixel art" look made popular by t3ssel8r.
+- Same Scene JSON, same three screens. Only the renderer changes, which is why the scene is the contract.
+- Real lighting: a sun position from the location and time, long shadows in the evening, and heat haze on hot days.
+- Exit: the same demo farm looks clearly premium side by side with the 2D version, and holds 30 fps on a mid-range laptop.
+
 **Phase 4: Planner + vertical module (months 5–7)**
 - Intake interview: location, budget, space (m² or "a balcony"), water access, hours per week, goal (feed my family / side income / business).
 - Output: **three options** (for example, backyard hens + raised beds / a greenhouse / a container vertical farm), each with capex, monthly opex, expected output, payback period, and the top 3 risks.

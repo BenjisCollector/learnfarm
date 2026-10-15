@@ -11,3 +11,4 @@
 | 2026-10-15 | Scene JSON is the contract between agent and viewer | Lets us swap the agent host or the 3D renderer without touching the other side |
 | 2026-10-15 | Viewer is **pixel art on a 2D canvas**, not Three.js. Style follows a top-down farm map + animated weather scene reference | Flat pixel art doesn't need a 3D engine. Canvas is smaller, faster, and needs no build step. Three.js can return for an isometric view later |
 | 2026-10-15 | Added **Phase 2.5 Farm Challenge**: a multiple-choice decision game where the sim plays out each choice | Testing knowledge through consequences sticks better than quizzes, and it reuses the same scene and viewer |
+| 2026-10-15 | Target look is **3D pixel art** (Three.js low-res render + cel shading), built in Phase 3.5. The 2D canvas stays until then | Yousef wants a look that's taken seriously. 3D pixel art reads premium and distinctive, and the Scene JSON contract means only the renderer changes |

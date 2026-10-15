@@ -1,0 +1,15 @@
+{
+  "version": "0",
+  "title": { "en": "One laying hen", "ar": "دجاجة بيّاضة واحدة" },
+  "clock": { "day": 0, "speed": 10 },
+  "entities": [
+    { "id": "coop", "kind": "coop", "name": { "en": "Coop", "ar": "القنّ" }, "pos": [0, 0, 0] },
+    { "id": "hen-1", "kind": "hen", "name": { "en": "Hen", "ar": "دجاجة" }, "pos": [1, 0, 0.5], "props": { "breed": "commercial layer" } }
+  ],
+  "flows": [
+    { "entity": "hen-1", "direction": "in", "resource": { "en": "Feed", "ar": "علف" }, "unit": "kg", "per_day": 0.115, "source": "Commercial layer average while laying, 110-120 g/day (TODO: cite breed management guide)" },
+    { "entity": "hen-1", "direction": "in", "resource": { "en": "Water", "ar": "ماء" }, "unit": "L", "per_day": 0.23, "source": "Commercial layer average, 200-250 ml/day, about 2x feed weight (TODO: cite breed management guide)" },
+    { "entity": "hen-1", "direction": "out", "resource": { "en": "Eggs", "ar": "بيض" }, "unit": "eggs", "per_day": 0.76, "source": "About 330 eggs over about 434 laying days (weeks 18-80) (TODO: cite breed management guide)" },
+    { "entity": "hen-1", "direction": "out", "resource": { "en": "Manure", "ar": "سماد" }, "unit": "kg", "per_day": 0.12, "source": "Wet manure, 100-150 g/day (TODO: cite extension-service source)" }
+  ]
+}

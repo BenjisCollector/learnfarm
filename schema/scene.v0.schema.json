@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-farm/open-farm/schema/scene.v0.schema.json",
+  "title": "Open Farm Scene v0",
+  "description": "The contract between the agent (writes) and the viewer (renders). The agent edits scene state only; numbers in flows come from the engine and must cite a source.",
+  "type": "object",
+  "required": ["version", "clock", "entities", "flows"],
+  "additionalProperties": false,
+  "$defs": {
+    "text": {
+      "description": "Every user-facing string is bilingual.",
+      "type": "object",
+      "required": ["en", "ar"],
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "ar": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "version": { "const": "0" },
+    "title": { "$ref": "#/$defs/text" },
+    "location": {
+      "type": "object",
+      "required": ["lat", "lon"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+        "name": { "$ref": "#/$defs/text" }
+      },
+      "additionalProperties": false
+    },
+    "clock": {
+      "type": "object",
+      "required": ["day"],
+      "properties": {
+        "day": { "type": "integer", "minimum": 0, "description": "Simulation day; 0 = hatch / planting." },
+        "speed": { "type": "number", "minimum": 0, "description": "Sim days per real second in the viewer." }
+      },
+      "additionalProperties": false
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "name", "pos"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+          "kind": { "enum": ["hen", "coop", "plot", "crop", "rack", "tank", "panel"] },
+          "name": { "$ref": "#/$defs/text" },
+          "pos": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+          "props": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "flows": {
+      "description": "What goes in and comes out of an entity. Rendered as live counters.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entity", "direction", "resource", "unit", "per_day", "source"],
+        "properties": {
+          "entity": { "type": "string" },
+          "direction": { "enum": ["in", "out"] },
+          "resource": { "$ref": "#/$defs/text" },
+          "unit": { "type": "string" },
+          "per_day": { "type": "number", "minimum": 0 },
+          "source": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

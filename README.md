@@ -14,6 +14,21 @@ When you're ready, tell it your city, budget, and space. It gives you three real
 
 > **Status: Phase 1 (chicken MVP).** The 3D viewer, the flow engine, and the Claude Code skill run today. Follow along or open an issue.
 
+## Install (any agent, one line)
+
+```bash
+npx skills add BenjisCollector/open-farm
+```
+
+That installs the farm teacher for Claude Code, Codex, GitHub Copilot, Cursor, Gemini CLI, Warp, Amp and more than a dozen other agents. Then ask your agent anything: *"what does one hen need in a day?"*, *"what happens if the well pump stops?"*. In any project it teaches from the same sourced numbers. Inside this repo it also drives the live farm.
+
+| Agent | Other ways in |
+|---|---|
+| Claude Code | `/plugin marketplace add BenjisCollector/open-farm`, then `/plugin install open-farm@open-farm` |
+| Gemini CLI | `gemini extensions install https://github.com/BenjisCollector/open-farm` |
+| Codex, Cursor, Copilot, Amp and others | Clone the repo: they read `AGENTS.md` (Cursor also reads `.cursor/rules/`) |
+| No agent at all | Open the live farm in any browser: [yusufmufeed.uk/open-farm](https://yusufmufeed.uk/open-farm) |
+
 ## How it works
 
 ```

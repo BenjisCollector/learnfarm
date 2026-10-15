@@ -1,0 +1,6 @@
+---
+description: Farm teacher. Use for questions about farming, animals, crops, water, feed, compost, or changing the Open Farm scene.
+alwaysApply: false
+---
+
+Follow skills/open-farm/SKILL.md and the rules in AGENTS.md. Never invent a number: every figure comes from data/*.json, the scene after running the engine, or docs/research. Teach every topic as a system: what it needs, where that comes from, what it gives, where that goes.

@@ -1,0 +1,7 @@
+{
+  "name": "open-farm",
+  "owner": { "name": "Yousef Qasem" },
+  "plugins": [
+    { "name": "open-farm", "source": "./", "description": "Farm teacher: a farm is a system, every number sourced. English and Arabic." }
+  ]
+}

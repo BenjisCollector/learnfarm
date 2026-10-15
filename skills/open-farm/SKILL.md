@@ -43,6 +43,11 @@ The scene file is `examples/farm.scene.json` unless the user loaded another one
      `props.zone` set to a zone id (an entity with `props.rect`, such as `animals`).
    - Crops: a `plot` with `props.crop` and `props.area_m2`.
    - Time: `clock.day`.
+   - Stores (your settings, not facts): `stocks[].level`, `capacity`,
+     `refill_per_day` (the well pump, feed deliveries). Teach the system:
+     every area needs inputs from a store and gives outputs, and manure goes
+     to the compost heap that feeds the fields (`routes`). To show a shortage,
+     tell the user to switch a supply off in the System tab and press play.
    - Weather: `weather.condition`, one of `sunny`, `cloudy`, `windy`, `rain`,
      `rainbow`. Leave the other weather numbers alone, and add to
      `weather.source` that the condition was set on request (the rest is demo
@@ -51,11 +56,12 @@ The scene file is `examples/farm.scene.json` unless the user loaded another one
    `python3 -m engine.build examples/farm.scene.json`
 3. Run the check: `python3 scripts/check_scene.py examples/farm.scene.json`.
    Fix anything it reports before you answer.
-4. Tell the user what changed, using the new numbers from the scene, and point
-   them at the Farm, Weather, or Flows tab.
+4. Tell the user what changed, using the new numbers from the scene. Point them
+   at the map (tap the area), the Explore tab (what it needs and gives, and
+   where each comes from and goes), or the System tab (the whole loop and the
+   stores).
 
-Never write `per_day` by hand. If the engine has no data for something (for
-example corn today), say so and leave its flows empty rather than filling them.
+Never write `per_day` by hand. If the engine has no data for something, say so and leave its flows empty rather than filling them.
 
 ## Example
 

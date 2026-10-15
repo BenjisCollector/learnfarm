@@ -111,7 +111,8 @@
               "hen",
               "cow",
               "goat",
-              "sheep"
+              "sheep",
+              "compost"
             ]
           },
           "name": {
@@ -285,6 +286,105 @@
         "live": {
           "type": "boolean",
           "description": "true only when values come from a live data feed. The viewer hides the Weather screen otherwise."
+        }
+      }
+    },
+    "stocks": {
+      "type": "array",
+      "description": "Things the farm stores. level, capacity and refill_per_day are the user's settings, not sourced facts.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "unit",
+          "level"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "level": {
+            "type": "number",
+            "minimum": 0
+          },
+          "capacity": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "refill_per_day": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Daily supply from outside the farm (well pump, feed delivery)."
+          },
+          "supply": {
+            "$ref": "#/$defs/text"
+          },
+          "zone": {
+            "type": "string",
+            "description": "Map zone that holds this stock."
+          },
+          "convert": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Share of each routed output kept when it enters (e.g. manure that remains as compost)."
+          },
+          "convert_source": {
+            "type": "string"
+          },
+          "convert_range": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "convert_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "description": "Connect flows to stocks by resource name. An entity-specific route beats a general one.",
+      "items": {
+        "type": "object",
+        "required": [
+          "resource",
+          "direction",
+          "stock"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Matches flow.resource.en"
+          },
+          "direction": {
+            "enum": [
+              "in",
+              "out"
+            ]
+          },
+          "stock": {
+            "type": "string"
+          },
+          "entity": {
+            "type": "string"
+          }
         }
       }
     }

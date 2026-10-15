@@ -35,19 +35,18 @@ Every name and label in a scene has English and Arabic (`{"en": "...", "ar": "..
 
 ## Roadmap
 
-| Phase | What ships |
-|---|---|
-| 0 | Name, licenses, Scene JSON v0 |
-| 1 | **Chicken MVP**: one hen, live input/output counters, in Claude Code ← **you are here** |
-| 2 | Learning track: 8 lessons (soil, water, light, crops, animals, pests, vertical, money) |
-| 2.5 | **Farm Challenge**: a decision game. Multiple-choice situations, and the farm plays out the consequences |
-| 3 | Real models: Open-Meteo / NASA POWER climate, AquaCrop + WOFOST yields |
-| 3.5 | **3D pixel-art renderer**: Three.js at low resolution with cel shading. Same scene, premium look |
-| 4 | Planner + vertical farming module (capex, opex, payback, risks), with a map of who already farms indoors in Kuwait and Riyadh |
-| 5 | Every agent + MCP Apps (in-chat UI) → v1.0 |
-| 6 | Region packs (GCC first) + community |
+| Phase | What ships | Status |
+|---|---|---|
+| 0–1 | Foundations, sourced rate engine, first pixel viewer, website | ✅ |
+| **A** | **System engine**: stocks, links between parts (manure → compost → fields), shortages, sizes | ✅ |
+| **B** | **3D diorama**: 3D pixel-art farm with visible flows between parts | ⏳ |
+| **C** | **Learning path**: concept map, saved progress, adaptive lessons | 📋 |
+| D | Farm Challenge: the decision game | 📋 |
+| E | Real world: live weather, crop models, heat effects | 📋 |
+| F | Planner: your city, budget and space, including vertical farming | 📋 |
+| G | Launch: in-chat UI, Gulf region packs, community | 📋 |
 
-The full research and plan are in [docs/OPEN-FARM-PLAN.md](docs/OPEN-FARM-PLAN.md). Decisions are logged in [DECISIONS.md](DECISIONS.md).
+Details and "done when" for each phase: [ROADMAP.md](ROADMAP.md). Decisions are logged in [DECISIONS.md](DECISIONS.md).
 
 ## See it run
 
@@ -67,7 +66,7 @@ python3 -m engine.build examples/farm.scene.json
 
 `--check` exits 1 if any flow is stale, and `--demo` runs the self-check.
 
-Three screens: **Farm** (a top-down map you can tap), **Weather** (an animated sky with 5 modes), and **Flows** (inputs and outputs with a play button that runs the days forward). English and Arabic come with RTL.
+The map shows every area with its size, and moving dots show what travels between them (water, feed, manure, compost). **Explore** shows what any area needs each day, where it comes from, what it gives back, and where that goes. **System** shows the whole loop and the stores: switch the well pump off, press play, and watch the farm slow down. **How we know** explains every number. Works on phone and desktop, in English and Arabic.
 
 ## The scene contract
 

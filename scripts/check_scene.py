@@ -9,7 +9,7 @@ valid refs). Swap for a full JSON Schema validator once a JS/TS toolchain exists
 import json
 import sys
 
-KINDS = {"house", "plot", "pen", "pond", "storage", "coop", "rack", "tank", "panel", "crop", "hen", "cow", "goat", "sheep"}
+KINDS = {"house", "plot", "pen", "pond", "storage", "coop", "rack", "tank", "panel", "crop", "hen", "cow", "goat", "sheep", "compost"}
 WEATHER = {"sunny", "cloudy", "windy", "rain", "rainbow"}
 
 
@@ -49,6 +49,19 @@ def check(scene):
         z = (e.get("props") or {}).get("zone")
         if z is not None and z not in zones:
             errs.append(f"{e.get('id')}: props.zone {z!r} is not a zone (needs props.rect)")
+
+    stock_ids = set()
+    for st in scene.get("stocks", []):
+        if not text_ok(st.get("name")):
+            errs.append(f"stock {st.get('id')}: name must have non-empty en + ar")
+        if st.get("zone") and st["zone"] not in zones:
+            errs.append(f"stock {st.get('id')}: zone {st['zone']!r} is not a zone")
+        if st.get("convert") is not None and not str(st.get("convert_source", "")).strip():
+            errs.append(f"stock {st.get('id')}: convert needs convert_source (rule #1)")
+        stock_ids.add(st.get("id"))
+    for r in scene.get("routes", []):
+        if r.get("stock") not in stock_ids:
+            errs.append(f"route {r.get('resource')}: stock {r.get('stock')!r} does not exist")
 
     w = scene.get("weather")
     if w is not None:
@@ -90,6 +103,11 @@ def demo():
     bad2["weather"] = {"condition": "sunny", "temp_c": 28}
     errs = check(bad2)
     assert any("is not a zone" in e for e in errs) and any("weather: missing source" in e for e in errs), errs
+    bad3 = json.loads(json.dumps(good))
+    bad3["stocks"] = [{"id": "heap", "name": {"en": "Heap", "ar": "كومة"}, "unit": "kg", "level": 0, "convert": 0.5}]
+    bad3["routes"] = [{"resource": "Manure", "direction": "out", "stock": "nope"}]
+    errs = check(bad3)
+    assert any("convert needs convert_source" in e for e in errs) and any("does not exist" in e for e in errs), errs
     print("demo ok")
 
 

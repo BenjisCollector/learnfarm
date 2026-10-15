@@ -1,3 +1,4 @@
+// Not wired into the viewer: returns with live weather data in Phase E (ROADMAP.md).
 // Side-view pixel weather scene: sky, sun, clouds, windmills, barn, cows, field with sprinklers.
 import { C, rect, px, disc, ellipse, line, sprite, hash, SPR } from './pixel.js';
 

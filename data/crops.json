@@ -39,6 +39,24 @@
         "urls": [
           "https://fao.org/4/i2800e/i2800e.pdf"
         ]
+      },
+      {
+        "direction": "in",
+        "resource": {
+          "en": "Compost",
+          "ar": "كمبوست"
+        },
+        "unit": "kg",
+        "per_m2_season": 3.65,
+        "trust": "web",
+        "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season",
+        "range": [
+          2.44,
+          4.88
+        ],
+        "urls": [
+          "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
+        ]
       }
     ]
   },
@@ -80,6 +98,85 @@
         ],
         "urls": [
           "https://ccfruitandnuts.ucanr.edu/sites/default/files/2011-06/108156.pdf"
+        ]
+      },
+      {
+        "direction": "in",
+        "resource": {
+          "en": "Compost",
+          "ar": "كمبوست"
+        },
+        "unit": "kg",
+        "per_m2_season": 3.65,
+        "trust": "web",
+        "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season",
+        "range": [
+          2.44,
+          4.88
+        ],
+        "urls": [
+          "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
+        ]
+      }
+    ]
+  },
+  "corn": {
+    "season_days": 150,
+    "season_source": "FAO Irrigation Water Management, ch. 2 Table 4: grain maize total growing period 125-180 days; 150 used",
+    "rates": [
+      {
+        "direction": "in",
+        "resource": {
+          "en": "Water",
+          "ar": "ماء"
+        },
+        "unit": "L",
+        "per_m2_season": 650.0,
+        "trust": "web",
+        "source": "FAO Crop information, Maize: 'a medium maturity grain crop requires between 500 and 800 mm of water' (1 mm on 1 m2 = 1 L)",
+        "range": [
+          500,
+          800
+        ],
+        "urls": [
+          "https://www.fao.org/4/s2022e/s2022e07.htm",
+          "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/"
+        ]
+      },
+      {
+        "direction": "out",
+        "resource": {
+          "en": "Corn",
+          "ar": "ذرة"
+        },
+        "unit": "kg",
+        "per_m2_season": 0.75,
+        "trust": "web",
+        "source": "FAO Crop information, Maize: 'good commercial grain yield is 6 to 9 ton/ha' under irrigation (0.6-0.9 kg/m2 grain)",
+        "range": [
+          0.6,
+          0.9
+        ],
+        "urls": [
+          "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/"
+        ]
+      },
+      {
+        "direction": "in",
+        "resource": {
+          "en": "Compost",
+          "ar": "كمبوست"
+        },
+        "unit": "kg",
+        "per_m2_season": 3.65,
+        "trust": "web",
+        "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season",
+        "range": [
+          2.44,
+          4.88
+        ],
+        "urls": [
+          "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
         ]
       }
     ]

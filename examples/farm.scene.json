@@ -75,8 +75,8 @@
       "id": "vegetables",
       "kind": "plot",
       "name": {
-        "en": "Vegetables",
-        "ar": "خضار"
+        "en": "Lettuce",
+        "ar": "خس"
       },
       "pos": [
         5,
@@ -90,7 +90,8 @@
           9,
           9
         ],
-        "crop": "vegetables"
+        "crop": "lettuce",
+        "area_m2": 300
       }
     },
     {
@@ -112,7 +113,8 @@
           12,
           9
         ],
-        "crop": "corn"
+        "crop": "corn",
+        "area_m2": 600
       }
     },
     {
@@ -132,7 +134,7 @@
           1,
           21,
           13,
-          9
+          14
         ]
       }
     },
@@ -140,8 +142,8 @@
       "id": "water",
       "kind": "pond",
       "name": {
-        "en": "Water",
-        "ar": "الماء"
+        "en": "Well and tank",
+        "ar": "البئر والخزان"
       },
       "pos": [
         19,
@@ -161,8 +163,8 @@
       "id": "storage",
       "kind": "storage",
       "name": {
-        "en": "Storage",
-        "ar": "المخزن"
+        "en": "Feed store",
+        "ar": "مخزن العلف"
       },
       "pos": [
         19,
@@ -173,6 +175,27 @@
         "rect": [
           15,
           26,
+          8,
+          4
+        ]
+      }
+    },
+    {
+      "id": "compost",
+      "kind": "compost",
+      "name": {
+        "en": "Compost heap",
+        "ar": "كومة الكمبوست"
+      },
+      "pos": [
+        19,
+        33,
+        0
+      ],
+      "props": {
+        "rect": [
+          15,
+          31,
           8,
           4
         ]
@@ -272,6 +295,164 @@
         {
           "title": "https://fao.org/4/i2800e/i2800e.pdf",
           "url": "https://fao.org/4/i2800e/i2800e.pdf"
+        }
+      ]
+    },
+    {
+      "entity": "tomatoes",
+      "direction": "in",
+      "resource": {
+        "en": "Compost",
+        "ar": "كمبوست"
+      },
+      "unit": "kg",
+      "per_day": 18.25,
+      "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season; x 600 m2 / 120 days",
+      "range": [
+        12.2,
+        24.4
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370",
+          "url": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
+        }
+      ]
+    },
+    {
+      "entity": "vegetables",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 1185.333,
+      "source": "Arizona Extension AZ2144 (2025), Yuma: lettuce needs about 12-16 inches of water per acre (Sanchez et al. 2022); x 300 m2 / 90 days",
+      "range": [
+        1016.0,
+        1354.667
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://extension.arizona.edu/sites/default/files/2025-08/az2144-2025_Estimating-Crop-Evapotranspiration-Using-Lettuce-Crop-Coefficients-for-Irrigation-Scheduling-in-Yuma-Arizona.pdf",
+          "url": "https://extension.arizona.edu/sites/default/files/2025-08/az2144-2025_Estimating-Crop-Evapotranspiration-Using-Lettuce-Crop-Coefficients-for-Irrigation-Scheduling-in-Yuma-Arizona.pdf"
+        }
+      ]
+    },
+    {
+      "entity": "vegetables",
+      "direction": "out",
+      "resource": {
+        "en": "Lettuce",
+        "ar": "خس"
+      },
+      "unit": "kg",
+      "per_day": 10.256,
+      "source": "UC Cooperative Extension Imperial County (2000): naked pack iceberg 453-645 cartons/acre of 50 lb, 1995-1999; x 300 m2 / 90 days",
+      "range": [
+        8.462,
+        12.049
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://ccfruitandnuts.ucanr.edu/sites/default/files/2011-06/108156.pdf",
+          "url": "https://ccfruitandnuts.ucanr.edu/sites/default/files/2011-06/108156.pdf"
+        }
+      ]
+    },
+    {
+      "entity": "vegetables",
+      "direction": "in",
+      "resource": {
+        "en": "Compost",
+        "ar": "كمبوست"
+      },
+      "unit": "kg",
+      "per_day": 12.167,
+      "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season; x 300 m2 / 90 days",
+      "range": [
+        8.133,
+        16.267
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370",
+          "url": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
+        }
+      ]
+    },
+    {
+      "entity": "corn",
+      "direction": "in",
+      "resource": {
+        "en": "Water",
+        "ar": "ماء"
+      },
+      "unit": "L",
+      "per_day": 2600.0,
+      "source": "FAO Crop information, Maize: 'a medium maturity grain crop requires between 500 and 800 mm of water' (1 mm on 1 m2 = 1 L); x 600 m2 / 150 days",
+      "range": [
+        2000.0,
+        3200.0
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://www.fao.org/4/s2022e/s2022e07.htm",
+          "url": "https://www.fao.org/4/s2022e/s2022e07.htm"
+        },
+        {
+          "title": "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/",
+          "url": "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/"
+        }
+      ]
+    },
+    {
+      "entity": "corn",
+      "direction": "out",
+      "resource": {
+        "en": "Corn",
+        "ar": "ذرة"
+      },
+      "unit": "kg",
+      "per_day": 3.0,
+      "source": "FAO Crop information, Maize: 'good commercial grain yield is 6 to 9 ton/ha' under irrigation (0.6-0.9 kg/m2 grain); x 600 m2 / 150 days",
+      "range": [
+        2.4,
+        3.6
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/",
+          "url": "https://web.archive.org/web/20231227024803/https://www.fao.org/land-water/databases-and-software/crop-information/maize/en/"
+        }
+      ]
+    },
+    {
+      "entity": "corn",
+      "direction": "in",
+      "resource": {
+        "en": "Compost",
+        "ar": "كمبوست"
+      },
+      "unit": "kg",
+      "per_day": 14.6,
+      "source": "Kansas State University Extension MF3370 Using Compost: 50-100 lb per 100 sq ft (2.4-4.9 kg/m2), one application per season; x 600 m2 / 150 days",
+      "range": [
+        9.76,
+        19.52
+      ],
+      "trust": "web",
+      "links": [
+        {
+          "title": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370",
+          "url": "https://bookstore.ksre.ksu.edu/download/using-compost_MF3370"
         }
       ]
     },
@@ -542,6 +723,87 @@
           "url": "https://extension.usu.edu/agwastemanagement/files/How_Much_Manure_Revised_Red.pdf"
         }
       ]
+    }
+  ],
+  "stocks": [
+    {
+      "id": "tank",
+      "name": {
+        "en": "Water tank",
+        "ar": "خزان الماء"
+      },
+      "unit": "L",
+      "level": 30000,
+      "capacity": 40000,
+      "refill_per_day": 9000,
+      "zone": "water",
+      "supply": {
+        "en": "Well pump",
+        "ar": "مضخة البئر"
+      }
+    },
+    {
+      "id": "feedstore",
+      "name": {
+        "en": "Feed store",
+        "ar": "مخزن العلف"
+      },
+      "unit": "kg",
+      "level": 4000,
+      "capacity": 6000,
+      "refill_per_day": 135,
+      "zone": "storage",
+      "supply": {
+        "en": "Feed deliveries",
+        "ar": "توريد العلف"
+      }
+    },
+    {
+      "id": "heap",
+      "name": {
+        "en": "Compost heap",
+        "ar": "كومة الكمبوست"
+      },
+      "unit": "kg",
+      "level": 15000,
+      "capacity": 80000,
+      "zone": "compost",
+      "convert": 0.35,
+      "convert_range": [
+        0.2,
+        0.5
+      ],
+      "convert_urls": [
+        "https://pure.psu.edu/en/publications/mass-and-nutrient-losses-during-the-composting-of-dairy-manure-am/"
+      ],
+      "convert_source": "Penn State study of composting dairy manure: weight and volume fall by 50-80%, so 20-50% remains (0.35 used)"
+    }
+  ],
+  "routes": [
+    {
+      "resource": "Water",
+      "direction": "in",
+      "stock": "tank"
+    },
+    {
+      "resource": "Feed",
+      "direction": "in",
+      "stock": "feedstore"
+    },
+    {
+      "resource": "Feed (dry matter)",
+      "direction": "in",
+      "stock": "feedstore"
+    },
+    {
+      "resource": "Manure",
+      "direction": "out",
+      "stock": "heap"
+    },
+    {
+      "resource": "Compost",
+      "direction": "in",
+      "stock": "heap"
     }
   ]
 }

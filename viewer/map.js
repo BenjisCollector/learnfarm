@@ -8,7 +8,7 @@ const SIZE = { hen: [4, 4], cow: [9, 5], goat: [7, 4], sheep: [7, 4] };
 
 export function createMap(canvas) {
   const c = canvas.getContext('2d');
-  let zones = [], herds = [], selected = null, W = 192, H = 248;
+  let zones = [], herds = [], selected = null, W = 192, H = 248, links = [], status = {}, showLinks = true;
 
   function setScene(scene) {
     const ents = scene.entities || [];
@@ -172,6 +172,18 @@ export function createMap(canvas) {
       disc(c, z.x + 11, cy, 8, C.steelD); disc(c, z.x + 11, cy, 6, C.steelL); disc(c, z.x + 10, cy - 1, 2, C.white);
       rect(c, z.x + 19, cy, cx - z.x - 32, 2, C.greyD); // pipe
     },
+    compost(z, t) {
+      grassBase(z, C.grassL);
+      const cy = z.y + Math.round(z.h / 2) + 2;
+      for (const [dx, r] of [[10, 8], [24, 7], [38, 6]]) {
+        if (z.x + dx + r > z.x + z.w - 2) continue;
+        ellipse(c, z.x + dx, cy + 1, r, Math.ceil(r * 0.6), C.dirtD);
+        ellipse(c, z.x + dx, cy, r - 1, Math.ceil(r * 0.5), '#5b3a1e');
+        for (let i = 0; i < 4; i++) px(c, z.x + dx - 3 + i * 2, cy - 1 + (i % 2), C.dirt);
+        const s2 = (t >> 2) % 6; // steam: composting heats up
+        px(c, z.x + dx - 1, cy - r + 1 - s2, C.greyL); px(c, z.x + dx + 1, cy - r - 1 - s2, C.white);
+      }
+    },
     storage(z, t) {
       grassBase(z, C.grassL);
       const bx = z.x + 5, by = z.y + 5;
@@ -184,6 +196,31 @@ export function createMap(canvas) {
     },
   };
 
+  function point(id) {
+    if (id === 'market') return null;
+    const z = zones.find(z => z.e.id === id);
+    return z ? [z.x + z.w / 2, z.y + z.h / 2] : null;
+  }
+
+  // Each link: {from, to, color, on}. 'market' = off the right edge; 'outside' = in from the right edge.
+  function drawLinks(t) {
+    for (const [i, l] of links.entries()) {
+      let a = l.from === 'outside' ? null : point(l.from), b = point(l.to);
+      if (!a && b) a = [W - 1, b[1]];
+      if (a && !b && l.to === 'market') b = [W - 1, a[1]];
+      if (!a || !b) continue;
+      const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      for (let d = 0; d < len; d += 3) px(c, a[0] + (b[0] - a[0]) * d / len, a[1] + (b[1] - a[1]) * d / len, 'rgba(255,255,255,0.55)');
+      if (!l.on) continue;
+      for (let k = 0; k < 3; k++) {
+        const p = ((t * 0.9 + k * len / 3 + i * 7) % len) / len;
+        const x = a[0] + (b[0] - a[0]) * p, y = a[1] + (b[1] - a[1]) * p;
+        rect(c, x - 2, y - 2, 4, 4, 'rgba(0,0,0,0.35)');
+        rect(c, x - 1.5, y - 1.5, 3, 3, l.color);
+      }
+    }
+  }
+
   function frame(t) {
     background();
     for (const z of zones) (draw[z.e.kind] || ((z) => grassBase(z)))(z, t);
@@ -194,6 +231,10 @@ export function createMap(canvas) {
         ellipse(c, a.x + w / 2, a.y + SIZE[h.kind][1], Math.ceil(w / 2), 1, C.grassD);
         sprite(c, SPR[ANIMALS[h.kind]], SPR[ANIMALS[h.kind] + 'Pal'], a.x, a.y + a.peck, a.flip);
       }
+    }
+    if (showLinks) drawLinks(t);
+    for (const z of zones) if ((status[z.e.id] ?? 1) < 0.999) { // shortage: blinking red frame
+      if ((t >> 2) % 2) for (let x = z.x; x < z.x + z.w; x++) { px(c, x, z.y + 1, '#d32f2f'); px(c, x, z.y + z.h - 2, '#d32f2f'); }
     }
     if (selected) {
       const z = zones.find(z => z.e.id === selected);
@@ -209,6 +250,9 @@ export function createMap(canvas) {
     setScene,
     frame,
     select(id) { selected = id; },
+    setLinks(l) { links = l; },
+    setStatus(st) { status = st; },
+    showLinks(on) { showLinks = on; },
     hit(x, y) { return zones.find(z => x >= z.x && x < z.x + z.w && y >= z.y && y < z.y + z.h)?.e.id || null; },
     labels() { return zones.map(z => ({ id: z.e.id, name: z.e.name, left: (z.x + z.w / 2) / W * 100, top: (z.y + 1) / H * 100 })); },
     size() { return [W, H]; },

@@ -107,6 +107,8 @@ You ⇄ coding agent (Claude Code / Codex / Cursor / Gemini CLI)
 
 ## 4. Roadmap (about 12 months, part time)
 
+> **Superseded on 2026-10-15 by [ROADMAP.md](../ROADMAP.md)** (system engine first, then 3D diorama, then learning path). Kept below for the original reasoning.
+
 **Phase 0: Decisions (weeks 1–2)**
 - Name and domain, license (MIT for code, CC BY 4.0 for data and lessons), Scene JSON v0.
 - Exit: empty repo with README, schema, and a 30-second mock GIF.

@@ -3,6 +3,7 @@
 // and it changes the farm only through five checked actions. Two ways to talk to it:
 //   copy  - copy a ready prompt into any AI chat, paste the reply back; a ```json actions block is applied
 //   claude - your own Anthropic API key, called straight from this browser (stored only here)
+//   openai - any OpenAI-compatible chat endpoint: Ollama or LM Studio on your computer, OpenRouter, Groq, ...
 const SDK = 'https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@0.131.0/+esm';
 export const MODELS = [['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-sonnet-5-5', 'Claude Sonnet 5.5'], ['claude-haiku-5-5', 'Claude Haiku 5.5']];
 
@@ -41,12 +42,18 @@ const T = {
     key: 'Anthropic API key', keyNote: 'Stored only in this browser and sent only to api.anthropic.com. You pay Anthropic for what you use.', forget: 'Forget key', model: 'Model',
     copyBox: 'Copy the prompt in the box below into any AI, then paste the answer here.',
     copied: 'Prompt copied. Paste it into ChatGPT, Claude, Gemini or any AI, then paste the answer here.', paste: 'Paste the AI answer here', apply: 'Add answer',
+    oa: 'Use any OpenAI-compatible AI (Ollama, LM Studio, OpenRouter…)', oaModel: 'Model name, e.g. llama3.2', oaKey: 'API key (leave empty for a local AI)',
+    oaNote: 'Default address is Ollama on this computer. Pick a model that supports tools if you want it to change the farm.', oaNeed: 'Type the model name first.',
+    oaNet: 'Could not reach that address. If it is Ollama on this computer, check it is running and allows this site (OLLAMA_ORIGINS).',
     clear: 'Clear chat', thinking: 'Thinking…', applied: 'Changed', badKey: 'That key was rejected. Check it and try again.', net: 'Could not reach Anthropic. Check your connection.',
     rate: 'Too many requests right now. Wait a moment and try again.', refused: 'The model declined to answer that.', hello: 'Ask me why something happened, what a word means, or tell me to change something, like "add 6 hens" or "turn the pump off and skip 10 days".' },
   ar: { title: 'معلّم المزرعة', ph: 'اسأل أي شيء عن مزرعتك…', send: 'أرسل', how: 'كيف أجيبك؟', copy: 'انسخ سؤالًا إلى أي ذكاء اصطناعي (مجانًا)', claude: 'استخدم مفتاح Claude الخاص بي',
     key: 'مفتاح Anthropic API', keyNote: 'يُحفظ في هذا المتصفح فقط ويُرسل إلى api.anthropic.com فقط. أنت تدفع لـAnthropic حسب استخدامك.', forget: 'احذف المفتاح', model: 'النموذج',
     copyBox: 'انسخ النص في المربع أدناه إلى أي ذكاء اصطناعي، ثم الصق الجواب هنا.',
     copied: 'تم نسخ السؤال. الصقه في ChatGPT أو Claude أو Gemini أو أي ذكاء اصطناعي، ثم الصق الجواب هنا.', paste: 'الصق جواب الذكاء الاصطناعي هنا', apply: 'أضف الجواب',
+    oa: 'استخدم أي ذكاء اصطناعي متوافق مع OpenAI (Ollama أو LM Studio أو OpenRouter…)', oaModel: 'اسم النموذج، مثل llama3.2', oaKey: 'مفتاح API (اتركه فارغًا لذكاء اصطناعي محلي)',
+    oaNote: 'العنوان الافتراضي هو Ollama على هذا الجهاز. اختر نموذجًا يدعم الأدوات إذا أردته أن يغيّر المزرعة.', oaNeed: 'اكتب اسم النموذج أولًا.',
+    oaNet: 'تعذّر الوصول إلى هذا العنوان. إذا كان Ollama على هذا الجهاز، تأكد أنه يعمل ويسمح لهذا الموقع (OLLAMA_ORIGINS).',
     clear: 'امسح المحادثة', thinking: 'يفكّر…', applied: 'تم التغيير', badKey: 'المفتاح مرفوض. تحقّق منه وحاول مرة أخرى.', net: 'تعذّر الوصول إلى Anthropic. تحقّق من الاتصال.',
     rate: 'طلبات كثيرة الآن. انتظر قليلًا وحاول مرة أخرى.', refused: 'رفض النموذج الإجابة عن هذا.', hello: 'اسألني لماذا حدث شيء، أو ما معنى كلمة، أو اطلب تغييرًا مثل "أضف 6 دجاجات" أو "أوقف المضخة وتقدّم 10 أيام".' },
 };
@@ -74,13 +81,13 @@ export function actionsFrom(text) {
 export function createTeacher(ctx) {
   const st = { open: false, busy: false, pasting: false, ...ctx.store.get() }; // chat: [{role, content}] in API shape; ui: [{who, text}]
   st.chat ||= []; st.ui ||= []; st.provider ||= 'copy'; st.model ||= MODELS[0][0];
-  let key = ''; try { key = localStorage.getItem('lf-key') || ''; } catch {}
+  let key = '', oaKey = ''; try { key = localStorage.getItem('lf-key') || ''; oaKey = localStorage.getItem('lf-oakey') || ''; } catch {}
   const L = () => T[ctx.lang()], esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const save = () => ctx.store.set({ chat: st.chat, ui: st.ui, provider: st.provider, model: st.model });
+  const save = () => ctx.store.set({ chat: st.chat, oa: st.oa, ui: st.ui, provider: st.provider, model: st.model, oaUrl: st.oaUrl, oaModel: st.oaModel });
   const say = (who, text) => { st.ui.push({ who, text }); save(); draw(); };
   const turn = (q) => { const f = ctx.facts(); return { f, text: `[Farm now]\nlearner level: ${ctx.level()}\nlanguage: ${ctx.lang()}\n${f.text}\n\n[Learner]\n${q}` }; };
   const run = (a) => { const f = ctx.facts(), c = checkAction(a, f); return c.ok ? ctx.apply(a) : 'error: ' + c.text; };
-  const md = (s) => esc(s).replace(/```json[\s\S]*?```/g, '').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  const md = (s) => esc(s).replace(/\s*[—–]\s*/g, ', ').replace(/```json[\s\S]*?```/g, '').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
 
   async function askClaude(q) {
     const mod = await import(SDK), Anthropic = mod.default;
@@ -111,6 +118,35 @@ export function createTeacher(ctx) {
     save();
   }
 
+  // OpenAI-compatible /chat/completions with function tools. Own history (st.oa), same checked actions.
+  async function askOpenAI(q) {
+    st.oa ||= [];
+    const base = st.oa.length, url = (st.oaUrl || 'http://localhost:11434/v1').replace(/\/+$/, '') + '/chat/completions';
+    const tools = TOOLS.map((t) => ({ type: 'function', function: { name: t.name, description: t.description, parameters: t.input_schema } }));
+    st.oa.push({ role: 'user', content: turn(q).text });
+    for (let i = 0; i < 6; i++) {
+      let r;
+      try {
+        const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json', ...(oaKey ? { authorization: 'Bearer ' + oaKey } : {}) },
+          body: JSON.stringify({ model: st.oaModel, messages: [{ role: 'system', content: RULES }, ...st.oa], tools }) });
+        if (res.status === 401 || res.status === 403) throw new Error(L().badKey);
+        if (res.status === 429) throw new Error(L().rate);
+        if (!res.ok) throw new Error(`${res.status}: ${(await res.text()).slice(0, 200)}`);
+        r = (await res.json()).choices[0].message;
+      } catch (e) { st.oa.length = base; throw e instanceof TypeError ? new Error(L().oaNet) : e; }
+      st.oa.push({ role: 'assistant', content: r.content || '', ...(r.tool_calls?.length ? { tool_calls: r.tool_calls } : {}) });
+      if (r.content?.trim()) say('ai', r.content.trim());
+      if (!r.tool_calls?.length) return save();
+      for (const c of r.tool_calls) {
+        let args; try { args = typeof c.function.arguments === 'string' ? JSON.parse(c.function.arguments) : c.function.arguments; } catch { args = null; }
+        const out = args ? run({ type: c.function.name, ...args }) : 'error: arguments were not valid JSON';
+        if (!out.startsWith('error')) say('act', out);
+        st.oa.push({ role: 'tool', tool_call_id: c.id, content: out + '\n\n' + ctx.facts().text });
+      }
+    }
+    save();
+  }
+
   async function send(q) {
     if (!q.trim() || st.busy) return;
     say('me', q); ctx.sfx.msg();
@@ -119,9 +155,10 @@ export function createTeacher(ctx) {
       try { await navigator.clipboard.writeText(prompt); } catch { st.manual = prompt; }
       st.pasting = true; say('sys', st.manual ? L().copyBox : L().copied); return;
     }
-    if (!key) { st.keyOpen = true; return draw(); }
+    if (st.provider === 'claude' && !key) { st.keyOpen = true; return draw(); }
+    if (st.provider === 'openai' && !st.oaModel) { say('sys', L().oaNeed); return; }
     st.busy = true; draw();
-    try { await askClaude(q); ctx.sfx.msg(); } catch (e) { say('sys', e.message); ctx.sfx.soft(); }
+    try { await (st.provider === 'openai' ? askOpenAI(q) : askClaude(q)); ctx.sfx.msg(); } catch (e) { say('sys', e.message); ctx.sfx.soft(); }
     st.busy = false; draw();
   }
 
@@ -146,7 +183,12 @@ export function createTeacher(ctx) {
         ${st.provider === 'claude' ? `<div class="tkey">${key && !st.keyOpen ? `<span class="meta">••••${esc(key.slice(-4))}</span> <button class="btn sm" data-t="forget">${l.forget}</button>`
           : `<input type="password" id="tkey" placeholder="${l.key}" autocomplete="off"><button class="btn sm primary" data-t="savekey">OK</button>`}
           <label class="meta">${l.model} <select id="tmodel">${MODELS.map(([id, n]) => `<option value="${id}" ${st.model === id ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
-          <p class="meta">${l.keyNote}</p></div>` : ''}</div>
+          <p class="meta">${l.keyNote}</p></div>` : ''}
+        <label><input type="radio" name="prov" value="openai" ${st.provider === 'openai' ? 'checked' : ''}> ${l.oa}</label>
+        ${st.provider === 'openai' ? `<div class="tkey"><input id="oaurl" placeholder="http://localhost:11434/v1" value="${esc(st.oaUrl || '')}">
+          <input id="oamodel" placeholder="${l.oaModel}" value="${esc(st.oaModel || '')}">
+          <input type="password" id="oakey" placeholder="${l.oaKey}" value="${esc(oaKey)}" autocomplete="off">
+          <p class="meta">${l.oaNote}</p></div>` : ''}</div>
       <div class="tmsgs" id="tmsgs">${msgs || `<div class="msg sys">${l.hello}</div>`}${st.busy ? `<div class="msg sys">${l.thinking}</div>` : ''}</div>
       ${st.pasting ? `${st.manual ? `<textarea class="tmanual" readonly>${esc(st.manual)}</textarea>` : ''}<textarea id="tpaste" placeholder="${l.paste}"></textarea><button class="btn primary" data-t="paste">${l.apply}</button>` : ''}
       <form class="tform" id="tform"><input id="tq" placeholder="${l.ph}" autocomplete="off" ${st.busy ? 'disabled' : ''}><button class="btn primary" ${st.busy ? 'disabled' : ''}>${l.send}</button></form>
@@ -160,11 +202,14 @@ export function createTeacher(ctx) {
     if (t === 'forget') { key = ''; try { localStorage.removeItem('lf-key'); } catch {} draw(); }
     if (t === 'savekey') { key = ctx.el.querySelector('#tkey').value.trim(); st.keyOpen = false; try { localStorage.setItem('lf-key', key); } catch {} draw(); }
     if (t === 'paste') pasteReply(ctx.el.querySelector('#tpaste').value);
-    if (t === 'clear') { st.chat = []; st.ui = []; st.pasting = false; save(); draw(); }
+    if (t === 'clear') { st.chat = []; st.oa = []; st.ui = []; st.pasting = false; save(); draw(); }
   });
   ctx.el.addEventListener('change', (e) => {
     if (e.target.name === 'prov') { st.provider = e.target.value; save(); draw(); }
     if (e.target.id === 'tmodel') { st.model = e.target.value; save(); }
+    if (e.target.id === 'oaurl') { st.oaUrl = e.target.value.trim(); save(); }
+    if (e.target.id === 'oamodel') { st.oaModel = e.target.value.trim(); save(); }
+    if (e.target.id === 'oakey') { oaKey = e.target.value.trim(); try { localStorage.setItem('lf-oakey', oaKey); } catch {} }
   });
   ctx.el.addEventListener('submit', (e) => { e.preventDefault(); const i = ctx.el.querySelector('#tq'); const q = i.value; i.value = ''; send(q); });
   return { toggle() { st.open = !st.open; draw(); if (st.open) ctx.el.querySelector('#tq')?.focus(); }, draw, ask: (q) => { st.open = true; draw(); send(q); } };

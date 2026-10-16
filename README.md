@@ -69,7 +69,7 @@ Details and "done when" for each phase: [ROADMAP.md](ROADMAP.md). Decisions are 
 python3 -m http.server 5173
 ```
 
-Open http://localhost:5173/viewer/ to build your own farm in the browser: name it, answer five questions that set your level, pick 100 m² or 500 m², your crops and animals. It is saved in your browser, has learning tooltips, quiet sounds, and a farm teacher that wraps any AI (copy a prompt, or use your own Claude API key).
+Open http://localhost:5173/viewer/ to build your own farm in the browser: name it, answer five questions that set your level, pick 100 m² or 500 m², your crops and animals. It is saved in your browser, has learning tooltips, quiet sounds, and a farm teacher that wraps any AI (copy a prompt, use your own Claude API key, or any OpenAI-compatible AI such as Ollama). Have a Claude subscription? Run `node scripts/claude-bridge.mjs` and point the teacher at `http://localhost:8787/v1`.
 
 Or open http://localhost:5173/viewer/?scene=../examples/farm.scene.json next to Claude Code, opened in this repo. The viewer re-reads `examples/farm.scene.json` every second. Say "add 16 more hens and make it rain": the `learnfarm` skill ([skills/learnfarm/SKILL.md](skills/learnfarm/SKILL.md), linked into `.claude/skills/`) edits the scene, runs the engine, and the 3D farm updates within about a second. Load a different scene with `?scene=../examples/chicken.scene.json`.
 

@@ -136,7 +136,10 @@ export function createTeacher(ctx) {
       } catch (e) { st.oa.length = base; throw e instanceof TypeError ? new Error(L().oaNet) : e; }
       st.oa.push({ role: 'assistant', content: r.content || '', ...(r.tool_calls?.length ? { tool_calls: r.tool_calls } : {}) });
       if (r.content?.trim()) say('ai', r.content.trim());
-      if (!r.tool_calls?.length) return save();
+      if (!r.tool_calls?.length) { // no native tools: apply a ```json actions block, like copy mode
+        for (const a of actionsFrom(r.content)) { const out = run(a); say(out.startsWith('error') ? 'sys' : 'act', out); }
+        return save();
+      }
       for (const c of r.tool_calls) {
         let args; try { args = typeof c.function.arguments === 'string' ? JSON.parse(c.function.arguments) : c.function.arguments; } catch { args = null; }
         const out = args ? run({ type: c.function.name, ...args }) : 'error: arguments were not valid JSON';

@@ -14,7 +14,7 @@ where that goes, and what happens when an input runs out.
 ## Two modes
 
 **1. Inside the LearnFarm repo** (there is a `viewer/` and `examples/farm.scene.json`):
-a live farm reacts in the browser. The viewer at `http://localhost:5173/viewer/`
+a live farm reacts in the browser. The viewer at `http://localhost:5173/viewer/?scene=../examples/farm.scene.json`
 (start it with `python3 -m http.server 5173`) re-reads the scene file every
 second, so every edit you make shows up within about a second. Follow
 "Changing the farm" below.

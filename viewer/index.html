@@ -167,14 +167,100 @@
   .tour .row span { flex: 1; font-size: 12px; color: #b9c6b6; }
   .tour .btn { background: #fff; color: var(--ink); border: 0; }
   .tour .skip { background: transparent; color: #dfe7dc; border: 1px solid #55625a; }
+
+  /* header buttons, menu */
+  .hbtns { display: flex; gap: 8px; align-items: center; position: relative; flex-wrap: wrap; justify-content: flex-end; }
+  .btn.icon { width: 38px; padding: 0; justify-content: center; font-size: 16px; }
+  .btn.sm { height: 30px; font-size: 13px; padding: 0 10px; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  @media (max-width: 480px) { .hbtns { width: 100%; justify-content: flex-start; } #tourbtn { display: none; } }
+  .menu { position: absolute; top: 44px; inset-inline-end: 0; z-index: 30; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 6px; width: 260px; box-shadow: 0 12px 30px rgba(0,0,0,.15); }
+  .menu button { display: block; width: 100%; text-align: start; border: 0; background: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+  .menu button:hover { background: var(--green-2); }
+  .menu p { margin: 6px 10px 4px; line-height: 1.4; }
+
+  /* learning tooltips */
+  .tipword { text-decoration: underline dotted #9aa59a; text-underline-offset: 3px; cursor: help; }
+  .tipbox { position: fixed; z-index: 50; max-width: 260px; background: var(--ink); color: #fff; border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 28px rgba(0,0,0,.28); pointer-events: none; }
+  .tipbox p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.45; color: #e8efe6; }
+  .tpic { background: #f5f2ea; border-radius: 8px; padding: 6px; display: flex; justify-content: center; }
+  .fpic { display: inline-flex; align-items: center; gap: 6px; }
+  .fpic .pp { display: inline-flex; gap: 2px; }
+  .fpic .pa { color: var(--muted); font-weight: 700; }
+  .fpic .pm { background: var(--green-2); border-radius: 10px; padding: 3px; display: inline-flex; }
+
+  /* setup wizard */
+  body.wiz { overflow: hidden; }
+  .wizard { position: fixed; inset: 0; z-index: 40; background: var(--bg); overflow: auto; display: grid; place-items: start center; padding: 6vh 16px 24px; }
+  .wcard { width: 100%; max-width: 560px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+  .wcard h2 { font-size: 22px; margin: 6px 0 8px; line-height: 1.3; }
+  .wcard h3 { font-size: 15px; margin: 14px 0 6px; }
+  .wcard p { font-size: 15px; line-height: 1.55; color: #3b463c; margin: 4px 0; }
+  .wcard { position: relative; }
+  .wlang { position: absolute; top: 12px; inset-inline-end: 12px; border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 4px 10px; font-size: 13px; font-weight: 600; }
+  .wdots { display: flex; gap: 5px; margin: 0 80px 14px 0; }
+  [dir=rtl] .wdots { margin: 0 0 14px 80px; }
+  .wdots i { flex: 1; height: 4px; border-radius: 3px; background: #e6e0d2; }
+  .wdots i.on { background: var(--green); }
+  .wpic { display: flex; justify-content: center; background: #faf8f3; border-radius: 14px; padding: 14px; margin: 4px 0 10px; }
+  .winput { width: 100%; height: 48px; border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; font: inherit; font-size: 17px; margin-top: 12px; }
+  .winput:focus { outline: 2px solid var(--green); border-color: var(--green); }
+  .wopts { display: grid; gap: 8px; margin-top: 14px; }
+  .wopts.two { grid-template-columns: 1fr 1fr; }
+  .wopt { text-align: start; background: #faf8f3; border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 15px; font-weight: 500; display: flex; gap: 12px; align-items: center; }
+  .wopt:hover:not(:disabled) { border-color: #c9c1ad; }
+  .wopt.on { border-color: var(--green); background: var(--green-2); }
+  .wopt.good { border-color: #43a047; background: #e8f5e9; } .wopt.bad { border-color: var(--red); background: var(--red-2); }
+  .wopt:disabled { cursor: default; }
+  .wopt.big { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .wopt.big b { font-size: 22px; } .wopt.big span { font-size: 13px; color: var(--muted); }
+  .plotbox { display: block; width: calc(90px * var(--a)); aspect-ratio: 1; background: repeating-linear-gradient(45deg, #b8d6a4 0 6px, #a5c98e 6px 12px); border: 2px solid #7ea86a; border-radius: 4px; margin-top: 6px; }
+  .wopt.crop span { display: flex; flex-direction: column; gap: 2px; }
+  .wopt.crop small { color: var(--muted); font-size: 12.5px; line-height: 1.4; }
+  .wopt.crop .src1 { font-size: 11px; }
+  .wwhy { margin-top: 12px; background: var(--amber-2); color: #5a4300; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.55; }
+  .wwhy.good { background: var(--green-2); color: var(--green); }
+  .wnav { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+  .wnav .btn { height: 46px; padding: 0 20px; font-size: 15px; }
+  .wanim { display: grid; gap: 10px; margin-top: 14px; }
+  .arow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .arow b { flex: 1; min-width: 110px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: var(--card); min-width: 46px; height: 40px; font-weight: 600; font-size: 14px; color: var(--muted); }
+  .seg button.on { background: var(--green); color: #fff; }
+  .wcard .market div { display: flex; flex-direction: column; gap: 2px; }
+
+  /* farm teacher drawer */
+  .teacher { position: fixed; z-index: 35; inset-block: 12px; inset-inline-end: 12px; width: min(400px, calc(100vw - 24px)); background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.2); display: flex; flex-direction: column; padding: 14px; gap: 10px; }
+  .thead { display: flex; align-items: center; justify-content: space-between; font-size: 17px; }
+  .tprov { display: grid; gap: 6px; font-size: 13.5px; background: #faf8f3; border-radius: 12px; padding: 10px; }
+  .tprov label { display: flex; gap: 8px; align-items: center; }
+  .tkey { display: grid; gap: 6px; } .tkey input, .tkey select { height: 34px; border: 1px solid var(--line); border-radius: 8px; padding: 0 8px; font: inherit; min-width: 0; }
+  .tkey p { margin: 0; }
+  .tmsgs { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 8px; min-height: 120px; }
+  .msg { border-radius: 12px; padding: 9px 12px; font-size: 14.5px; line-height: 1.5; max-width: 92%; }
+  .msg.me { align-self: flex-end; background: var(--green); color: #fff; }
+  .msg.ai { align-self: flex-start; background: #f1ede3; }
+  .msg.sys { align-self: center; background: none; color: var(--muted); font-size: 13px; text-align: center; }
+  .msg.act { align-self: flex-start; background: var(--amber-2); color: #5a4300; font-size: 13.5px; }
+  .teacher textarea { width: 100%; min-height: 70px; border: 1px solid var(--line); border-radius: 10px; padding: 8px; font: inherit; font-size: 13px; resize: vertical; }
+  .tmanual { min-height: 50px !important; color: var(--muted); }
+  .tform { display: flex; gap: 8px; } .tform input { flex: 1; min-width: 0; height: 42px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; font: inherit; font-size: 15px; }
+  .linkbtn { border: 0; background: none; color: var(--muted); font-size: 12.5px; text-decoration: underline; align-self: center; }
 </style>
 </head>
 <body>
 <div class="app">
   <header>
     <div class="t"><h1 id="title">LearnFarm</h1><p class="sub" id="sub"></p></div>
-    <button class="btn" id="tourbtn"></button>
-    <button class="btn" id="lang" aria-label="Switch language">عربي</button>
+    <div class="hbtns">
+      <button class="btn primary" id="teachbtn"></button>
+      <button class="btn" id="tourbtn"></button>
+      <button class="btn icon" id="soundbtn" aria-label="Sound"></button>
+      <button class="btn icon" id="menubtn" aria-label="My farm" hidden><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button class="btn" id="lang" aria-label="Switch language">عربي</button>
+      <div class="menu" id="menu" hidden></div>
+    </div>
   </header>
   <div class="layout">
     <div>
@@ -200,6 +286,9 @@
   </div>
 </div>
 <div class="tour" id="tour" hidden></div>
+<aside class="teacher" id="teacher" hidden></aside>
+<div class="wizard" id="wizard" hidden></div>
+<input type="file" id="importfile" accept=".json,application/json" hidden>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
 <script type="module" src="app.js"></script>
 </body>

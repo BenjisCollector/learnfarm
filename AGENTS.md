@@ -14,7 +14,9 @@ When the user asks about farming, animals, crops, water, feed, eggs, milk, compo
 ## See it
 
 ```bash
-python3 -m http.server 5173   # then open http://localhost:5173/viewer/
+python3 -m http.server 5173   # then open http://localhost:5173/viewer/?scene=../examples/farm.scene.json
 ```
 
-Tests: `node engine/sim.test.mjs`, `python3 -m engine.build --demo`, `python3 scripts/check_scene.py --demo`.
+Without `?scene=` the viewer opens the in-browser farm builder instead (saved in localStorage; `engine/rates.js` is the JS twin of `engine/build.py`).
+
+Tests: `node engine/sim.test.mjs`, `node engine/rates.test.mjs`, `node engine/farm.test.mjs`, `python3 -m engine.build --demo`, `python3 scripts/check_scene.py --demo`.

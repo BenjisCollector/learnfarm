@@ -6,14 +6,21 @@ import { createMap } from './map.js';
 import { simulate, totalsUpTo, routeFor } from '../engine/sim.js';
 import { renderLoop } from './system.js';
 import { UI, KIND, GLOSSARY, TOUR, RES, METHOD } from './copy.js';
+import { loadData } from '../engine/rates.js';
+import { wizard, makeScene, LEVEL_NAME } from './setup.js';
+import { tip, initTips } from './tips.js';
+import { sfx, soundOn, setSound } from './sound.js';
+import { createTeacher } from './teacher.js';
 
-const SCENE_URL = new URLSearchParams(location.search).get('scene') || '../examples/farm.scene.json';
+// Two modes. ?scene=file: an agent edits that file and this view follows it (polls every second).
+// No ?scene: you build your own farm in the browser, and it is saved here (localStorage 'lf-farm').
+const SCENE_URL = new URLSearchParams(location.search).get('scene');
 const ANIMALS = new Set(['hen', 'cow', 'goat', 'sheep']);
 const MAX_DAY = 730, TENNIS_M2 = 260.9; // ITF doubles court, 23.77 m x 10.97 m
 const SPEEDS = [1, 7, 30];
 
 const $ = (id) => document.getElementById(id);
-const st = { scene: null, raw: '', lang: 'en', tab: 'explore', sel: null, day: 0, playing: false, speed: 7, changes: [], links: true, tour: null, sim: null };
+const st = { setup: null, data: null, scene: null, raw: '', lang: 'en', tab: 'explore', sel: null, day: 0, playing: false, speed: 7, changes: [], links: true, tour: null, sim: null };
 const map = createMap($('map'), { onView: () => st.scene && updateMap() });
 
 const t = () => UI[st.lang];
@@ -38,6 +45,21 @@ const stockWord = (stock) => {
   return st.lang === 'ar' ? w : w.toLowerCase();
 };
 const supplyOn = (id, day = st.day) => { let on = true; for (const c of st.changes) if (c.stock === id && c.day <= day) on = c.supply; return on; };
+
+const level = () => st.setup?.level || 'hobby';
+const SAVE = 'lf-farm';
+const load = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+const saveFarm = () => st.setup && store(SAVE, { v: 1, setup: st.setup, changes: st.changes, day: st.day, sel: st.sel });
+
+// Build (or rebuild) the scene from the setup, keeping only supply changes for stores that still exist.
+function rebuild() {
+  st.scene = makeScene(st.setup, st.data);
+  st.changes = st.changes.filter((c) => st.scene.stocks.some((s) => s.id === c.stock));
+  if (st.sel && !ent(st.sel)) st.sel = null;
+  map.setScene(st.scene); mapDeadKey = '';
+  runSim(); render(); saveFarm();
+}
 
 function runSim() {
   st.sim = simulate(st.scene, { days: MAX_DAY, changes: st.changes });
@@ -93,7 +115,7 @@ function updateMap() {
     map.setScene({ ...st.scene, entities: ents().filter((e) => !(r?.dead?.[e.id] && ANIMALS.has(e.kind))) });
   }
   const add = (from, to, res, on) => { const k = from + '>' + to + '>' + res; if (!seen.has(k)) { seen.add(k); links.push({ from, to, color: resColor(res), on }); } };
-  for (const s of st.scene.stocks || []) if (s.refill_per_day && s.zone) add('outside', s.zone, s.unit === 'L' ? 'Water' : 'Feed', supplyOn(s.id));
+  for (const s of st.scene.stocks || []) if (s.refill_per_day && s.zone) add('outside', s.zone, (st.scene.routes || []).find((x) => x.stock === s.id && x.direction === 'in')?.resource || 'Water', supplyOn(s.id));
   for (const f of st.scene.flows || []) {
     const e = ent(f.entity), stock = routeFor(st.scene, f), s = stock && stockById(stock), on = (r?.factor[f.entity] ?? 1) > 0;
     if (!e) continue;
@@ -138,14 +160,14 @@ function flowItem(f, pace) {
   const amt = f.per_day * pace, n = ent(f.entity)?.props?.count;
   const [ph, pu] = n > 1 ? perHead(amt / n, f.unit) : [];
   const one = n > 1 ? `<div class="w num">${st.lang === 'ar' ? 'لكل رأس' : 'each animal'}: ${fmt(ph)} ${unit(pu)}</div>` : '';
-  return `<div class="item"><div class="r">${sprite(f.resource.en, 18) || `<i style="background:${resColor(f.resource.en)}"></i>`}${esc(tx(f.resource))}<span class="amt">${fmt(amt)} ${unit(f.unit)}</span></div>
+  return `<div class="item"><div class="r">${sprite(f.resource.en, 18) || `<i style="background:${resColor(f.resource.en)}"></i>`}<span class="tipword"${tip(f.resource.en)}>${esc(tx(f.resource))}</span><span class="amt">${fmt(amt)} ${unit(f.unit)}</span></div>
     ${one}<div class="w">${whereText(f)}</div></div>`;
 }
 
 function sourcesBlock(flows) {
   const rows = flows.map((f) => {
     const urls = (f.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(new URL(l.url).hostname.replace(/^www\./, ''))}${svg('external', 11)}</a>`).join('');
-    return `<div class="src"><b>${esc(tx(f.resource))}</b>: <span class="num">${f.range ? `${t().range} ${fmt(f.range[0])}–${fmt(f.range[1])} ${unit(f.unit)} ${t().perDay}` : ''}</span>
+    return `<div class="src"><b>${esc(tx(f.resource))}</b>: <span class="num"${tip('range')}>${f.range ? `${t().range} ${fmt(f.range[0])}–${fmt(f.range[1])} ${unit(f.unit)} ${t().perDay}` : ''}</span>
       ${f.trust ? `<span class="trust ${f.trust}">${f.trust === 'web' ? t().trustWeb : t().trustAi}</span>` : ''}<br>${esc(f.source)}<br>${urls}</div>`;
   }).join('');
   return rows ? `<details><summary>${t().sources}</summary>${rows}</details>` : '';
@@ -165,9 +187,9 @@ function stockBlock(s) {
   for (const f of st.scene.flows || []) if (f.direction === 'out' && routeFor(st.scene, f) === s.id) gain += f.per_day * (s.convert ?? 1);
   const net = (s.refill_per_day && supplyOn(s.id) ? s.refill_per_day : 0) + gain - need;
   const days = net >= 0 ? Infinity : Math.floor(level / -net);
-  return `<div class="stock"><div class="top"><b>${esc(tx(s.name))}</b>${s.refill_per_day ? `<label class="switch">${esc(tx(s.supply))}: <input type="checkbox" data-supply="${s.id}" ${supplyOn(s.id) ? 'checked' : ''}><span>${supplyOn(s.id) ? t().supplyOn : t().supplyOff}</span></label>` : ''}</div>
+  return `<div class="stock"><div class="top"><b class="tipword"${tip('stock')}>${esc(tx(s.name))}</b>${s.refill_per_day ? `<label class="switch">${esc(tx(s.supply))}: <input type="checkbox" data-supply="${s.id}" ${supplyOn(s.id) ? 'checked' : ''}><span>${supplyOn(s.id) ? t().supplyOn : t().supplyOff}</span></label>` : ''}</div>
     <div class="bar ${pct < 15 ? 'low' : ''}"><i style="width:${pct.toFixed(1)}%"></i></div>
-    <div class="meta num">${level <= 0.5 ? `<b style="color:var(--red)">${t().empty}</b>` : `${fmt(level)} / ${fmt(s.capacity)} ${unit(s.unit)} · ${t().daysLeft(days)}`} <span class="pill">${t().setting}</span></div></div>`;
+    <div class="meta num">${level <= 0.5 ? `<b style="color:var(--red)">${t().empty}</b>` : `${fmt(level)} / ${fmt(s.capacity)} ${unit(s.unit)} · ${t().daysLeft(days)}`} <span class="pill"${tip('setting')}>${t().setting}</span></div></div>`;
 }
 
 function areaCard(zid) {
@@ -187,10 +209,10 @@ function areaCard(zid) {
     const status = deadEv
       ? `<div class="status dead">${t().died(fmt(deadEv.day), stockWord(deadEv.stock), e.kind === 'plot')}</div><p class="meta">${t().diedWhy}</p>`
       : pace < 0.999
-      ? `<div class="status warn">${t().shortOf(stockWord(limit?.stock), fmt(pace * 100, 0))}${without >= 0.5 ? `<br>${t().without(fmt(without, 0), stockWord(limit?.stock))}` : ''}</div>`
+      ? `<div class="status warn"${tip('short')}>${t().shortOf(stockWord(limit?.stock), fmt(pace * 100, 0))}${without >= 0.5 ? `<br>${t().without(fmt(without, 0), stockWord(limit?.stock))}` : ''}</div>`
       : `<div class="status">${t().working}</div>`;
     const lims = (st.scene.survival || []).filter((l) => l.entity === e.id);
-    const lasts = lims.length ? `<details class="lasts"><summary>${t().lasts}</summary>${lims.map((l) => `<div class="src"><b>${t().lastsLine(esc(resName(l.resource)), fmt(l.days))}</b> <span class="num">(${t().range} ${fmt(l.range?.[0] ?? l.days)}–${fmt(l.range?.[1] ?? l.days)})</span><br><span class="trust ${l.basis === 'lethal' ? 'web' : 'ai_report'}">${t().basis[l.basis] || ''}</span><br>${esc(l.source)}<br>${(l.links || []).map((k) => `<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(new URL(k.url).hostname.replace(/^www\./, ''))}${svg('external', 11)}</a>`).join('')}</div>`).join('')}</details>` : '';
+    const lasts = lims.length ? `<details class="lasts"><summary><span class="tipword"${tip('lasts')}>${t().lasts}</span></summary>${lims.map((l) => `<div class="src"><b>${t().lastsLine(esc(resName(l.resource)), fmt(l.days))}</b> <span class="num">(${t().range} ${fmt(l.range?.[0] ?? l.days)}–${fmt(l.range?.[1] ?? l.days)})</span><br><span class="trust ${l.basis === 'lethal' ? 'web' : 'ai_report'}">${t().basis[l.basis] || ''}</span><br>${esc(l.source)}<br>${(l.links || []).map((k) => `<a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(new URL(k.url).hostname.replace(/^www\./, ''))}${svg('external', 11)}</a>`).join('')}</div>`).join('')}</details>` : '';
     const title = members.length > 1 || ANIMALS.has(e.kind) ? `<h3>${esc(tx(e.name))}${e.props?.count ? ` <span class="meta num">· ${fmt(e.props.count)}</span>` : ''}</h3>` : '';
     return `<div class="group">${title}${status}<div class="proc">
       <div class="col"><h4>${t().needs}</h4>${ins.map((f) => flowItem(f, r && routeFor(st.scene, f) ? r.share[routeFor(st.scene, f)] ?? 1 : 1)).join('')}</div>
@@ -198,7 +220,7 @@ function areaCard(zid) {
       <div class="col"><h4>${t().gives}</h4>${outs.map((f) => flowItem(f, pace)).join('')}</div></div>${lasts}</div>`;
   }).join('');
   const area = z.props?.area_m2;
-  const size = area ? `${fmt(area)} ${t().m2} · ${t().tennis(fmt(area / TENNIS_M2, 1))} <span class="pill">${t().setting}</span>` : sizeText(z) ? `${esc(sizeText(z))} <span class="pill">${t().setting}</span>` : '';
+  const size = area ? `${fmt(area)} ${t().m2} · ${t().tennis(fmt(area / TENNIS_M2, 1))} <span class="pill"${tip('setting')}>${t().setting}</span>` : sizeText(z) ? `${esc(sizeText(z))} <span class="pill"${tip('setting')}>${t().setting}</span>` : '';
   return `<div class="card"><div class="zhead"><div class="t"><h2>${zoneSprites(z, ents(), 26)} ${esc(tx(z.name))}</h2><div class="size num">${size}</div></div>
       <button class="xbtn" id="close" aria-label="Close">${svg('close', 16)}</button></div>
     <p class="lead"><b>${what}</b> ${why}</p>
@@ -233,7 +255,7 @@ function systemPanel() {
     byRes[k] = byRes[k] || { amt: 0, unit: f.unit, name: tx(f.resource) };
     byRes[k].amt += totals[f.entity]?.[k] || 0;
   }
-  return `<div class="card"><h2>${t().loopTitle}</h2><p class="meta">${t().loopSub}</p><div class="loopwrap" id="loop"></div></div>
+  return `<div class="card"><h2 class="tipword"${tip('loop')}>${t().loopTitle}</h2><p class="meta">${t().loopSub}</p><div class="loopwrap" id="loop"></div></div>
     <div class="card"><h2>${t().stocksTitle}</h2><p class="meta" style="margin-bottom:10px">${t().stocksSub}</p>${(st.scene.stocks || []).map(stockBlock).join('')}</div>
     <div class="card"><h2>${t().eventsTitle}</h2>${eventLines()}</div>
     <div class="card"><h2>${t().marketTitle}</h2><div class="market">${Object.values(byRes).map((v) => `<div><b class="num">${fmt(v.amt)}</b><span>${unit(v.unit)} · ${esc(v.name)}</span></div>`).join('')}</div></div>`;
@@ -269,7 +291,14 @@ function render() {
   document.documentElement.lang = st.lang;
   document.documentElement.dir = st.lang === 'ar' ? 'rtl' : 'ltr';
   $('title').textContent = tx(st.scene.title) || 'LearnFarm';
-  $('sub').innerHTML = `${svg('pin', 15)}<span>${esc(tx(st.scene.location?.name))}</span>`;
+  $('sub').innerHTML = st.setup ? `<span class="num">${fmt(st.setup.plot)} ${t().m2} · ${LEVEL_NAME[st.lang][level()]}</span>` : `${svg('pin', 15)}<span>${esc(tx(st.scene.location?.name))}</span>`;
+  $('soundbtn').innerHTML = svg(soundOn() ? 'sound' : 'mute', 18);
+  $('soundbtn').title = st.lang === 'ar' ? 'الصوت' : 'Sound';
+  $('teachbtn').innerHTML = `${svg('method', 16)}<span>${st.lang === 'ar' ? 'المعلّم' : 'Teacher'}</span>`;
+  $('menubtn').title = st.lang === 'ar' ? 'مزرعتي' : 'My farm';
+  $('menubtn').hidden = !st.setup;
+  renderMenu();
+  teacher.draw();
   $('lang').innerHTML = st.lang === 'en' ? `<span>عربي</span>${FLAG.ar}` : `<span>English</span>${FLAG.en}`;
   $('tourbtn').innerHTML = `${svg('hand', 16)}${t().tour}`;
   $('linkslbl').textContent = t().connections;
@@ -281,7 +310,7 @@ function render() {
   renderTour();
 }
 
-function select(zid) { st.sel = zid; st.tab = 'explore'; map.select(zid); render(); if (innerWidth < 1000) $('tabs').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function select(zid) { if (zid) sfx.tap(); st.sel = zid; st.tab = 'explore'; saveFarm(); map.select(zid); render(); if (innerWidth < 1000) $('tabs').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 
 function renderTour() {
   const el = $('tour');
@@ -295,8 +324,10 @@ function renderTour() {
 // ---------- events ----------
 document.addEventListener('click', (e) => {
   const z = e.target.closest('[data-zone]'); if (z) return select(z.dataset.zone);
-  const tb = e.target.closest('[data-tab]'); if (tb) { st.tab = tb.dataset.tab; return render(); }
-  const sp = e.target.closest('[data-speed]'); if (sp) { st.speed = +sp.dataset.speed; return renderTime(); }
+  const tb = e.target.closest('[data-tab]'); if (tb) { st.tab = tb.dataset.tab; sfx.page(); return render(); }
+  const sp = e.target.closest('[data-speed]'); if (sp) { st.speed = +sp.dataset.speed; sfx.tap(); return renderTime(); }
+  const mi = e.target.closest('[data-menu]'); if (mi) return menuAction(mi.dataset.menu);
+  if (!e.target.closest('#menu,#menubtn')) $('menu').hidden = true;
   const to = e.target.closest('[data-tour]');
   if (to) {
     if (to.dataset.tour === 'next' && st.tour < TOUR.en.length - 1) st.tour++;
@@ -311,7 +342,8 @@ document.addEventListener('change', (e) => {
   st.changes = st.changes.filter((c) => !(c.stock === s.dataset.supply && c.day === st.day));
   st.changes.push({ day: st.day, stock: s.dataset.supply, supply: s.checked });
   st.changes.sort((a, b) => a.day - b.day);
-  runSim(); render();
+  s.checked ? sfx.tap() : sfx.warn();
+  runSim(); render(); saveFarm();
 });
 $('map').onclick = (e) => {
   const r = e.target.getBoundingClientRect(), [W, H] = map.size();
@@ -321,8 +353,87 @@ $('map').onclick = (e) => {
 $('links').onchange = (e) => { st.links = e.target.checked; updateMap(); };
 $('lang').onclick = () => { st.lang = st.lang === 'en' ? 'ar' : 'en'; try { localStorage.setItem('of-lang', st.lang); } catch {} render(); };
 $('tourbtn').onclick = () => { st.tour = 0; renderTour(); };
-$('day').oninput = (e) => { st.day = +e.target.value; st.playing = false; render(); };
-$('play').onclick = () => { st.playing = !st.playing; if (st.playing && st.day >= MAX_DAY) st.day = 0; renderTime(); };
+$('day').oninput = (e) => { st.day = +e.target.value; st.playing = false; render(); saveFarm(); };
+$('play').onclick = () => { st.playing = !st.playing; if (st.playing && st.day >= MAX_DAY) st.day = 0; sfx.tap(); renderTime(); };
+$('soundbtn').onclick = () => { setSound(!soundOn()); render(); };
+$('teachbtn').onclick = () => { sfx.tap(); teacher.toggle(); };
+$('menubtn').onclick = () => { sfx.tap(); $('menu').hidden = !$('menu').hidden; };
+$('importfile').onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = '';
+  try {
+    const j = JSON.parse(await f.text());
+    if (!j.setup?.plot || !Array.isArray(j.setup.crops)) throw 0;
+    st.setup = j.setup; st.changes = j.changes || []; st.day = Math.min(MAX_DAY, j.day || 0); st.sel = null;
+    sfx.build(); rebuild();
+  } catch { alert(st.lang === 'ar' ? 'هذا ليس ملف مزرعة من ليرن فارم.' : 'That is not a LearnFarm farm file.'); }
+};
+
+// ---------- my farm menu: start over, export, import ----------
+function renderMenu() {
+  const ar = st.lang === 'ar';
+  $('menu').innerHTML = [['new', ar ? 'ابدأ مزرعة جديدة' : 'Start a new farm'], ['export', ar ? 'نزّل ملف المزرعة' : 'Download farm file'], ['import', ar ? 'افتح ملف مزرعة' : 'Open a farm file']]
+    .map(([k, l]) => `<button data-menu="${k}">${l}</button>`).join('') + `<p class="meta">${ar ? 'مزرعتك محفوظة في هذا المتصفح. الملف يحمل مزرعتك إلى جهاز آخر أو إلى وكيل ذكاء اصطناعي.' : 'Your farm is saved in this browser. The file takes it to another device, or to an AI agent.'}</p>`;
+}
+function menuAction(k) {
+  $('menu').hidden = true; sfx.tap();
+  if (k === 'new') startWizard(true);
+  if (k === 'import') $('importfile').click();
+  if (k === 'export') {
+    const blob = new Blob([JSON.stringify({ learnfarm: 1, setup: st.setup, changes: st.changes, day: st.day, scene: st.scene }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = (st.setup.name || 'farm').replace(/[^\p{L}\p{N}]+/gu, '-') + '.learnfarm.json'; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+}
+
+// ---------- the setup wizard ----------
+let wiz;
+function startWizard(canResume) {
+  const el = $('wizard');
+  el.hidden = false; document.body.classList.add('wiz');
+  wiz = wizard(el, { lang: () => st.lang, toggleLang: () => $('lang').click(), data: st.data, fmt, unit, sfx, saved: canResume && !!st.setup, onDone(setup) {
+    el.hidden = true; document.body.classList.remove('wiz'); wiz = null;
+    if (setup) { st.setup = setup; st.changes = []; st.day = 0; st.sel = null; st.tour = setup.level === 'pro' ? null : 0; rebuild(); }
+  } });
+  wiz.draw();
+}
+
+// ---------- the farm teacher (LLM) ----------
+function farmFacts() {
+  const r = rec(), lines = [];
+  if (st.setup) lines.push(`farm: ${st.setup.name}; plot ${st.setup.plot} m2 (setting); crops ${ents().filter((e) => e.props?.crop).map((e) => `${e.props.crop} ${e.props.area_m2} m2`).join(', ')} (setting); animals ${Object.entries(st.setup.animals).map(([k, n]) => `${k} ${n}`).join(', ')} (setting)`);
+  lines.push(`day: ${st.day} of ${MAX_DAY}`);
+  lines.push('zones: ' + ents().filter((e) => e.props?.rect).map((e) => `${e.id} (${e.name.en})`).join(', '));
+  lines.push('stocks (all sizes are settings):');
+  for (const s of st.scene.stocks || []) lines.push(`- ${s.id}: ${fmtN(r?.stocks[s.id] ?? s.level)} of ${s.capacity} ${s.unit}${s.refill_per_day ? `, refilled ${s.refill_per_day}/day by ${s.supply.en} (${supplyOn(s.id) ? 'on' : 'off'})` : ''}${s.convert ? `, turns manure into compost at ${s.convert} (${s.convert_source})` : ''}`);
+  lines.push('daily flows, computed from cited sources:');
+  for (const f of st.scene.flows || []) lines.push(`- ${f.entity} ${f.direction} ${f.resource.en}: ${f.per_day} ${f.unit}/day${f.range ? ` (range ${f.range[0]}-${f.range[1]})` : ''}; source: ${f.source}`);
+  if (st.scene.survival?.length) { lines.push('how long each part lasts without an input:'); for (const l of st.scene.survival) lines.push(`- ${l.entity} without ${l.resource}: ${l.days} days (${l.basis}); source: ${l.source}`); }
+  const now = ents().filter((e) => r?.factor[e.id] != null).map((e) => `${e.id}: ${r.dead?.[e.id] ? 'dead' : `working at ${Math.round(r.factor[e.id] * 100)}%`}`);
+  lines.push('today: ' + now.join(', '));
+  const evs = st.sim.events.filter((ev) => ev.day <= st.day).slice(-6).map((ev) => `day ${ev.day} ${ev.entity} ${ev.dead ? 'died, no ' + ev.stock : ev.factor < 0.999 ? `short of ${ev.stock}, ${Math.round(ev.factor * 100)}%` : 'back to normal'}`);
+  if (evs.length) lines.push('recent events: ' + evs.join('; '));
+  return { text: lines.join('\n'), stocks: (st.scene.stocks || []).map((s) => s.id), zones: ents().filter((e) => e.props?.rect).map((e) => e.id) };
+}
+const fmtN = (n) => Math.round(n * 10) / 10;
+function applyAction(a) {
+  const needSetup = () => { if (!st.setup) throw new Error('error: this farm comes from a scene file; edit the file to change animals or crops'); };
+  try {
+    if (a.type === 'set_animals') { needSetup(); st.setup.animals = { ...st.setup.animals, [a.kind]: a.count }; rebuild(); return `${a.kind}: ${a.count}`; }
+    if (a.type === 'set_crops') { needSetup(); st.setup.crops = a.crops; rebuild(); return `crops: ${a.crops.join(', ')}`; }
+    if (a.type === 'set_supply') {
+      st.changes = st.changes.filter((c) => !(c.stock === a.stock && c.day === st.day));
+      st.changes.push({ day: st.day, stock: a.stock, supply: a.on }); st.changes.sort((x, y) => x.day - y.day);
+      runSim(); render(); saveFarm(); return `${a.stock} supply ${a.on ? 'on' : 'off'} from day ${st.day}`;
+    }
+    if (a.type === 'go_to_day') { st.day = a.day; st.playing = false; render(); saveFarm(); return `day ${a.day}`; }
+    if (a.type === 'show_area') { select(a.zone); return `showing ${a.zone}`; }
+  } catch (e) { return e.message; }
+  return 'error: unknown action';
+}
+const teacher = createTeacher({ el: $('teacher'), lang: () => st.lang, level, facts: farmFacts, apply: applyAction, sfx,
+  store: { get: () => load('lf-chat') || {}, set: (v) => store('lf-chat', v) } });
+initTips({ lang: () => st.lang, level, sfx });
 
 { // ?lang= wins (the website passes its language), then the saved choice
   const q = new URLSearchParams(location.search).get('lang');
@@ -338,7 +449,11 @@ function loop(now) {
   if (now - last >= 1000 / 12) {
     last = now; tick++;
     if (st.playing && tick % Math.max(1, Math.round(12 / Math.min(st.speed, 12))) === 0) {
+      const was = st.day;
       st.day = Math.min(MAX_DAY, st.day + Math.max(1, Math.round(st.speed / 12)));
+      const evs = st.sim.events.filter((ev) => ev.day > was && ev.day <= st.day);
+      if (evs.some((ev) => ev.dead)) sfx.die(); else if (evs.some((ev) => ev.factor < 0.999)) sfx.warn();
+      if (tick % 24 === 0 || !st.playing) saveFarm();
       if (st.day >= MAX_DAY) st.playing = false;
       updateMap(); renderTime();
       if (tick % 6 === 0 || !st.playing) renderPanel();
@@ -347,6 +462,17 @@ function loop(now) {
   requestAnimationFrame(loop);
 }
 
-poll();
-setInterval(poll, 1000); // file polling: any agent that edits the scene drives this view
+if (SCENE_URL) {
+  poll();
+  setInterval(poll, 1000); // file polling: any agent that edits the scene drives this view
+} else {
+  loadData(new URL('../data/', location.href)).then((d) => {
+    st.data = d;
+    const saved = load(SAVE);
+    if (saved?.setup) { // pick up exactly where you left off
+      st.setup = saved.setup; st.changes = saved.changes || []; st.day = saved.day || 0; st.sel = saved.sel || null; st.tour = null;
+      rebuild(); if (st.sel) map.select(st.sel);
+    } else startWizard(false);
+  });
+}
 requestAnimationFrame(loop);

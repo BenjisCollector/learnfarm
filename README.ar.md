@@ -66,7 +66,9 @@ npx skills add BenjisCollector/learnfarm
 python3 -m http.server 5173
 ```
 
-افتح http://localhost:5173/viewer/ بجانب Claude Code وهو مفتوح داخل هذا المستودع. يقرأ العارض ملف `examples/farm.scene.json` كل ثانية. قل "أضف ١٦ دجاجة واجعلها تمطر": مهارة `learnfarm` ([skills/learnfarm/SKILL.md](skills/learnfarm/SKILL.md)) تعدّل المشهد وتشغّل المحرّك، فتتحدّث المزرعة أمامك خلال ثانية تقريباً.
+افتح http://localhost:5173/viewer/ لتبني مزرعتك في المتصفح: سمّها، وأجب عن خمسة أسئلة تحدد مستواك، واختر 100 م² أو 500 م² ومحاصيلك وحيواناتك. تُحفظ في متصفحك، وفيها تلميحات تعليمية وأصوات هادئة ومعلّم مزرعة يعمل مع أي ذكاء اصطناعي (انسخ السؤال، أو استخدم مفتاح Claude الخاص بك).
+
+أو افتح http://localhost:5173/viewer/?scene=../examples/farm.scene.json بجانب Claude Code وهو مفتوح داخل هذا المستودع. يقرأ العارض ملف `examples/farm.scene.json` كل ثانية. قل "أضف ١٦ دجاجة واجعلها تمطر": مهارة `learnfarm` ([skills/learnfarm/SKILL.md](skills/learnfarm/SKILL.md)) تعدّل المشهد وتشغّل المحرّك، فتتحدّث المزرعة أمامك خلال ثانية تقريباً.
 
 ## المحرّك
 

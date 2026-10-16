@@ -1,4 +1,4 @@
-// Open Farm viewer. Polls a scene file, simulates it over time, and teaches the
+// LearnFarm viewer. Polls a scene file, simulates it over time, and teaches the
 // farm as a system: every area needs inputs, gives outputs, and is linked to others.
 import { svg, FLAG } from './icons.js';
 import { sprite, zoneSprites } from './sprites.js';
@@ -268,7 +268,7 @@ function render() {
   if (!st.scene) return;
   document.documentElement.lang = st.lang;
   document.documentElement.dir = st.lang === 'ar' ? 'rtl' : 'ltr';
-  $('title').textContent = tx(st.scene.title) || 'Open Farm';
+  $('title').textContent = tx(st.scene.title) || 'LearnFarm';
   $('sub').innerHTML = `${svg('pin', 15)}<span>${esc(tx(st.scene.location?.name))}</span>`;
   $('lang').innerHTML = st.lang === 'en' ? `<span>عربي</span>${FLAG.ar}` : `<span>English</span>${FLAG.en}`;
   $('tourbtn').innerHTML = `${svg('hand', 16)}${t().tour}`;

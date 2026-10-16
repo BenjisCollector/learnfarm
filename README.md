@@ -1,14 +1,14 @@
-# Open Farm 🌱
+# LearnFarm 🌱
 
 **English** · [العربية](README.ar.md)
 
-<p align="center"><img src="docs/media/open-farm.gif" width="720" alt="Open Farm: a 3D farm diorama where coloured beads carry water, feed and manure between areas. Tapping the animal pen shows only its flows and what hens, cows and goats need and give. Switching the well pump off turns the farm red as the tank runs dry."></p>
+<p align="center"><img src="docs/media/learnfarm.gif" width="720" alt="LearnFarm: a 3D farm diorama where coloured beads carry water, feed and manure between areas. Tapping the animal pen shows only its flows and what hens, cows and goats need and give. Switching the well pump off turns the farm red as the tank runs dry."></p>
 
-<p align="center"><a href="https://yusufmufeed.uk/open-farm"><b>Website and live demo: yusufmufeed.uk/open-farm</b></a></p>
+<p align="center"><a href="https://yusufmufeed.uk/learnfarm"><b>Website and live demo: yusufmufeed.uk/learnfarm</b></a></p>
 
 **Learn farming by talking to your coding agent, and watch the farm come alive as you talk.**
 
-Open Farm is a free, open-source skill pack plus a live 3D farm simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
+LearnFarm is a free, open-source skill pack plus a live 3D farm simulation. Ask your agent (Claude Code, Codex, Cursor, Gemini CLI) *"what does one chicken need for its whole life?"* and a coop appears beside your chat. Feed goes in, eggs come out, and the days tick by.
 
 When you're ready, tell it your city, budget, and space. It gives you three realistic ways to start your own farm, including vertical farming, with costs, output, payback, and risks.
 
@@ -17,25 +17,25 @@ When you're ready, tell it your city, budget, and space. It gives you three real
 ## Install (any agent, one line)
 
 ```bash
-npx skills add BenjisCollector/open-farm
+npx skills add BenjisCollector/learnfarm
 ```
 
 That installs the farm teacher for Claude Code, Codex, GitHub Copilot, Cursor, Gemini CLI, Warp, Amp and more than a dozen other agents. Then ask your agent anything: *"what does one hen need in a day?"*, *"what happens if the well pump stops?"*. In any project it teaches from the same sourced numbers. Inside this repo it also drives the live farm.
 
 | Agent | Other ways in |
 |---|---|
-| Claude Code | `/plugin marketplace add BenjisCollector/open-farm`, then `/plugin install open-farm@open-farm` |
-| Gemini CLI | `gemini extensions install https://github.com/BenjisCollector/open-farm` |
+| Claude Code | `/plugin marketplace add BenjisCollector/learnfarm`, then `/plugin install learnfarm@learnfarm` |
+| Gemini CLI | `gemini extensions install https://github.com/BenjisCollector/learnfarm` |
 | Codex, Cursor, Copilot, Amp and others | Clone the repo: they read `AGENTS.md` (Cursor also reads `.cursor/rules/`) |
-| No agent at all | Open the live farm in any browser: [yusufmufeed.uk/open-farm](https://yusufmufeed.uk/open-farm) |
+| No agent at all | Open the live farm in any browser: [yusufmufeed.uk/learnfarm](https://yusufmufeed.uk/learnfarm) |
 
 ## How it works
 
 ```
-You ⇄ your coding agent ── loads the Open Farm skills
+You ⇄ your coding agent ── loads the LearnFarm skills
               │
               ▼
-        Open Farm MCP server ──► simulation engine (real crop + climate models)
+        LearnFarm MCP server ──► simulation engine (real crop + climate models)
               │
               └── scene.json ──► 3D viewer (side panel, browser tab, or inside Claude/ChatGPT)
 ```
@@ -69,7 +69,7 @@ Details and "done when" for each phase: [ROADMAP.md](ROADMAP.md). Decisions are 
 python3 -m http.server 5173
 ```
 
-Open http://localhost:5173/viewer/ next to Claude Code, opened in this repo. The viewer re-reads `examples/farm.scene.json` every second. Say "add 16 more hens and make it rain": the `open-farm` skill ([skills/open-farm/SKILL.md](skills/open-farm/SKILL.md), linked into `.claude/skills/`) edits the scene, runs the engine, and the 3D farm updates within about a second. Load a different scene with `?scene=../examples/chicken.scene.json`.
+Open http://localhost:5173/viewer/ next to Claude Code, opened in this repo. The viewer re-reads `examples/farm.scene.json` every second. Say "add 16 more hens and make it rain": the `learnfarm` skill ([skills/learnfarm/SKILL.md](skills/learnfarm/SKILL.md), linked into `.claude/skills/`) edits the scene, runs the engine, and the 3D farm updates within about a second. Load a different scene with `?scene=../examples/chicken.scene.json`.
 
 ## The engine
 
@@ -93,4 +93,3 @@ The map shows every area with its size, and moving dots show what travels betwee
 
 Code is [MIT](LICENSE). Data and lessons are [CC BY 4.0](DATA-LICENSE.md).
 
-*Not related to the archived OpenFarm.cc project by FarmBot (shut down April 2025).*

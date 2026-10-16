@@ -1,4 +1,4 @@
-// Open Farm system simulator. Runs in the browser (viewer) and in Node (agent).
+// LearnFarm system simulator. Runs in the browser (viewer) and in Node (agent).
 //
 // The Python build (engine/build.py) answers "how much does each part need and
 // give per day?" from sourced data. This file answers "what happens over time

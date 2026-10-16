@@ -1,7 +1,7 @@
 {
-  "name": "open-farm",
+  "name": "learnfarm",
   "owner": { "name": "Yousef Qasem" },
   "plugins": [
-    { "name": "open-farm", "source": "./", "description": "Farm teacher: a farm is a system, every number sourced. English and Arabic." }
+    { "name": "learnfarm", "source": "./", "description": "Farm teacher: a farm is a system, every number sourced. English and Arabic." }
   ]
 }

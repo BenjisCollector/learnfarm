@@ -1,5 +1,7 @@
 # Open Farm: research, architecture, roadmap, LinkedIn plan
 
+> **Renamed LearnFarm on 2026-10-16.** This is the original research and plan, kept as written. Current roadmap: [ROADMAP.md](../ROADMAP.md).
+
 Drafted 2026-10-15. Research is from web searches on that date, and star counts are approximate.
 
 ---

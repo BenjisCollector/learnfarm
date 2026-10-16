@@ -1,6 +1,6 @@
 # Research base
 
-Source-grounded farming facts for the Open Farm engine. Generated 2026-10-15.
+Source-grounded farming facts for the LearnFarm engine. Generated 2026-10-15.
 
 - **[notebooklm-facts.md](notebooklm-facts.md)**: answers to 9 topic questions, with every citation mapped to its source.
 - **[raw/](raw/)**: the raw NotebookLM JSON (answers, cited passages, source list). Use it to trace any number back to the exact passage.
@@ -8,7 +8,7 @@ Source-grounded farming facts for the Open Farm engine. Generated 2026-10-15.
 
 ## How it was made
 
-1. Created the NotebookLM notebook "Open Farm Research".
+1. Created the NotebookLM notebook "LearnFarm Research".
 2. Ran 4 deep web-research passes, importing only cited sources: livestock, crops, infrastructure plus Kuwait/GCC support, and vertical farming. Result: 156 sources, 133 readable, 23 failed to load (mostly Scribd).
 3. Asked 9 questions (below), each restricted to "only what the sources confirm, cite every number, say 'not in sources' otherwise."
 

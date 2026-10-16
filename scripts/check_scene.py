@@ -1,4 +1,4 @@
-"""Check Open Farm scene files against the rules that matter.
+"""Check LearnFarm scene files against the rules that matter.
 
 Usage: python3 scripts/check_scene.py examples/*.json
        python3 scripts/check_scene.py --demo   (self-check)

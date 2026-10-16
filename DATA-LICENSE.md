@@ -3,7 +3,7 @@
 Everything under `examples/`, and later `data/` and `curriculum/`, is licensed under
 [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
-Credit: "Open Farm contributors". Third-party sources keep their own licenses and are named in each file's `source` fields.
+Credit: "LearnFarm contributors". Third-party sources keep their own licenses and are named in each file's `source` fields.
 
 All code is MIT; see `LICENSE`.
 
@@ -23,5 +23,5 @@ All code is MIT; see `LICENSE`.
 | well.glb | Well | https://poly.pizza/m/QlqncKYxXb |
 | barrel.glb | Barrel | https://poly.pizza/m/MraIiFnpAY |
 
-The house, water tank, crops, compost heap, fences, trees and the pixel icons in `viewer/sprites.js` are original to Open Farm (MIT, as code).
+The house, water tank, crops, compost heap, fences, trees and the pixel icons in `viewer/sprites.js` are original to LearnFarm (MIT, as code).
 

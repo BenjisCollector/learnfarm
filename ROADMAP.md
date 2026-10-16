@@ -1,6 +1,6 @@
 # Roadmap
 
-Open Farm teaches one idea from first principles: **a farm is a system**. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another. Each phase below makes that idea more visible, more truthful, or more personal. Each one ends in something you can see.
+LearnFarm teaches one idea from first principles: **a farm is a system**. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another. Each phase below makes that idea more visible, more truthful, or more personal. Each one ends in something you can see.
 
 Status: ✅ done · 🔨 in progress · ⏳ next · 📋 planned
 

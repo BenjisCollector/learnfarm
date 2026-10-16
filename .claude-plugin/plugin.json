@@ -1,10 +1,10 @@
 {
-  "name": "open-farm",
+  "name": "learnfarm",
   "version": "0.2.0",
   "description": "Learn farming by talking to your agent: a farm is a system, and every number comes from a primary source. English and Arabic.",
-  "author": { "name": "Yousef Qasem", "url": "https://yusufmufeed.uk/open-farm" },
-  "homepage": "https://yusufmufeed.uk/open-farm",
-  "repository": "https://github.com/BenjisCollector/open-farm",
+  "author": { "name": "Yousef Qasem", "url": "https://yusufmufeed.uk/learnfarm" },
+  "homepage": "https://yusufmufeed.uk/learnfarm",
+  "repository": "https://github.com/BenjisCollector/learnfarm",
   "license": "MIT",
   "keywords": ["farming", "agriculture", "education", "systems-thinking", "arabic"]
 }

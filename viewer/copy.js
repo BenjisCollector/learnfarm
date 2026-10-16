@@ -136,13 +136,13 @@ export const RES = {
   Corn: { color: '#f2c94c', ar: 'ذرة' },
 };
 
-const REPO = 'https://github.com/BenjisCollector/open-farm/tree/main';
+const REPO = 'https://github.com/BenjisCollector/learnfarm/tree/main';
 const a = (href, text) => `<a href="${REPO}/${href}" target="_blank" rel="noopener">${text}</a>`;
 
 export const METHOD = {
   en: `
     <h2>How we know</h2>
-    <p class="lead">Open Farm is a learning simulator. It separates two kinds of numbers, and always tells you which is which.</p>
+    <p class="lead">LearnFarm is a learning simulator. It separates two kinds of numbers, and always tells you which is which.</p>
     <div class="card"><h3>Facts come from published sources</h3>
       <p>How much a hen eats, how much water tomatoes drink, how much compost a field needs: these come from primary sources such as the Hy-Line hen guide, USDA, FAO and university extension services. Sources give ranges, so you see the middle value and the full range, with a link. All of them are listed in the ${a('docs/research', 'research base')} and stored in ${a('data', 'data/')}.</p></div>
     <div class="card"><h3>Settings are your choices</h3>
@@ -160,7 +160,7 @@ export const METHOD = {
     <div class="card hint"><h3>Not professional advice</h3><p>These are estimates for learning. Before investing, talk to Kuwait's agriculture authority (PAAF), an agricultural extension office or a veterinarian.</p></div>`,
   ar: `
     <h2>من أين الأرقام</h2>
-    <p class="lead">أوبن فارم محاكي تعليمي. يفصل بين نوعين من الأرقام، ويخبرك دائمًا بنوع كل رقم.</p>
+    <p class="lead">ليرن فارم محاكي تعليمي. يفصل بين نوعين من الأرقام، ويخبرك دائمًا بنوع كل رقم.</p>
     <div class="card"><h3>الحقائق من مصادر منشورة</h3>
       <p>كم تأكل الدجاجة، وكم تشرب الطماطم، وكم يحتاج الحقل من الكمبوست: كلها من مصادر أصلية مثل دليل Hy-Line للدجاج، ووزارة الزراعة الأمريكية، والفاو، ومكاتب الإرشاد الجامعية. المصادر تعطي مدى، فترى القيمة الوسطى والمدى الكامل مع الرابط. وكلها في ${a('docs/research', 'قاعدة البحث')} ومحفوظة في ${a('data', 'data/')}.</p></div>
     <div class="card"><h3>الإعدادات اختياراتك</h3>

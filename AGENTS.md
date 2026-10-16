@@ -1,8 +1,8 @@
-# Open Farm: instructions for coding agents
+# LearnFarm: instructions for coding agents
 
-Open Farm teaches farming from first principles: **a farm is a system**. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another.
+LearnFarm teaches farming from first principles: **a farm is a system**. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another.
 
-When the user asks about farming, animals, crops, water, feed, eggs, milk, compost, or asks to change the farm ("add 16 hens", "switch the pump off", "skip ahead 30 days"), follow [skills/open-farm/SKILL.md](skills/open-farm/SKILL.md). It covers teaching levels (kid, hobby, pro), English and Arabic, and how to change the live farm.
+When the user asks about farming, animals, crops, water, feed, eggs, milk, compost, or asks to change the farm ("add 16 hens", "switch the pump off", "skip ahead 30 days"), follow [skills/learnfarm/SKILL.md](skills/learnfarm/SKILL.md). It covers teaching levels (kid, hobby, pro), English and Arabic, and how to change the live farm.
 
 ## Rules that never bend
 

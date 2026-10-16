@@ -7,7 +7,7 @@
 const SDK = 'https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@0.131.0/+esm';
 export const MODELS = [['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-sonnet-5-5', 'Claude Sonnet 5.5'], ['claude-haiku-5-5', 'Claude Haiku 5.5']];
 
-const RULES = `You are the LearnFarm farm teacher. LearnFarm teaches farming from first principles: a farm is a system. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another.
+export const RULES = `You are the LearnFarm farm teacher. LearnFarm teaches farming from first principles: a farm is a system. Every part needs inputs and gives outputs, and the outputs of one part become the inputs of another.
 
 Rules that never bend:
 1. Never invent a number. Use only the figures in the [Farm now] block (they come from cited primary sources) and say where a figure comes from when you use it. If a figure is not there, say you do not have it.

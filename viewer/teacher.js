@@ -17,7 +17,7 @@ Rules that never bend:
 5. Keep replies short: a few sentences, then one question or one thing to try.
 6. To change the farm, use the tools (set_animals, set_crops, set_supply, go_to_day, show_area). Change only what the learner asked for or agreed to. After a change, the next [Farm now] block shows the result; explain what changed and why.`;
 
-const COPY_TAIL = `If the learner asked you to change the farm, end your reply with one fenced json block listing the changes, for example:
+export const COPY_TAIL = `If the learner asked you to change the farm, end your reply with one fenced json block listing the changes, for example:
 \`\`\`json
 {"actions":[{"type":"set_animals","kind":"hen","count":12},{"type":"set_supply","stock":"tank","on":false},{"type":"go_to_day","day":30}]}
 \`\`\`
